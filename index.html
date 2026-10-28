@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recolte - True's illustration site</title>
+
+  <!-- 検索避け・クローラー完全遮断タグ -->
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="googlebot" content="noindex, nofollow, noarchive">
+
+  <style>
+    /* --- 基本設定 --- */
+    :root {
+      --board-width: 1040px;     /* 黒いボードの横幅 */
+      --bg-board: #111115;       /* メインの黒いボード背景 */
+      --border-color: #24242e;   /* 境界線の色 */
+      --accent-green: #d2f83d;   /* 見出し・ボタンのアクセント黄緑 */
+      --accent-cyan: #38bdf8;    /* 拍手ボタンの水色 */
+      --text-main: #eeeeee;
+      --text-sub: #d4d9dc;       /* 灰色の文字色 */
+      --badge-bg: #4a4a58;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* なめらかなスクロール挙動 */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #8b8e9b;
+      background-image: url('images/bg.jpg'); /* 背景画像 */
+      background-repeat: repeat;
+      background-position: center top;
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", sans-serif;
+      font-size: 18px;
+      line-height: 1.85;
+      letter-spacing: 0.04em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    /* --- ヘッダー --- */
+    header {
+      background: linear-gradient(135deg, #7e22ce 0%, #10021c 100%);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .header-inner {
+      max-width: var(--board-width);
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* タイトルエリア */
+    .title-group {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .site-title {
+      font-size: 2.45rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.08;
+    }
+
+    .site-title a {
+      color: #fff;
+    }
+
+    .site-subtitle {
+      font-size: 1.15rem;
+      color: #e5cbff;
+      margin-top: 2px;
+      line-height: 1.25;
+      letter-spacing: 0.03em;
+    }
+
+    /* PCナビゲーション */
+    .pc-nav {
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-btn {
+      background: #000;
+      color: #fff;
+      font-size: 1.52rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 5px 38px;
+      min-width: 175px;
+      text-align: center;
+      border-radius: 9999px;
+      border: 2.5px solid var(--accent-green);
+      transition: all 0.25s ease;
+      display: inline-block;
+    }
+
+    .nav-btn:hover {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+      color: #fff !important;
+      opacity: 1;
+    }
+
+    /* スマホ用メニューボタン */
+    .menu-trigger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .menu-trigger span {
+      display: block;
+      width: 28px;
+      height: 2.5px;
+      background-color: #ff4a5a;
+    }
+
+    /* スマホ用展開メニュー */
+    .mobile-menu {
+      display: none;
+      background: #15151e;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 24px;
+      flex-direction: column;
+      gap: 4px;
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
+    }
+
+    .mobile-menu.active {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 12px 0;
+      border-bottom: 1px dashed #2a2a38;
+      color: #ffffff;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-menu a:hover {
+      color: var(--accent-green);
+    }
+
+    /* --- メインコンテナ --- */
+    .main-wrapper {
+      max-width: var(--board-width);
+      margin: 48px auto 80px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 52px;
+    }
+
+    .site-board {
+      background: var(--bg-board);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      padding: 50px 44px;
+    }
+
+    /* hero画像の上にスペースを設ける */
+    .site-board.hero-board {
+      padding: 24px 0 0 0;
+    }
+
+    .hero-banner {
+      width: 100%;
+      background: #1a1a24;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .hero-banner img {
+      width: 100%;
+      height: auto;
+      display: block;
+      image-rendering: smooth;
+      transform: translateZ(0);
+    }
+
+    .hero-board-content {
+      padding: 44px 44px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    /* アンカーリンク位置調整 */
+    #about,
+    #original,
+    #fanart,
+    #link {
+      scroll-margin-top: 110px;
+    }
+
+    /* セクション見出し */
+    .section-title {
+      font-size: 2.1rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 18px;
+      letter-spacing: 0.05em;
+    }
+
+    .section-title .accent {
+      color: var(--accent-green);
+    }
+
+    .section-sub {
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--accent-green);
+      margin-top: -12px;
+      margin-bottom: 26px;
+      letter-spacing: 0.06em;
+    }
+
+    /* News枠 */
+    .inner-box {
+      max-width: 780px;
+      width: 100%;
+      margin: 0 auto;
+      border: 1px solid var(--accent-green);
+      border-radius: 4px;
+      padding: 22px 48px;
+      background: #000000;
+    }
+
+    .news-title {
+      font-size: 1.6rem;
+      margin-bottom: 14px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+
+    .news-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.05rem;
+      padding: 10px 0;
+      border-bottom: 1px solid #38384a;
+    }
+
+    .news-item:last-child {
+      border-bottom: none;
+    }
+
+    .news-badge {
+      font-size: 0.85rem;
+      background: var(--badge-bg);
+      color: #fff;
+      padding: 3px 14px;
+      border-radius: 4px;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* About本文 */
+    .about-text {
+      text-align: center;
+      font-size: 1.08rem;
+      color: var(--text-sub);
+      line-height: 1.65;
+    }
+
+    .text-green {
+      color: var(--accent-green);
+    }
+
+    .about-link {
+      display: inline-block;
+      text-align: center;
+      margin-top: 18px;
+      font-size: 1.05rem;
+      color: var(--accent-green);
+      border-bottom: 1px solid var(--accent-green);
+      transition: opacity 0.2s ease;
+    }
+
+    .about-link:hover {
+      opacity: 0.8;
+    }
+
+    /* --- ギャラリーグリッド ＆ ホバー時暗転＋タイトル表示 --- */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+
+    .gallery-item {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #2a2a38;
+      background: #1c1c26;
+      display: block;
+      cursor: pointer;
+      transform: translateZ(0);
+    }
+
+    /* 画像のジャギー防止・滑らか補正 */
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+      image-rendering: smooth;
+      image-rendering: -webkit-optimize-contrast;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+
+    .gallery-caption {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.68);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.45;
+      letter-spacing: 0.03em;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      word-break: break-word;
+    }
+
+    .gallery-item:hover .gallery-caption {
+      opacity: 1;
+    }
+
+    .btn-more-wrapper {
+      text-align: center;
+    }
+
+    .btn-more {
+      display: inline-block;
+      font-size: 1rem;
+      padding: 9px 38px;
+      border-radius: 9999px;
+      background: #000;
+      color: #fff;
+      border: 1px solid var(--accent-green);
+      transition: all 0.25s ease;
+    }
+
+    .btn-more:hover {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+      color: #fff !important;
+      opacity: 1;
+    }
+
+    /* 黄緑色の点線区切り（大） */
+    .section-divider {
+      border-top: 1.5px dashed var(--accent-green);
+      margin: 48px 0;
+      opacity: 0.85;
+    }
+
+    /* 黄緑色の点線区切り（Thanksと拍手BOXの間） */
+    .sub-divider {
+      border-top: 1.5px dashed var(--accent-green);
+      margin: 36px auto;
+      max-width: 900px;
+      opacity: 0.85;
+    }
+
+    /* Link セクション */
+    .link-info {
+      text-align: center;
+      font-size: 1.05rem;
+      color: #ffffff;
+      line-height: 2.1;
+    }
+
+    .link-url {
+      color: var(--accent-green);
+      word-break: break-all;
+    }
+
+    .link-banners {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin: 22px auto;
+    }
+
+    .link-banner-img {
+      width: 200px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 2px;
+      display: block;
+      border: 1px solid #333344;
+      background: #1e1e28;
+      image-rendering: smooth;
+    }
+
+    .thanks-title {
+      margin-top: 22px;
+      font-size: 1.05rem;
+      color: #ffffff;
+    }
+
+    .thanks-links {
+      margin-top: 6px;
+      font-size: 1.05rem;
+    }
+
+    .thanks-links a {
+      color: var(--accent-green);
+      text-decoration: underline;
+      transition: opacity 0.2s ease;
+    }
+
+    .thanks-links a:hover {
+      opacity: 0.8;
+    }
+
+    /* 拍手/絵文字BOXエリア */
+    .wavebox-area {
+      text-align: center;
+    }
+
+    .wavebox-label {
+      font-size: 1.05rem;
+      color: #ffffff;
+      margin-bottom: 14px;
+    }
+
+    .wavebox-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 110px;
+      height: 44px;
+      border-radius: 9999px;
+      border: 2px dashed var(--accent-cyan);
+      background: transparent;
+      color: var(--accent-cyan);
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .wavebox-btn:hover {
+      background: rgba(56, 189, 248, 0.15);
+      transform: scale(1.05);
+      opacity: 1;
+    }
+
+    .wavebox-desc {
+      margin-top: 18px;
+      font-size: 1.02rem;
+      color: var(--text-sub);
+      line-height: 1.65;
+    }
+
+    .memo-link {
+      color: var(--accent-green);
+      text-decoration: underline;
+      transition: opacity 0.2s ease;
+    }
+
+    .memo-link:hover {
+      opacity: 0.8;
+    }
+
+    /* フッター */
+    footer {
+      text-align: center;
+      padding: 10px 0 60px;
+      font-size: 0.88rem;
+      color: #e6e6fa;
+    }
+
+    footer a {
+      color: #e6e6fa;
+    }
+
+    .back-to-top {
+      display: inline-block;
+      font-size: 2.4rem;
+      line-height: 1;
+      color: #e6e6fa;
+      margin-bottom: 14px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .back-to-top:hover {
+      opacity: 0.75;
+      transform: translateY(-3px);
+    }
+
+    /* ライトボックス（画像拡大モーダル枠） */
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(12, 12, 16, 0.94);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      touch-action: pan-y;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-content img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.85);
+      user-select: none;
+      image-rendering: smooth;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 2.6rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 1010;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .lightbox-close:hover {
+      opacity: 0.75;
+      transform: scale(1.1);
+    }
+
+    .lightbox-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 3rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 16px;
+      z-index: 1010;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .lightbox-nav-btn:hover {
+      color: #9494a6;
+      transform: translateY(-50%) scale(1.15);
+    }
+
+    .lightbox-prev {
+      left: 16px;
+    }
+
+    .lightbox-next {
+      right: 16px;
+    }
+
+    /* スマホ表示 */
+    @media (max-width: 600px) {
+      body {
+        font-size: 16px;
+      }
+      .header-inner {
+        padding: 14px 16px;
+      }
+      .site-title {
+        font-size: 1.85rem;
+        line-height: 1.05;
+      }
+      .site-subtitle {
+        font-size: 0.92rem;
+        margin-top: 1px;
+      }
+      .main-wrapper {
+        margin: 16px auto 40px;
+        gap: 24px;
+        padding: 0 10px;
+      }
+
+      .site-board {
+        padding: 24px 16px 44px 16px;
+      }
+      .site-board.hero-board {
+        padding: 16px 0 0 0;
+      }
+
+      .hero-board-content {
+        padding: 20px 16px 30px 16px;
+        gap: 24px;
+      }
+      .section-title {
+        font-size: 1.6rem;
+      }
+      .about-text, .link-info, .wavebox-desc {
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+      .pc-nav {
+        display: none;
+      }
+      .menu-trigger {
+        display: flex;
+      }
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .gallery-caption {
+        font-size: 0.82rem;
+        padding: 8px;
+      }
+      .inner-box {
+        max-width: 100%;
+        padding: 16px 16px;
+      }
+
+      .news-title {
+        font-size: 1.35rem;
+        margin-bottom: 8px;
+      }
+
+      .news-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 4px;
+        padding: 7px 0;
+        font-size: 0.92rem;
+        line-height: 1.45;
+      }
+
+      .news-badge {
+        font-size: 0.85rem;
+        padding: 2px 12px;
+      }
+
+      .back-to-top {
+        font-size: 2rem;
+      }
+      .sub-divider {
+        margin: 28px 0;
+      }
+      .lightbox-close {
+        top: 16px;
+        right: 18px;
+        font-size: 2.2rem;
+      }
+
+      .lightbox-nav-btn {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header>
+    <div class="header-inner">
+      <div class="title-group">
+        <div class="site-title"><a href="#">Recolte</a></div>
+        <div class="site-subtitle">True's illustration site</div>
+      </div>
+      
+      <!-- PCナビ -->
+      <nav class="pc-nav">
+        <a href="#original" class="nav-btn">ORIGINAL</a>
+        <a href="#fanart" class="nav-btn">FANART</a>
+        <a href="https://true358.tumblr.com" target="_blank" class="nav-btn">MEMO</a>
+      </nav>
+
+      <!-- スマホ用メニューボタン -->
+      <button class="menu-trigger" id="menuToggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- スマホ用展開メニュー -->
+    <nav class="mobile-menu" id="mobileMenu">
+      <a href="#about">ABOUT</a>
+      <a href="#original">ORIGINAL</a>
+      <a href="#fanart">FANART</a>
+      <a href="https://true358.tumblr.com" target="_blank">MEMO ↗</a>
+      <a href="#link">LINK</a>
+    </nav>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <div class="main-wrapper">
+
+    <!-- 【第1ボード】：メインビジュアル ＋ News ＋ About -->
+    <article class="site-board hero-board">
+      <div class="hero-banner">
+        <img src="images/hero.jpg" alt="Recolte Main Visual" onerror="this.src='https://placehold.co/1200x500/181820/a3e635?text=Put+hero.jpg+in+images+folder'">
+      </div>
+
+      <div class="hero-board-content">
+        <!-- News枠 -->
+        <section class="inner-box">
+          <div class="news-title">News</div>
+          <div class="news-item">
+            <span>2026/09/10 : FANART/DB夢小説・絵</span>
+            <span class="news-badge">小説・絵</span>
+          </div>
+          <div class="news-item">
+            <span>2026/08/26 : FANART/ドラゴンボール</span>
+            <span class="news-badge">イラスト</span>
+          </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" style="padding-bottom: 12px;">
+          <h2 class="section-title"><span class="accent">A</span>bout</h2>
+          <p class="about-text">
+            版権と創作のイラストを公開しているサイトです。<br>
+            趣味で描いたファンアート中心。<br>
+            <span class="text-green">夢創作の取り扱いがあります。</span><br>
+            各公式とは一切関係はございません。<br><br>
+            イラストの無断使用はご遠慮願います。
+          </p>
+          <div style="text-align: center;">
+            <a href="#" class="about-link">About me ⬡</a>
+          </div>
+        </section>
+      </div>
+    </article>
+
+    <!-- 【第2ボード】：Original ＋ Fanart -->
+    <article class="site-board">
+      <!-- Original -->
+      <section id="original">
+        <h2 class="section-title"><span class="accent">O</span>riginal</h2>
+        <div class="section-sub">←新 旧→</div>
+        <div class="gallery-grid">
+          
+          <div class="gallery-item" data-group="original">
+            <img src="images/ori01.jpg" alt="ご依頼/魔王ロード・ゼノン" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+01'">
+            <div class="gallery-caption">ご依頼/<br>魔王ロード・ゼノン</div>
+          </div>
+
+          <div class="gallery-item" data-group="original">
+            <img src="images/ori02.jpg" alt="ご依頼/音階ぽよよ" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+02'">
+            <div class="gallery-caption">ご依頼/<br>音階ぽよよ</div>
+          </div>
+
+          <div class="gallery-item" data-group="original">
+            <img src="images/ori03.jpg" alt="ご依頼/もくずドラゴン(覚醒)" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+03'">
+            <div class="gallery-caption">ご依頼/<br>もくずドラゴン(覚醒)</div>
+          </div>
+
+          <div class="gallery-item" data-group="original">
+            <img src="images/ori04.jpg" alt="キャラデザ/ティーチ" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+04'">
+            <div class="gallery-caption">キャラデザ/<br>ティーチ</div>
+          </div>
+
+        </div>
+        <div class="btn-more-wrapper">
+          <a href="#" class="btn-more">もっと見る</a>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Fanart -->
+      <section id="fanart">
+        <h2 class="section-title"><span class="accent">F</span>anart</h2>
+        <div class="section-sub">←新 旧→</div>
+        <div class="gallery-grid">
+
+          <div class="gallery-item" data-group="fanart">
+            <img src="images/fan01.jpg" alt="DB夢/お酒を言い訳にできない" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+01'">
+            <div class="gallery-caption">DB夢/お酒を言い訳に<br>できない</div>
+          </div>
+
+          <div class="gallery-item" data-group="fanart">
+            <img src="images/fan02.jpg" alt="DB夢/果てなき刻(とき)のその先で" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+02'">
+            <div class="gallery-caption">DB夢/果てなき刻(とき)の<br>その先で</div>
+          </div>
+
+          <div class="gallery-item" data-group="fanart">
+            <img src="images/fan03.jpg" alt="ドラゴンボール/DBTBlog" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+03'">
+            <div class="gallery-caption">ドラゴンボール/<br>DBTBlog</div>
+          </div>
+
+          <div class="gallery-item" data-group="fanart">
+            <img src="images/fan04.jpg" alt="ドラゴンボール/フレンドアバター" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+04'">
+            <div class="gallery-caption">ドラゴンボール/<br>フレンドアバター</div>
+          </div>
+
+        </div>
+        <div class="btn-more-wrapper">
+          <a href="#" class="btn-more">もっと見る</a>
+        </div>
+      </section>
+    </article>
+
+    <!-- 【第3ボード】：Link ＋ 拍手/Wavebox -->
+    <article class="site-board">
+      <section id="link">
+        <h2 class="section-title"><span class="accent">L</span>ink</h2>
+        <div class="link-info">
+          Name : Recolte<br>
+          URL : <span class="link-url">https://true358.github.io/</span>
+          
+          <div class="link-banners">
+            <img src="images/banner1.png" alt="Recolte Banner 1" class="link-banner-img" onerror="this.src='https://placehold.co/200x40/1a1a24/d2f83d?text=Banner+Lie'">
+            <img src="images/banner2.png" alt="Recolte Banner 2" class="link-banner-img" onerror="this.src='https://placehold.co/200x40/1a1a24/d2f83d?text=Banner+Cell'">
+          </div>
+
+          <!-- ★Thanks! リンク更新＆停止サイト整理完了★ -->
+          <div class="thanks-title">★Thanks!</div>
+          <div class="thanks-links">
+            <a href="https://compslink.jp/" target="_blank" rel="noopener noreferrer">コンパスリンク</a> / <a href="https://yoakemae.blue/" target="_blank" rel="noopener noreferrer">夜明けまえ</a>
+          </div>
+
+          <div class="sub-divider"></div>
+
+          <div class="wavebox-area">
+            <div class="wavebox-label">拍手/絵文字BOX</div>
+            <a href="https://wavebox.me/wave/74tt03km0qr47hlc/" target="_blank" class="wavebox-btn" aria-label="Wavebox拍手">
+              <span>💙</span>
+            </a>
+            <p class="wavebox-desc">
+              何かございましたらお気軽にどうぞ。<br>
+              返信は<a href="https://true358.tumblr.com/" target="_blank" class="memo-link">MEMO</a>から通知します。
+            </p>
+          </div>
+        </div>
+      </section>
+    </article>
+
+  </div>
+
+  <!-- フッター -->
+  <footer>
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">∧</div>
+    <div>2020-2026 Recolte</div>
+    <div style="margin-top: 6px;"><a href="#" style="text-decoration: underline;">プライバシーポリシー</a></div>
+  </footer>
+
+  <!-- ライトボックス（画像拡大モーダル枠） -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <button class="lightbox-close" id="lightboxClose" aria-label="閉じる">✕</button>
+    <button class="lightbox-nav-btn lightbox-prev" id="lightboxPrev" aria-label="前へ">〈</button>
+    <button class="lightbox-nav-btn lightbox-next" id="lightboxNext" aria-label="次へ">〉</button>
+    <div class="lightbox-content" id="lightboxContent">
+      <img src="" alt="" id="lightboxImg">
+    </div>
+  </div>
+
+  <!-- スクリプト -->
+  <script>
+    const toggleBtn = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    toggleBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+      });
+    });
+
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+
+    let currentImages = [];
+    let currentIndex = 0;
+
+    document.querySelectorAll('.gallery-grid').forEach(grid => {
+      const items = Array.from(grid.querySelectorAll('.gallery-item'));
+      
+      items.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          currentImages = items.map(el => el.querySelector('img').src);
+          currentIndex = index;
+          openLightbox();
+        });
+      });
+    });
+
+    function openLightbox() {
+      lightboxImg.src = currentImages[currentIndex];
+      lightboxModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightboxModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+      lightboxImg.src = currentImages[currentIndex];
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % currentImages.length;
+      lightboxImg.src = currentImages[currentIndex];
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+    lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal || e.target.id === 'lightboxContent') {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightboxModal.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'ArrowRight') showNext();
+    });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    lightboxModal.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    lightboxModal.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+      
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+        if (diffX < 0) {
+          showNext();
+        } else {
+          showPrev();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
