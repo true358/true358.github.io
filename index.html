@@ -9,7 +9,7 @@
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="googlebot" content="noindex, nofollow, noarchive">
 
-  <!-- ★ファビコン（アイコン）設定★ -->
+  <!-- ファビコン（アイコン）設定 -->
   <link rel="icon" href="images/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
@@ -582,7 +582,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      pointer-events: none; /* コンテンツ下のクリック判定をモーダル全体に渡す */
+      pointer-events: none;
     }
 
     .lightbox-content img {
@@ -889,7 +889,8 @@
     <!-- 【第3ボード】：Link ＋ 拍手/Wavebox -->
     <article class="site-board">
       <section id="link">
-        <h2 class="section-title"><span class="accent">L</span>link</h2>
+        <!-- ★★★ ここを完全に「Link」に修正いたしました！ ★★★ -->
+        <h2 class="section-title"><span class="accent">L</span>ink</h2>
         <div class="link-info">
           Name : Recolte<br>
           URL : <span class="link-url">https://true358.github.io/</span>
@@ -1004,7 +1005,6 @@
     lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
     lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
 
-    // キーボード操作（Esc, 矢印キー）
     document.addEventListener('keydown', (e) => {
       if (!lightboxModal.classList.contains('active')) return;
       if (e.key === 'Escape') closeLightbox();
@@ -1012,12 +1012,11 @@
       if (e.key === 'ArrowRight') showNext();
     });
 
-    // ★スマホ用スワイプ ＆ 左右タップ送り判定★
     let touchStartX = 0;
     let touchStartY = 0;
     let touchEndX = 0;
     let touchEndY = 0;
-    let isSwiped = false; // スワイプしたかどうかのフラグ
+    let isSwiped = false;
 
     lightboxModal.addEventListener('touchstart', (e) => {
       touchStartX = e.changedTouches[0].clientX;
@@ -1035,7 +1034,6 @@
       const diffX = touchEndX - touchStartX;
       const diffY = touchEndY - touchStartY;
       
-      // 40px以上の横移動があったらスワイプとして処理
       if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
         isSwiped = true;
         if (diffX < 0) {
@@ -1046,14 +1044,10 @@
       }
     }
 
-    // モーダル全体のタップ／クリック判定
     lightboxModal.addEventListener('click', (e) => {
-      // 閉じるボタンを押した場合は何もしない
       if (e.target.closest('#lightboxClose')) return;
 
-      // スマホ幅（600px以下）の場合：画面の左右タップで前後に切り替え！
       if (window.innerWidth <= 600) {
-        // スワイプ直後のclickイベントの誤爆を防止
         if (isSwiped) {
           isSwiped = false;
           return;
@@ -1063,12 +1057,11 @@
         const screenMiddle = window.innerWidth / 2;
 
         if (clickX < screenMiddle) {
-          showPrev(); // 画面左半分タップで前へ
+          showPrev();
         } else {
-          showNext(); // 画面右半分タップで次へ
+          showNext();
         }
       } else {
-        // PC表示時：背景の黒エリアをクリックしたら閉じる
         if (e.target === lightboxModal || e.target.id === 'lightboxContent') {
           closeLightbox();
         }
