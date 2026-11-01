@@ -23,7 +23,7 @@
       --accent-cyan: #38bdf8;    /* 拍手ボタンの水色 */
       --text-main: #eeeeee;
       --text-sub: #d4d9dc;       /* 灰色の文字色 */
-      --badge-bg: #4a4a58;
+      --badge-bg: #565568;       /* ★ギャラリーページの灰色ボタン（--btn-gray）と同色に統一★ */
     }
 
     * {
@@ -538,17 +538,17 @@
 
     .back-to-top {
       display: inline-block;
-      font-size: 2.4rem;
+      font-size: 3rem;
       line-height: 1;
       color: #e6e6fa;
-      margin-bottom: 14px;
+      margin-bottom: 24px;
       cursor: pointer;
       transition: opacity 0.2s, transform 0.2s;
     }
 
     .back-to-top:hover {
       opacity: 0.75;
-      transform: translateY(-3px);
+      transform: translateY(-4px);
     }
 
     /* ライトボックス（画像拡大モーダル枠） */
@@ -725,8 +725,10 @@
       }
 
       .back-to-top {
-        font-size: 2rem;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
       }
+
       .sub-divider {
         margin: 28px 0;
       }
@@ -804,7 +806,7 @@
         <section id="about" style="padding-bottom: 12px;">
           <h2 class="section-title"><span class="accent">A</span>bout</h2>
           <p class="about-text">
-            版権と創作のイラストを公開しているサイトです。<br>
+            版権と創作作品を公開しているサイトです。<br>
             趣味で描いたファンアート中心。<br>
             <span class="text-green">夢創作の取り扱いがあります。</span><br>
             各公式とは一切関係はございません。<br><br>
@@ -847,7 +849,8 @@
 
         </div>
         <div class="btn-more-wrapper">
-          <a href="#" class="btn-more">もっと見る</a>
+          <!-- ★Originalギャラリーページ（original.html）へリンク接続★ -->
+          <a href="original.html" class="btn-more">もっと見る</a>
         </div>
       </section>
 
@@ -881,7 +884,7 @@
 
         </div>
         <div class="btn-more-wrapper">
-          <a href="#" class="btn-more">もっと見る</a>
+          <a href="fanart.html" class="btn-more">もっと見る</a>
         </div>
       </section>
     </article>
@@ -889,7 +892,6 @@
     <!-- 【第3ボード】：Link ＋ 拍手/Wavebox -->
     <article class="site-board">
       <section id="link">
-        <!-- ★★★ ここを完全に「Link」に修正いたしました！ ★★★ -->
         <h2 class="section-title"><span class="accent">L</span>ink</h2>
         <div class="link-info">
           Name : Recolte<br>
@@ -926,7 +928,7 @@
   <!-- フッター -->
   <footer>
     <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">∧</div>
-    <div>2020-2026 Recolte</div>
+    <div>2020 - Recolte  &copy; True</div>
     <div style="margin-top: 6px;"><a href="#" style="text-decoration: underline;">プライバシーポリシー</a></div>
   </footer>
 
