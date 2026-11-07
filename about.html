@@ -43,7 +43,7 @@
 
     body {
       background-color: #8b8e9b;
-      background-image: url('images/bg.webp'); /* ★WebP背景画像★ */
+      background-image: url('images/bg.webp'); /* WebP背景画像 */
       background-repeat: repeat;
       background-position: center top;
       background-attachment: fixed;
@@ -286,12 +286,12 @@
       vertical-align: -0.06em;
     }
 
-    /* AI学習禁止の注記ブロック */
+    /* AI学習禁止の注記ブロック（実線枠） */
     .ai-warning-box {
       margin: 40px auto;
       padding: 18px 24px;
       background: rgba(255, 255, 255, 0.03);
-      border: 1px dashed #38384a;
+      border: 1px solid #38384a;
       border-radius: 6px;
       max-width: 560px;
       font-size: 0.95rem;
@@ -309,6 +309,7 @@
       margin: 16px auto 0;
     }
 
+    /* ★ 紫ボタン：ドロップシャドウ（box-shadow）を完全削除 ★ */
     .btn-purple-link {
       display: inline-block;
       width: 170px;
@@ -319,15 +320,14 @@
       font-weight: 700;
       text-align: center;
       border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(126, 34, 206, 0.35);
       transition: all 0.2s ease;
       letter-spacing: 0.04em;
     }
 
+    /* ★ ホバー時：シャドウなしで色変化と浮遊のみ ★ */
     .btn-purple-link:hover {
       background: var(--btn-purple-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(147, 51, 234, 0.5);
       color: #ffffff;
     }
 
@@ -479,7 +479,7 @@
       <!-- 大見出し -->
       <h1 class="about-main-title"><span class="accent">A</span>bout me</h1>
 
-      <!-- 円形アイコン（★ profile.webp ★） -->
+      <!-- 円形アイコン -->
       <div class="profile-avatar-wrap">
         <img src="images/profile.webp" alt="トゥルー アイコン" onerror="this.src='https://placehold.co/300x300/181822/ffffff?text=Profile'">
       </div>
@@ -519,7 +519,7 @@
         </div>
       </section>
 
-      <!-- 5. AI学習禁止文 -->
+      <!-- 5. AI学習禁止文（実線枠） -->
       <div class="ai-warning-box">
         ※当サイトの作品のAI学習を禁止いたします。<br>
         AIを使用したご利用はご遠慮下さい。
