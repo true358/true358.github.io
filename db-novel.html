@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DB夢小説（男主×セル） - Recolte</title>
+
+  <!-- 検索避け・クローラー完全遮断タグ -->
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="googlebot" content="noindex, nofollow, noarchive">
+
+  <!-- ファビコン設定：互換性維持のためPNGを保持 -->
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+  <style>
+    /* --- 基本設定 --- */
+    :root {
+      --board-width: 1040px;
+      --bg-board: #111115;
+      --border-color: #24242e;
+      --accent-green: #d2f83d;
+      --accent-cyan: #38bdf8;
+      --text-main: #eeeeee;
+      --text-sub: #d4d9dc;
+      --badge-bg: #4a4a58;
+      
+      --btn-gray: #565568;
+      --btn-purple: #7e22ce;
+      --neon-pink: #ff2bd6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #8b8e9b;
+      background-image: url('images/bg.webp'); /* ★WebP背景画像★ */
+      background-repeat: repeat;
+      background-position: center top;
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", sans-serif;
+      font-size: 18px;
+      line-height: 1.85;
+      letter-spacing: 0.04em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    @media (min-width: 601px) {
+      .sp-br {
+        display: none;
+      }
+    }
+
+    /* --- ヘッダー --- */
+    header {
+      background: linear-gradient(135deg, #7e22ce 0%, #10021c 100%);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .gallery-header-inner {
+      max-width: var(--board-width);
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .header-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      background: var(--btn-gray);
+      border: 2px solid transparent;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* 戻るボタン（fanart.htmlの最上部へ戻る） */
+    .header-back-btn {
+      width: 44px;
+      font-size: 2.15rem;
+      font-weight: 700;
+      color: #14141c;
+      border-color: #14141c;
+      line-height: 1;
+      padding-bottom: 2px;
+    }
+
+    .header-back-btn:hover {
+      background: var(--accent-green);
+      border-color: #14141c;
+      color: #14141c;
+      transform: scale(1.05);
+    }
+
+    /* Waveboxボタン */
+    .header-wavebox-btn {
+      width: 76px;
+      color: #ffffff;
+    }
+
+    .header-wavebox-btn svg {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.2s ease;
+    }
+
+    .header-wavebox-btn:hover {
+      background: #e4e4ec;
+      border-color: var(--neon-pink);
+      color: var(--neon-pink);
+      transform: scale(1.05);
+    }
+
+    .header-wavebox-btn:hover svg {
+      transform: scale(1.1);
+    }
+
+    .gallery-page-title {
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #ffffff;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .gallery-page-title .accent {
+      color: var(--accent-green);
+    }
+
+    /* --- メインコンテナ --- */
+    .main-wrapper {
+      max-width: var(--board-width);
+      margin: 40px auto 80px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 52px;
+    }
+
+    .site-board {
+      background: var(--bg-board);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      padding: 40px 44px 50px;
+    }
+
+    /* ■ 見出し */
+    .genre-title {
+      font-size: 1.16rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px dashed var(--accent-green);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .genre-title::before {
+      content: '';
+      display: inline-block;
+      width: 0.85em;
+      height: 0.85em;
+      background-color: var(--accent-green);
+      flex-shrink: 0;
+    }
+
+    .novel-intro-text {
+      text-align: center;
+      font-size: 0.96rem;
+      color: var(--text-sub);
+      margin-bottom: 44px;
+      line-height: 1.65;
+    }
+
+    .text-green {
+      color: #ccff00;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    /* 本編セクション */
+    .main-story-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .main-story-cover {
+      width: 320px;
+      flex-shrink: 0;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #2a2a38;
+      background: #1c1c26;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .main-story-cover img {
+      width: 100%;
+      height: auto;
+      display: block;
+      image-rendering: smooth;
+    }
+
+    .main-story-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 500px;
+    }
+
+    .novel-category-tag {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      margin-bottom: 4px;
+    }
+
+    .novel-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .novel-title .r18 {
+      color: #ef4444;
+      margin-left: 4px;
+    }
+
+    .novel-desc {
+      font-size: 0.96rem;
+      color: var(--text-sub);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .novel-setting {
+      font-size: 0.96rem;
+      color: var(--text-sub);
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+
+    .square-bullet {
+      display: inline-block;
+      width: 0.85em;
+      height: 0.85em;
+      background-color: var(--text-sub);
+      margin-right: 6px;
+      vertical-align: -0.06em;
+      flex-shrink: 0;
+    }
+
+    .read-btn {
+      display: inline-block;
+      background: var(--btn-gray);
+      color: #ffffff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 7px 42px;
+      min-width: 150px;
+      text-align: center;
+      border-radius: 4px;
+      border: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .read-btn:hover {
+      background: var(--btn-purple);
+      transform: translateY(-2px);
+      color: #ffffff;
+    }
+
+    .novel-pw-note {
+      font-size: 0.96rem;
+      color: var(--text-sub);
+      margin-top: 10px;
+    }
+
+    .novel-divider {
+      width: 100%;
+      max-width: 580px;
+      border-top: 1px solid #38384a;
+      margin: 36px auto 30px;
+    }
+
+    .extra-section-title {
+      text-align: center;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 24px;
+    }
+
+    /* 番外編枠 */
+    .extra-story-card {
+      max-width: 660px;
+      margin: 0 auto;
+      border: 1.5px solid var(--accent-green);
+      border-radius: 6px;
+      padding: 24px 30px;
+      background: rgba(24, 24, 32, 0.45);
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .extra-story-cover {
+      width: 140px;
+      flex-shrink: 0;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #2a2a38;
+      background: #1c1c26;
+    }
+
+    .extra-story-cover img {
+      width: 100%;
+      height: auto;
+      display: block;
+      image-rendering: smooth;
+    }
+
+    .extra-story-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .extra-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .extra-desc {
+      font-size: 0.96rem;
+      color: var(--text-sub);
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+
+    /* フッター */
+    footer {
+      text-align: center;
+      padding: 10px 0 60px;
+      font-size: 0.88rem;
+      color: #e6e6fa;
+    }
+
+    .back-to-top {
+      display: inline-block;
+      font-size: 3rem;
+      line-height: 1;
+      color: #e6e6fa;
+      margin-bottom: 24px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .back-to-top:hover {
+      opacity: 0.75;
+      transform: translateY(-4px);
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .footer-btn {
+      background: rgba(255, 255, 255, 0.04);
+      color: #e6e6fa;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 8px 0;
+      width: 148px;
+      text-align: center;
+      border: 1.5px solid #e6e6fa;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .footer-btn:hover {
+      background: rgba(230, 230, 250, 0.16);
+      border-color: #ffffff;
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .footer-btn.current {
+      background: rgba(230, 230, 250, 0.1);
+      border-color: #e6e6fa;
+      color: #e6e6fa;
+    }
+
+    /* 年齢確認ポップアップ (Modal) */
+    .age-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(8, 8, 12, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .age-modal-overlay.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .age-modal-box {
+      width: 100%;
+      max-width: 660px;
+      background: #181822;
+      border: 1.5px solid #2e2e3e;
+      border-radius: 8px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+      padding: 54px 44px 58px;
+      text-align: center;
+      user-select: none;
+    }
+
+    .age-modal-title {
+      font-size: 2.0rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      letter-spacing: 0.08em;
+      margin-bottom: 26px;
+    }
+
+    .age-modal-msg {
+      font-size: 1.38rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      line-height: 1.68;
+      margin-bottom: 40px;
+      letter-spacing: 0.03em;
+    }
+
+    .age-modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .age-btn {
+      flex: 1;
+      max-width: 210px;
+      background: var(--btn-gray);
+      color: #ffffff;
+      font-size: 1.22rem;
+      font-weight: 700;
+      padding: 13px 0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.05em;
+    }
+
+    .age-btn:hover {
+      background: var(--btn-purple);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(126, 34, 206, 0.45);
+    }
+
+    /* スマホ表示 */
+    @media (max-width: 600px) {
+      .gallery-header-inner { padding: 10px 14px; }
+      .header-back-btn { width: 40px; height: 36px; font-size: 1.85rem; }
+      .header-wavebox-btn { width: 64px; height: 36px; }
+      .header-wavebox-btn svg { width: 19px; height: 19px; }
+      .gallery-page-title { font-size: 1.55rem; }
+      .main-wrapper { margin: 16px auto 40px; padding: 0 10px; }
+      .site-board { padding: 20px 14px 34px 14px; }
+      
+      .genre-title { font-size: 1.08rem; margin-bottom: 12px; }
+      .novel-intro-text { font-size: 0.88rem; margin-bottom: 28px; line-height: 1.6; }
+
+      .main-story-container {
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 36px;
+      }
+      .main-story-cover {
+        width: 82%;
+        max-width: 280px;
+      }
+      .novel-category-tag { font-size: 0.98rem; }
+      .novel-title { font-size: 1.05rem; margin-bottom: 12px; }
+
+      .novel-desc,
+      .novel-setting,
+      .novel-pw-note,
+      .extra-desc {
+        font-size: 0.88rem;
+        line-height: 1.65;
+      }
+
+      .novel-setting { margin-bottom: 20px; }
+      .read-btn { font-size: 0.95rem; padding: 7px 36px; }
+
+      .extra-story-card {
+        padding: 16px 14px;
+        gap: 16px;
+      }
+      .extra-story-cover {
+        width: 100px;
+      }
+      .extra-title { font-size: 0.95rem; margin-bottom: 6px; }
+
+      .back-to-top { font-size: 2.5rem; margin-bottom: 20px; }
+      .footer-nav { flex-direction: column; align-items: center; gap: 10px; }
+      .footer-btn { width: 154px; }
+
+      .age-modal-box {
+        padding: 34px 20px 38px;
+        max-width: 100%;
+      }
+      .age-modal-title {
+        font-size: 1.45rem;
+        margin-bottom: 16px;
+      }
+      .age-modal-msg {
+        font-size: 1.05rem;
+        margin-bottom: 26px;
+        line-height: 1.55;
+      }
+      .age-modal-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .age-btn {
+        width: 100%;
+        max-width: 240px;
+        padding: 10px 0;
+        font-size: 1.05rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 年齢確認モーダル -->
+  <div class="age-modal-overlay" id="ageModalOverlay">
+    <div class="age-modal-box">
+      <div class="age-modal-title">年齢確認</div>
+      <div class="age-modal-msg">
+        この先は成人向けの内容を含みます<br>
+        18歳以上(高校生を除く)ですか？
+      </div>
+      <div class="age-modal-buttons">
+        <button class="age-btn" id="btnAgeYes">はい</button>
+        <button class="age-btn" id="btnAgeNo">いいえ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ヘッダー -->
+  <header>
+    <div class="gallery-header-inner">
+      <a href="fanart.html" class="header-icon-btn header-back-btn" aria-label="Fanartへ戻る">‹</a>
+      <div class="gallery-page-title"><span class="accent">F</span>anart</div>
+      <a href="https://wavebox.me/wave/74tt03km0qr47hlc/" target="_blank" rel="noopener noreferrer" class="header-icon-btn header-wavebox-btn" aria-label="Wavebox拍手を送る">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <div class="main-wrapper">
+    <article class="site-board">
+
+      <!-- 見出し -->
+      <div class="genre-title">DB夢小説（男主×セル）</div>
+
+      <!-- 上部案内テキスト -->
+      <div class="novel-intro-text">
+        小説はPrivatter+に飛びます（名前変換機能あり）<br class="sp-br"><span class="text-green">※成人向けの内容を含みます。</span>
+      </div>
+
+      <!-- ==================== Main:本編 ==================== -->
+      <section class="main-story-container">
+        <!-- 表紙画像（★ novel01.webp ★） -->
+        <div class="main-story-cover">
+          <img src="images/db_novel/novel01.webp" alt="果てなき刻(とき)のその先で" onerror="this.src='https://placehold.co/400x500/1c1c26/d2f83d?text=Novel+01'">
+        </div>
+
+        <!-- 本編解説・ボタン -->
+        <div class="main-story-info">
+          <div class="novel-category-tag">Main:本編</div>
+          <div class="novel-title">果てなき刻(とき)のその先で<span class="r18">(R-18)</span></div>
+          
+          <p class="novel-desc">
+            セルと永遠に近い刻を生きる為に<br>
+            不老不死になった男主のお話。
+          </p>
+
+          <p class="novel-setting">
+            <span class="square-bullet"></span>ゼノバース2の世界観<br>
+            男主（タイムパトローラーの地球人）<br>
+            セル（師匠 特殊体質設定あり）<br>
+            激重セル様崇拝型の男主と、<br>
+            素直になれないながらも彼にかなり精神依存しているセル。
+          </p>
+
+          <a href="https://privatter.me/page/6aa0fe1c72568" target="_blank" rel="noopener noreferrer" class="read-btn">Read</a>
+          <div class="novel-pw-note">※閲覧用PW:cell</div>
+        </div>
+      </section>
+
+      <!-- 灰色の横線 -->
+      <div class="novel-divider"></div>
+
+      <!-- ==================== 番外編 ==================== -->
+      <section>
+        <div class="extra-section-title">番外編</div>
+
+        <!-- 番外編カード -->
+        <div class="extra-story-card">
+          <!-- 番外編表紙画像（★ novel02.webp ★） -->
+          <div class="extra-story-cover">
+            <img src="images/db_novel/novel02.webp" alt="お酒を言い訳にできない" onerror="this.src='https://placehold.co/300x380/1c1c26/d2f83d?text=Novel+02'">
+          </div>
+
+          <div class="extra-story-info">
+            <div class="extra-title">お酒を言い訳にできない</div>
+            <p class="extra-desc">
+              お酒の力でセルに対して強気になっちゃう<br class="sp-br">男主のお話。
+            </p>
+            <a href="https://privatter.me/page/6aa291b2094b6" target="_blank" rel="noopener noreferrer" class="read-btn">Read</a>
+          </div>
+        </div>
+      </section>
+
+    </article>
+  </div>
+
+  <!-- フッター -->
+  <footer>
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">∧</div>
+    
+    <div class="footer-nav">
+      <a href="index.html" class="footer-btn">Home</a>
+      <a href="original.html" class="footer-btn">Original</a>
+      <a href="fanart.html" class="footer-btn current">Fanart</a>
+    </div>
+
+    <div>2020 - Recolte  &copy; True</div>
+  </footer>
+
+  <!-- 年齢確認スクリプト -->
+  <script>
+    const ageModalOverlay = document.getElementById('ageModalOverlay');
+    const btnAgeYes = document.getElementById('btnAgeYes');
+    const btnAgeNo = document.getElementById('btnAgeNo');
+
+    document.body.style.overflow = 'hidden';
+
+    btnAgeYes.addEventListener('click', () => {
+      ageModalOverlay.classList.add('hide');
+      setTimeout(() => {
+        ageModalOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 300);
+    });
+
+    // 「いいえ」をクリック時：fanart.htmlへ戻る
+    btnAgeNo.addEventListener('click', () => {
+      window.location.href = 'fanart.html';
+    });
+  </script>
+</body>
+</html>

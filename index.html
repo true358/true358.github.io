@@ -23,7 +23,7 @@
       --accent-cyan: #38bdf8;    /* 拍手ボタンの水色 */
       --text-main: #eeeeee;
       --text-sub: #d4d9dc;       /* 灰色の文字色 */
-      --badge-bg: #565568;       /* ★ギャラリーページの灰色ボタン（--btn-gray）と同色に統一★ */
+      --badge-bg: #565568;       /* ギャラリーページの灰色ボタン（--btn-gray）と同色に統一 */
     }
 
     * {
@@ -39,7 +39,7 @@
 
     body {
       background-color: #8b8e9b;
-      background-image: url('images/bg.jpg'); /* 背景画像 */
+      background-image: url('images/bg.webp'); /* 背景画像 */
       background-repeat: repeat;
       background-position: center top;
       background-attachment: fixed;
@@ -263,16 +263,39 @@
       margin: 0 auto;
       border: 1px solid var(--accent-green);
       border-radius: 4px;
-      padding: 22px 48px;
+      padding: 22px 36px 20px 48px;
       background: #000000;
     }
 
     .news-title {
       font-size: 1.6rem;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       font-weight: 700;
       text-align: center;
       letter-spacing: 0.05em;
+    }
+
+    /* 2件分の高さで固定し、3件目以降をスクロールさせるエリア */
+    .news-list {
+      max-height: 112px;
+      overflow-y: auto;
+      padding-right: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: #38384a transparent;
+    }
+
+    .news-list::-webkit-scrollbar {
+      width: 5px;
+    }
+    .news-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .news-list::-webkit-scrollbar-thumb {
+      background: #38384a;
+      border-radius: 9999px;
+    }
+    .news-list::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-green);
     }
 
     .news-item {
@@ -288,14 +311,18 @@
       border-bottom: none;
     }
 
+    /* ★ バッジの大きさを統一（min-widthで揃え、中央配置） ★ */
     .news-badge {
+      display: inline-block;
+      min-width: 96px;
       font-size: 0.85rem;
       background: var(--badge-bg);
       color: #fff;
-      padding: 3px 14px;
+      padding: 3px 10px;
       border-radius: 4px;
       white-space: nowrap;
       text-align: center;
+      flex-shrink: 0;
     }
 
     /* About本文 */
@@ -345,7 +372,6 @@
       transform: translateZ(0);
     }
 
-    /* 画像のジャギー防止・滑らか補正 */
     .gallery-item img {
       width: 100%;
       height: 100%;
@@ -701,12 +727,17 @@
       }
       .inner-box {
         max-width: 100%;
-        padding: 16px 16px;
+        padding: 16px 12px 14px 16px;
       }
 
       .news-title {
         font-size: 1.35rem;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
+      }
+
+      .news-list {
+        max-height: 130px;
+        padding-right: 6px;
       }
 
       .news-item {
@@ -719,9 +750,11 @@
         line-height: 1.45;
       }
 
+      /* スマホ時のバッジサイズ統一 */
       .news-badge {
+        min-width: 88px;
         font-size: 0.85rem;
-        padding: 2px 12px;
+        padding: 2px 8px;
       }
 
       .back-to-top {
@@ -758,7 +791,7 @@
       <nav class="pc-nav">
         <a href="#original" class="nav-btn">ORIGINAL</a>
         <a href="#fanart" class="nav-btn">FANART</a>
-        <a href="https://true358.tumblr.com" target="_blank" class="nav-btn">MEMO</a>
+        <a href="https://true358.tumblr.com" target="_blank" rel="noopener noreferrer" class="nav-btn">MEMO</a>
       </nav>
 
       <!-- スマホ用メニューボタン -->
@@ -774,7 +807,7 @@
       <a href="#about">ABOUT</a>
       <a href="#original">ORIGINAL</a>
       <a href="#fanart">FANART</a>
-      <a href="https://true358.tumblr.com" target="_blank">MEMO ↗</a>
+      <a href="https://true358.tumblr.com" target="_blank" rel="noopener noreferrer">MEMO ↗</a>
       <a href="#link">LINK</a>
     </nav>
   </header>
@@ -785,20 +818,29 @@
     <!-- 【第1ボード】：メインビジュアル ＋ News ＋ About -->
     <article class="site-board hero-board">
       <div class="hero-banner">
-        <img src="images/hero.jpg" alt="Recolte Main Visual" onerror="this.src='https://placehold.co/1200x500/181820/a3e635?text=Put+hero.jpg+in+images+folder'">
+        <img src="images/hero.webp" alt="Recolte Main Visual" onerror="this.src='https://placehold.co/1200x500/181820/a3e635?text=Put+hero.webp+in+images+folder'">
       </div>
 
       <div class="hero-board-content">
         <!-- News枠 -->
         <section class="inner-box">
           <div class="news-title">News</div>
-          <div class="news-item">
-            <span>2026/09/10 : FANART/DB夢小説・絵</span>
-            <span class="news-badge">小説・絵</span>
-          </div>
-          <div class="news-item">
-            <span>2026/08/26 : FANART/ドラゴンボール</span>
-            <span class="news-badge">イラスト</span>
+          <div class="news-list">
+            <!-- 1. 最新告知：サイトお引越し&リニューアル -->
+            <div class="news-item">
+              <span>2026/11/08 : サイトお引越し&amp;リニューアル</span>
+              <span class="news-badge">サイト</span>
+            </div>
+            <!-- 2. 過去履歴1 -->
+            <div class="news-item">
+              <span>2026/09/10 : FANART/DB夢小説・絵</span>
+              <span class="news-badge">小説・絵</span>
+            </div>
+            <!-- 3. 過去履歴2 -->
+            <div class="news-item">
+              <span>2026/08/26 : FANART/ドラゴンボール</span>
+              <span class="news-badge">イラスト</span>
+            </div>
           </div>
         </section>
 
@@ -813,7 +855,7 @@
             イラストの無断使用はご遠慮願います。
           </p>
           <div style="text-align: center;">
-            <a href="#" class="about-link">About me ⬡</a>
+            <a href="about.html" class="about-link">About me ⬡</a>
           </div>
         </section>
       </div>
@@ -827,29 +869,28 @@
         <div class="section-sub">←新 旧→</div>
         <div class="gallery-grid">
           
-          <div class="gallery-item" data-group="original">
-            <img src="images/ori01.jpg" alt="ご依頼/魔王ロード・ゼノン" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+01'">
+          <div class="gallery-item" data-group="original" data-full="images/ori01.webp">
+            <img src="images/ori01_thumb.webp" alt="ご依頼/魔王ロード・ゼノン" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+01'">
             <div class="gallery-caption">ご依頼/<br>魔王ロード・ゼノン</div>
           </div>
 
-          <div class="gallery-item" data-group="original">
-            <img src="images/ori02.jpg" alt="ご依頼/音階ぽよよ" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+02'">
+          <div class="gallery-item" data-group="original" data-full="images/ori02.webp">
+            <img src="images/ori02_thumb.webp" alt="ご依頼/音階ぽよよ" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+02'">
             <div class="gallery-caption">ご依頼/<br>音階ぽよよ</div>
           </div>
 
-          <div class="gallery-item" data-group="original">
-            <img src="images/ori03.jpg" alt="ご依頼/もくずドラゴン(覚醒)" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+03'">
+          <div class="gallery-item" data-group="original" data-full="images/ori03.webp">
+            <img src="images/ori03_thumb.webp" alt="ご依頼/もくずドラゴン(覚醒)" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+03'">
             <div class="gallery-caption">ご依頼/<br>もくずドラゴン(覚醒)</div>
           </div>
 
-          <div class="gallery-item" data-group="original">
-            <img src="images/ori04.jpg" alt="キャラデザ/ティーチ" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+04'">
+          <div class="gallery-item" data-group="original" data-full="images/ori04.webp">
+            <img src="images/ori04_thumb.webp" alt="キャラデザ/ティーチ" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+04'">
             <div class="gallery-caption">キャラデザ/<br>ティーチ</div>
           </div>
 
         </div>
         <div class="btn-more-wrapper">
-          <!-- ★Originalギャラリーページ（original.html）へリンク接続★ -->
           <a href="original.html" class="btn-more">もっと見る</a>
         </div>
       </section>
@@ -862,23 +903,23 @@
         <div class="section-sub">←新 旧→</div>
         <div class="gallery-grid">
 
-          <div class="gallery-item" data-group="fanart">
-            <img src="images/fan01.jpg" alt="DB夢/お酒を言い訳にできない" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+01'">
+          <div class="gallery-item" data-group="fanart" data-full="images/fan01.webp">
+            <img src="images/fan01_thumb.webp" alt="DB夢/お酒を言い訳にできない" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+01'">
             <div class="gallery-caption">DB夢/お酒を言い訳に<br>できない</div>
           </div>
 
-          <div class="gallery-item" data-group="fanart">
-            <img src="images/fan02.jpg" alt="DB夢/果てなき刻(とき)のその先で" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+02'">
+          <div class="gallery-item" data-group="fanart" data-full="images/fan02.webp">
+            <img src="images/fan02_thumb.webp" alt="DB夢/果てなき刻(とき)のその先で" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+02'">
             <div class="gallery-caption">DB夢/果てなき刻(とき)の<br>その先で</div>
           </div>
 
-          <div class="gallery-item" data-group="fanart">
-            <img src="images/fan03.jpg" alt="ドラゴンボール/DBTBlog" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+03'">
+          <div class="gallery-item" data-group="fanart" data-full="images/fan03.webp">
+            <img src="images/fan03_thumb.webp" alt="ドラゴンボール/DBTBlog" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+03'">
             <div class="gallery-caption">ドラゴンボール/<br>DBTBlog</div>
           </div>
 
-          <div class="gallery-item" data-group="fanart">
-            <img src="images/fan04.jpg" alt="ドラゴンボール/フレンドアバター" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+04'">
+          <div class="gallery-item" data-group="fanart" data-full="images/fan04.webp">
+            <img src="images/fan04_thumb.webp" alt="ドラゴンボール/フレンドアバター" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+04'">
             <div class="gallery-caption">ドラゴンボール/<br>フレンドアバター</div>
           </div>
 
@@ -898,8 +939,8 @@
           URL : <span class="link-url">https://true358.github.io/</span>
           
           <div class="link-banners">
-            <img src="images/banner1.png" alt="Recolte Banner 1" class="link-banner-img" onerror="this.src='https://placehold.co/200x40/1a1a24/d2f83d?text=Banner+Lie'">
-            <img src="images/banner2.png" alt="Recolte Banner 2" class="link-banner-img" onerror="this.src='https://placehold.co/200x40/1a1a24/d2f83d?text=Banner+Cell'">
+            <img src="images/banner1.webp" alt="Recolte Banner 1" class="link-banner-img" onerror="this.src='https://placehold.co/200x40/1a1a24/d2f83d?text=Banner+Lie'">
+            <img src="images/banner2.webp" alt="Recolte Banner 2" class="link-banner-img" onerror="this.src='https://placehold.co/200x40/1a1a24/d2f83d?text=Banner+Cell'">
           </div>
 
           <div class="thanks-title">★Thanks!</div>
@@ -929,7 +970,7 @@
   <footer>
     <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">∧</div>
     <div>2020 - Recolte  &copy; True</div>
-    <div style="margin-top: 6px;"><a href="#" style="text-decoration: underline;">プライバシーポリシー</a></div>
+    <div style="margin-top: 6px;"><a href="privacy.html" style="text-decoration: underline;">プライバシーポリシー</a></div>
   </footer>
 
   <!-- ライトボックス（画像拡大モーダル枠） -->
@@ -971,7 +1012,7 @@
       
       items.forEach((item, index) => {
         item.addEventListener('click', () => {
-          currentImages = items.map(el => el.querySelector('img').src);
+          currentImages = items.map(el => el.dataset.full || el.querySelector('img').src);
           currentIndex = index;
           openLightbox();
         });

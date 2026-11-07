@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ドラゴンボールログ - Recolte</title>
+
+  <!-- 検索避け・クローラー完全遮断タグ -->
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="googlebot" content="noindex, nofollow, noarchive">
+
+  <!-- ファビコン設定：互換性維持のためPNGを保持 -->
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+  <style>
+    /* --- 基本設定 --- */
+    :root {
+      --board-width: 1040px;
+      --bg-board: #111115;
+      --border-color: #24242e;
+      --accent-green: #d2f83d;
+      --accent-cyan: #38bdf8;
+      --text-main: #eeeeee;
+      --text-sub: #d4d9dc;
+      --badge-bg: #4a4a58;
+      
+      --btn-gray: #565568;
+      --btn-purple: #7e22ce;
+      --neon-pink: #ff2bd6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #8b8e9b;
+      background-image: url('images/bg.webp'); /* ★WebP背景画像★ */
+      background-repeat: repeat;
+      background-position: center top;
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", sans-serif;
+      font-size: 18px;
+      line-height: 1.85;
+      letter-spacing: 0.04em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    /* --- ヘッダー --- */
+    header {
+      background: linear-gradient(135deg, #7e22ce 0%, #10021c 100%);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .gallery-header-inner {
+      max-width: var(--board-width);
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .header-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      background: var(--btn-gray);
+      border: 2px solid transparent;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* 戻るボタン（Fanartページへ戻る） */
+    .header-back-btn {
+      width: 44px;
+      font-size: 2.15rem;
+      font-weight: 700;
+      color: #14141c;
+      border-color: #14141c;
+      line-height: 1;
+      padding-bottom: 2px;
+    }
+
+    .header-back-btn:hover {
+      background: var(--accent-green);
+      border-color: #14141c;
+      color: #14141c;
+      transform: scale(1.05);
+    }
+
+    /* Waveboxボタン */
+    .header-wavebox-btn {
+      width: 76px;
+      color: #ffffff;
+    }
+
+    .header-wavebox-btn svg {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.2s ease;
+    }
+
+    .header-wavebox-btn:hover {
+      background: #e4e4ec;
+      border-color: var(--neon-pink);
+      color: var(--neon-pink);
+      transform: scale(1.05);
+    }
+
+    .header-wavebox-btn:hover svg {
+      transform: scale(1.1);
+    }
+
+    .gallery-page-title {
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #ffffff;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .gallery-page-title .accent {
+      color: var(--accent-green);
+    }
+
+    /* --- メインコンテナ --- */
+    .main-wrapper {
+      max-width: var(--board-width);
+      margin: 40px auto 80px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 52px;
+    }
+
+    .site-board {
+      background: var(--bg-board);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      padding: 40px 44px 50px;
+    }
+
+    /* ■ 見出し */
+    .genre-title {
+      font-size: 1.16rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px dashed var(--accent-green);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .genre-title::before {
+      content: '';
+      display: inline-block;
+      width: 0.85em;
+      height: 0.85em;
+      background-color: var(--accent-green);
+      flex-shrink: 0;
+    }
+
+    /* ★メイソンリー（縦横比維持・ピンタレスト風段組み）グリッド★ */
+    .masonry-container {
+      column-count: 3;           /* PCブラウザ版：3列 */
+      column-gap: 12px;
+      width: 100%;
+    }
+
+    .masonry-item {
+      break-inside: avoid;       /* 画像の途中分割を防止 */
+      margin-bottom: 12px;
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #2a2a38;
+      background: #1c1c26;
+      display: block;
+      cursor: pointer;
+      transform: translateZ(0);
+    }
+
+    .masonry-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      image-rendering: smooth;
+      image-rendering: -webkit-optimize-contrast;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .masonry-caption {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.72);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      line-height: 1.4;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      word-break: break-word;
+    }
+
+    .masonry-item:hover .masonry-caption {
+      opacity: 1;
+    }
+
+    /* フッター */
+    footer {
+      text-align: center;
+      padding: 10px 0 60px;
+      font-size: 0.88rem;
+      color: #e6e6fa;
+    }
+
+    .back-to-top {
+      display: inline-block;
+      font-size: 3rem;
+      line-height: 1;
+      color: #e6e6fa;
+      margin-bottom: 24px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .back-to-top:hover {
+      opacity: 0.75;
+      transform: translateY(-4px);
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .footer-btn {
+      background: rgba(255, 255, 255, 0.04);
+      color: #e6e6fa;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 8px 0;
+      width: 148px;
+      text-align: center;
+      border: 1.5px solid #e6e6fa;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .footer-btn:hover {
+      background: rgba(230, 230, 250, 0.16);
+      border-color: #ffffff;
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .footer-btn.current {
+      background: rgba(230, 230, 250, 0.1);
+      border-color: #e6e6fa;
+      color: #e6e6fa;
+    }
+
+    /* ライトボックス */
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(12, 12, 16, 0.94);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      touch-action: pan-y;
+      user-select: none;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .lightbox-content img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.85);
+      user-select: none;
+      image-rendering: smooth;
+      pointer-events: auto;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 2.6rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 1010;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .lightbox-close:hover {
+      opacity: 0.75;
+      transform: scale(1.1);
+    }
+
+    .lightbox-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 3rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 16px;
+      z-index: 1010;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .lightbox-nav-btn:hover {
+      color: #9494a6;
+      transform: translateY(-50%) scale(1.15);
+    }
+
+    .lightbox-prev { left: 16px; }
+    .lightbox-next { right: 16px; }
+
+    /* スマホ表示 */
+    @media (max-width: 600px) {
+      .gallery-header-inner { padding: 10px 14px; }
+      .header-back-btn { width: 40px; height: 36px; font-size: 1.85rem; }
+      .header-wavebox-btn { width: 64px; height: 36px; }
+      .header-wavebox-btn svg { width: 19px; height: 19px; }
+      .gallery-page-title { font-size: 1.55rem; }
+      .main-wrapper { margin: 16px auto 40px; padding: 0 10px; }
+      .site-board { padding: 20px 12px 34px 12px; }
+      .genre-title { font-size: 1.08rem; margin-bottom: 16px; }
+
+      /* スマホ版2列表示 */
+      .masonry-container {
+        column-count: 2;
+        column-gap: 8px;
+      }
+      .masonry-item {
+        margin-bottom: 8px;
+      }
+      .masonry-caption {
+        font-size: 0.72rem;
+        padding: 4px;
+      }
+
+      .back-to-top { font-size: 2.5rem; margin-bottom: 20px; }
+      .footer-nav { flex-direction: column; align-items: center; gap: 10px; }
+      .footer-btn { width: 154px; }
+      .lightbox-close { top: 16px; right: 18px; font-size: 2.2rem; }
+      .lightbox-nav-btn { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header>
+    <div class="gallery-header-inner">
+      <a href="fanart.html" class="header-icon-btn header-back-btn" aria-label="Fanartへ戻る">‹</a>
+      <div class="gallery-page-title"><span class="accent">F</span>anart</div>
+      <a href="https://wavebox.me/wave/74tt03km0qr47hlc/" target="_blank" rel="noopener noreferrer" class="header-icon-btn header-wavebox-btn" aria-label="Wavebox拍手を送る">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <div class="main-wrapper">
+    <article class="site-board">
+
+      <!-- 見出し -->
+      <div class="genre-title">ドラゴンボールログ</div>
+
+      <!-- ★全21枚 メイソンリーグリッド（.webp へ更新）★ -->
+      <div class="masonry-container">
+
+        <!-- 01 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db01.webp" alt="DBログ 01" onerror="this.src='https://placehold.co/500x500/1c1c26/d2f83d?text=DB+Log+01'">
+          <div class="masonry-caption">DBログ 01</div>
+        </div>
+
+        <!-- 02 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db02.webp" alt="DBログ 02" onerror="this.src='https://placehold.co/500x320/1c1c26/d2f83d?text=DB+Log+02'">
+          <div class="masonry-caption">DBログ 02</div>
+        </div>
+
+        <!-- 03 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db03.webp" alt="DBログ 03" onerror="this.src='https://placehold.co/500x650/1c1c26/d2f83d?text=DB+Log+03'">
+          <div class="masonry-caption">DBログ 03</div>
+        </div>
+
+        <!-- 04 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db04.webp" alt="DBログ 04" onerror="this.src='https://placehold.co/500x340/1c1c26/d2f83d?text=DB+Log+04'">
+          <div class="masonry-caption">DBログ 04</div>
+        </div>
+
+        <!-- 05 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db05.webp" alt="DBログ 05" onerror="this.src='https://placehold.co/500x680/1c1c26/d2f83d?text=DB+Log+05'">
+          <div class="masonry-caption">DBログ 05</div>
+        </div>
+
+        <!-- 06 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db06.webp" alt="DBログ 06" onerror="this.src='https://placehold.co/500x320/1c1c26/d2f83d?text=DB+Log+06'">
+          <div class="masonry-caption">DBログ 06</div>
+        </div>
+
+        <!-- 07 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db07.webp" alt="DBログ 07" onerror="this.src='https://placehold.co/500x600/1c1c26/d2f83d?text=DB+Log+07'">
+          <div class="masonry-caption">DBログ 07</div>
+        </div>
+
+        <!-- 08 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db08.webp" alt="DBログ 08" onerror="this.src='https://placehold.co/500x700/1c1c26/d2f83d?text=DB+Log+08'">
+          <div class="masonry-caption">DBログ 08</div>
+        </div>
+
+        <!-- 09 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db09.webp" alt="DBログ 09" onerror="this.src='https://placehold.co/500x520/1c1c26/d2f83d?text=DB+Log+09'">
+          <div class="masonry-caption">DBログ 09</div>
+        </div>
+
+        <!-- 10 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db10.webp" alt="DBログ 10" onerror="this.src='https://placehold.co/500x680/1c1c26/d2f83d?text=DB+Log+10'">
+          <div class="masonry-caption">DBログ 10</div>
+        </div>
+
+        <!-- 11 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db11.webp" alt="DBログ 11" onerror="this.src='https://placehold.co/500x620/1c1c26/d2f83d?text=DB+Log+11'">
+          <div class="masonry-caption">DBログ 11</div>
+        </div>
+
+        <!-- 12 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db12.webp" alt="DBログ 12" onerror="this.src='https://placehold.co/500x720/1c1c26/d2f83d?text=DB+Log+12'">
+          <div class="masonry-caption">DBログ 12</div>
+        </div>
+
+        <!-- 13 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db13.webp" alt="DBログ 13" onerror="this.src='https://placehold.co/500x340/1c1c26/d2f83d?text=DB+Log+13'">
+          <div class="masonry-caption">DBログ 13</div>
+        </div>
+
+        <!-- 14 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db14.webp" alt="DBログ 14" onerror="this.src='https://placehold.co/500x480/1c1c26/d2f83d?text=DB+Log+14'">
+          <div class="masonry-caption">DBログ 14</div>
+        </div>
+
+        <!-- 15 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db15.webp" alt="DBログ 15" onerror="this.src='https://placehold.co/500x640/1c1c26/d2f83d?text=DB+Log+15'">
+          <div class="masonry-caption">DBログ 15</div>
+        </div>
+
+        <!-- 16 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db16.webp" alt="DBログ 16" onerror="this.src='https://placehold.co/500x520/1c1c26/d2f83d?text=DB+Log+16'">
+          <div class="masonry-caption">DBログ 16</div>
+        </div>
+
+        <!-- 17 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db17.webp" alt="DBログ 17" onerror="this.src='https://placehold.co/500x600/1c1c26/d2f83d?text=DB+Log+17'">
+          <div class="masonry-caption">DBログ 17</div>
+        </div>
+
+        <!-- 18 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db18.webp" alt="DBログ 18" onerror="this.src='https://placehold.co/500x680/1c1c26/d2f83d?text=DB+Log+18'">
+          <div class="masonry-caption">DBログ 18</div>
+        </div>
+
+        <!-- 19 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db19.webp" alt="DBログ 19" onerror="this.src='https://placehold.co/500x720/1c1c26/d2f83d?text=DB+Log+19'">
+          <div class="masonry-caption">DBログ 19</div>
+        </div>
+
+        <!-- 20 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db20.webp" alt="DBログ 20" onerror="this.src='https://placehold.co/500x700/1c1c26/d2f83d?text=DB+Log+20'">
+          <div class="masonry-caption">DBログ 20</div>
+        </div>
+
+        <!-- 21 -->
+        <div class="masonry-item">
+          <img src="images/db_log/db21.webp" alt="DBログ 21" onerror="this.src='https://placehold.co/500x520/1c1c26/d2f83d?text=DB+Log+21'">
+          <div class="masonry-caption">DBログ 21</div>
+        </div>
+
+      </div>
+
+    </article>
+  </div>
+
+  <!-- フッター -->
+  <footer>
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">∧</div>
+    
+    <!-- フッターナビ -->
+    <div class="footer-nav">
+      <a href="index.html" class="footer-btn">Home</a>
+      <a href="original.html" class="footer-btn">Original</a>
+      <a href="fanart.html" class="footer-btn current">Fanart</a>
+    </div>
+
+    <div>2020 - Recolte  &copy; True</div>
+  </footer>
+
+  <!-- ライトボックス（画像拡大モーダル枠） -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <button class="lightbox-close" id="lightboxClose" aria-label="閉じる">✕</button>
+    <button class="lightbox-nav-btn lightbox-prev" id="lightboxPrev" aria-label="前へ">〈</button>
+    <button class="lightbox-nav-btn lightbox-next" id="lightboxNext" aria-label="次へ">〉</button>
+    <div class="lightbox-content" id="lightboxContent">
+      <img src="" alt="" id="lightboxImg">
+    </div>
+  </div>
+
+  <!-- スクリプト -->
+  <script>
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+
+    let currentImages = [];
+    let currentIndex = 0;
+
+    const items = Array.from(document.querySelectorAll('.masonry-item'));
+    items.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        currentImages = items.map(el => el.querySelector('img').src);
+        currentIndex = index;
+        openLightbox();
+      });
+    });
+
+    function openLightbox() {
+      lightboxImg.src = currentImages[currentIndex];
+      lightboxModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightboxModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+      lightboxImg.src = currentImages[currentIndex];
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % currentImages.length;
+      lightboxImg.src = currentImages[currentIndex];
+    }
+
+    lightboxClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeLightbox();
+    });
+
+    lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+    lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightboxModal.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'ArrowRight') showNext();
+    });
+
+    // スマホスワイプ・タップ送り
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+    let isSwiped = false;
+
+    lightboxModal.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].clientX;
+      touchStartY = e.changedTouches[0].clientY;
+      isSwiped = false;
+    }, { passive: true });
+
+    lightboxModal.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].clientX;
+      touchEndY = e.changedTouches[0].clientY;
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+        isSwiped = true;
+        if (diffX < 0) showNext();
+        else showPrev();
+      }
+    }, { passive: true });
+
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target.closest('#lightboxClose')) return;
+      if (window.innerWidth <= 600) {
+        if (isSwiped) {
+          isSwiped = false;
+          return;
+        }
+        const clickX = e.clientX;
+        if (clickX < window.innerWidth / 2) showPrev();
+        else showNext();
+      } else {
+        if (e.target === lightboxModal || e.target.id === 'lightboxContent') {
+          closeLightbox();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

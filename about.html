@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About me - Recolte</title>
+
+  <!-- 検索避け・クローラー完全遮断タグ -->
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="googlebot" content="noindex, nofollow, noarchive">
+
+  <!-- ファビコン設定：互換性維持のためPNGを保持 -->
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+  <style>
+    /* --- 基本設定（index.htmlと完全同一） --- */
+    :root {
+      --board-width: 1040px;     /* 黒いボードの横幅を1040pxに統一 */
+      --bg-board: #111115;       /* メインの黒いボード背景 */
+      --border-color: #24242e;   /* 境界線の色 */
+      --accent-green: #d2f83d;   /* 見出し・ボタンのアクセント黄緑 */
+      --accent-cyan: #38bdf8;    /* 拍手ボタンの水色 */
+      --text-main: #eeeeee;
+      --text-sub: #d4d9dc;       /* 灰色の文字色 */
+      --badge-bg: #565568;
+      
+      --btn-gray: #565568;
+      --btn-purple: #7e22ce;
+      --btn-purple-hover: #9333ea;
+      --neon-pink: #ff2bd6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #8b8e9b;
+      background-image: url('images/bg.webp'); /* ★WebP背景画像★ */
+      background-repeat: repeat;
+      background-position: center top;
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", sans-serif;
+      font-size: 18px;
+      line-height: 1.85;
+      letter-spacing: 0.04em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    /* --- ヘッダー（index.htmlと完全同一） --- */
+    header {
+      background: linear-gradient(135deg, #7e22ce 0%, #10021c 100%);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .header-inner {
+      max-width: var(--board-width);
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* タイトルエリア */
+    .title-group {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .site-title {
+      font-size: 2.45rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.08;
+    }
+
+    .site-title a {
+      color: #fff;
+    }
+
+    .site-subtitle {
+      font-size: 1.15rem;
+      color: #e5cbff;
+      margin-top: 2px;
+      line-height: 1.25;
+      letter-spacing: 0.03em;
+    }
+
+    /* PCナビゲーション */
+    .pc-nav {
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-btn {
+      background: #000;
+      color: #fff;
+      font-size: 1.52rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 5px 38px;
+      min-width: 175px;
+      text-align: center;
+      border-radius: 9999px;
+      border: 2.5px solid var(--accent-green);
+      transition: all 0.25s ease;
+      display: inline-block;
+    }
+
+    .nav-btn:hover {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+      color: #fff !important;
+      opacity: 1;
+    }
+
+    /* スマホ用メニューボタン */
+    .menu-trigger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .menu-trigger span {
+      display: block;
+      width: 28px;
+      height: 2.5px;
+      background-color: #ff4a5a;
+    }
+
+    /* スマホ用展開メニュー */
+    .mobile-menu {
+      display: none;
+      background: #15151e;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 24px;
+      flex-direction: column;
+      gap: 4px;
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
+    }
+
+    .mobile-menu.active {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 12px 0;
+      border-bottom: 1px dashed #2a2a38;
+      color: #ffffff;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-menu a:hover {
+      color: var(--accent-green);
+    }
+
+    /* --- メインコンテナ（横幅1040px） --- */
+    .main-wrapper {
+      max-width: var(--board-width);
+      margin: 48px auto 80px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 52px;
+    }
+
+    .site-board {
+      background: var(--bg-board);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      padding: 56px 44px 70px;
+      text-align: center;
+    }
+
+    /* ページ大見出し */
+    .about-main-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 36px;
+      letter-spacing: 0.06em;
+    }
+
+    .about-main-title .accent {
+      color: var(--accent-green);
+    }
+
+    /* 円形プロフィールアイコン */
+    .profile-avatar-wrap {
+      width: 145px;
+      height: 145px;
+      margin: 0 auto 36px;
+      border-radius: 50%;
+      border: 3.5px solid #ffffff;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.65);
+      overflow: hidden;
+      background: #181822;
+    }
+
+    .profile-avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* セクションブロック */
+    .about-sec {
+      margin-bottom: 40px;
+    }
+
+    /* プロフィール項目間の下余白を等しくコンパクト（24px）にするクラス */
+    .about-sec.about-sec-compact {
+      margin-bottom: 24px;
+    }
+
+    .about-sec:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 各項目の黄緑見出しラベル */
+    .about-label {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    /* 文字数の多い見出しを少し小さくするスタイル */
+    .about-label-sm {
+      font-size: 1.05rem;
+    }
+
+    /* 各項目の本文 */
+    .about-desc {
+      font-size: 1.02rem;
+      color: var(--text-main);
+      line-height: 1.85;
+    }
+
+    .about-desc-sub {
+      color: var(--text-sub);
+    }
+
+    /* 文字の高さに揃えたスクエア bullet */
+    .square-bullet {
+      display: inline-block;
+      width: 0.82em;
+      height: 0.82em;
+      background-color: var(--text-sub);
+      margin-right: 6px;
+      vertical-align: -0.06em;
+    }
+
+    /* AI学習禁止の注記ブロック */
+    .ai-warning-box {
+      margin: 40px auto;
+      padding: 18px 24px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed #38384a;
+      border-radius: 6px;
+      max-width: 560px;
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      line-height: 1.75;
+    }
+
+    /* PCブラウザ版：SNSボタングリッド */
+    .sns-btn-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      max-width: 580px;
+      margin: 16px auto 0;
+    }
+
+    .btn-purple-link {
+      display: inline-block;
+      width: 170px;
+      padding: 10px 0;
+      background: var(--btn-purple);
+      color: #ffffff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-align: center;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(126, 34, 206, 0.35);
+      transition: all 0.2s ease;
+      letter-spacing: 0.04em;
+    }
+
+    .btn-purple-link:hover {
+      background: var(--btn-purple-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(147, 51, 234, 0.5);
+      color: #ffffff;
+    }
+
+    /* ココナラボタン単体 */
+    .single-btn-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 14px;
+    }
+
+    /* フッター（index.htmlと同一構造） */
+    footer {
+      text-align: center;
+      padding: 10px 0 60px;
+      font-size: 0.88rem;
+      color: #e6e6fa;
+    }
+
+    footer a {
+      color: #e6e6fa;
+    }
+
+    .back-to-top {
+      display: inline-block;
+      font-size: 3rem;
+      line-height: 1;
+      color: #e6e6fa;
+      margin-bottom: 24px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .back-to-top:hover {
+      opacity: 0.75;
+      transform: translateY(-4px);
+    }
+
+    .footer-privacy {
+      margin-top: 6px;
+    }
+
+    .footer-privacy a {
+      color: #e6e6fa;
+      text-decoration: underline;
+    }
+
+    /* スマホ表示 */
+    @media (max-width: 600px) {
+      body {
+        font-size: 16px;
+      }
+      .header-inner {
+        padding: 14px 16px;
+      }
+      .site-title {
+        font-size: 1.85rem;
+        line-height: 1.05;
+      }
+      .site-subtitle {
+        font-size: 0.92rem;
+        margin-top: 1px;
+      }
+      .pc-nav {
+        display: none;
+      }
+      .menu-trigger {
+        display: flex;
+      }
+      .main-wrapper {
+        margin: 16px auto 40px;
+        padding: 0 10px;
+      }
+      .site-board {
+        padding: 34px 18px 46px;
+      }
+      
+      .about-main-title { font-size: 1.75rem; margin-bottom: 28px; }
+      .profile-avatar-wrap { width: 120px; height: 120px; margin-bottom: 28px; }
+      
+      .about-label { font-size: 1.05rem; }
+      .about-label-sm { font-size: 0.95rem; }
+      .about-desc { font-size: 0.92rem; line-height: 1.7; }
+      
+      .about-sec.about-sec-compact {
+        margin-bottom: 20px;
+      }
+
+      .ai-warning-box {
+        font-size: 0.85rem;
+        padding: 14px 14px;
+        margin: 28px auto;
+      }
+      
+      .sns-btn-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .btn-purple-link {
+        width: 100%;
+        max-width: 230px;
+        font-size: 0.98rem;
+        padding: 9px 0;
+      }
+
+      .back-to-top { font-size: 2.5rem; margin-bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー（index.htmlと同一デザイン＆アンカーリンク接続） -->
+  <header>
+    <div class="header-inner">
+      <div class="title-group">
+        <div class="site-title"><a href="index.html">Recolte</a></div>
+        <div class="site-subtitle">True's illustration site</div>
+      </div>
+      
+      <!-- PCナビ：indexページの各アンカーリンクへジャンプ -->
+      <nav class="pc-nav">
+        <a href="index.html#original" class="nav-btn">ORIGINAL</a>
+        <a href="index.html#fanart" class="nav-btn">FANART</a>
+        <a href="https://true358.tumblr.com" target="_blank" rel="noopener noreferrer" class="nav-btn">MEMO</a>
+      </nav>
+
+      <!-- スマホ用メニューボタン -->
+      <button class="menu-trigger" id="menuToggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- スマホ用展開メニュー：indexページの各アンカーリンクへジャンプ -->
+    <nav class="mobile-menu" id="mobileMenu">
+      <a href="index.html#about">ABOUT</a>
+      <a href="index.html#original">ORIGINAL</a>
+      <a href="index.html#fanart">FANART</a>
+      <a href="https://true358.tumblr.com" target="_blank" rel="noopener noreferrer">MEMO ↗</a>
+      <a href="index.html#link">LINK</a>
+    </nav>
+  </header>
+
+  <!-- メインコンテンツ（幅1040px） -->
+  <div class="main-wrapper">
+    <article class="site-board">
+
+      <!-- 大見出し -->
+      <h1 class="about-main-title"><span class="accent">A</span>bout me</h1>
+
+      <!-- 円形アイコン（★ profile.webp ★） -->
+      <div class="profile-avatar-wrap">
+        <img src="images/profile.webp" alt="トゥルー アイコン" onerror="this.src='https://placehold.co/300x300/181822/ffffff?text=Profile'">
+      </div>
+
+      <!-- 1. Name -->
+      <section class="about-sec about-sec-compact">
+        <div class="about-label">Name</div>
+        <div class="about-desc">トゥルー</div>
+      </section>
+
+      <!-- 2. 自己紹介文 -->
+      <section class="about-sec about-sec-compact">
+        <p class="about-desc">
+          和や人外が大好きなお絵描きする人。<br>
+          版権はDB/刀/アンテ/メインに雑多。<br>
+          創作ではファンシーでデザイン的なものを描くのが好き。
+        </p>
+      </section>
+
+      <!-- 3. Like -->
+      <section class="about-sec about-sec-compact">
+        <div class="about-label">Like</div>
+        <div class="about-desc about-desc-sub">
+          <span class="square-bullet"></span>ドラゴンボール/セル<br>
+          <span class="square-bullet"></span>刀剣乱舞/長曽祢虎徹/日本号<br>
+          <span class="square-bullet"></span>Undertale/メタトン<br>
+          和風/人外/ケモノ/獣人, etc.
+        </div>
+      </section>
+
+      <!-- 4. 作業環境/使用ソフト -->
+      <section class="about-sec">
+        <div class="about-label about-label-sm">作業環境/使用ソフト</div>
+        <div class="about-desc about-desc-sub">
+          Windows 11<br>
+          CLIP STUDIO PAINT PRO / Photoshop 2026
+        </div>
+      </section>
+
+      <!-- 5. AI学習禁止文 -->
+      <div class="ai-warning-box">
+        ※当サイトの作品のAI学習を禁止いたします。<br>
+        AIを使用したご利用はご遠慮下さい。
+      </div>
+
+      <!-- 6. SNSリンク群 -->
+      <section class="about-sec">
+        <div class="about-label">SNS</div>
+        <div class="sns-btn-container">
+          <a href="https://www.pixiv.net/users/5920609" target="_blank" rel="noopener noreferrer" class="btn-purple-link">pixiv</a>
+          <a href="https://www.instagram.com/true_358/?hl=ja" target="_blank" rel="noopener noreferrer" class="btn-purple-link">Instagram</a>
+          <a href="https://xfolio.jp/portfolio/true358" target="_blank" rel="noopener noreferrer" class="btn-purple-link">Xfolio</a>
+          <a href="https://bsky.app/profile/true358.bsky.social" target="_blank" rel="noopener noreferrer" class="btn-purple-link">Bluesky</a>
+        </div>
+      </section>
+
+      <!-- 7. 制作依頼 -->
+      <section class="about-sec" style="margin-top: 44px;">
+        <div class="about-label about-label-sm">制作依頼</div>
+        <p class="about-desc" style="margin-bottom: 14px;">
+          アイコン、イラスト等のリクエスト受け付けてます。<br>
+          ご相談のみも可能です。
+        </p>
+        <div class="single-btn-wrap">
+          <a href="https://coconala.com/users/5474756" target="_blank" rel="noopener noreferrer" class="btn-purple-link">ココナラ</a>
+        </div>
+      </section>
+
+    </article>
+  </div>
+
+  <!-- フッター -->
+  <footer>
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">∧</div>
+    <div>2020 - Recolte  &copy; True</div>
+    <div class="footer-privacy">
+      <a href="privacy.html">プライバシーポリシー</a>
+    </div>
+  </footer>
+
+  <!-- スクリプト -->
+  <script>
+    const toggleBtn = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    toggleBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html>

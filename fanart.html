@@ -9,7 +9,7 @@
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="googlebot" content="noindex, nofollow, noarchive">
 
-  <!-- ファビコン設定 -->
+  <!-- ファビコン設定：互換性維持のためPNGを保持 -->
   <link rel="icon" href="images/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
@@ -43,7 +43,7 @@
 
     body {
       background-color: #8b8e9b;
-      background-image: url('images/bg.jpg');
+      background-image: url('images/bg.webp'); /* ★WebP背景画像★ */
       background-repeat: repeat;
       background-position: center top;
       background-attachment: fixed;
@@ -169,7 +169,7 @@
       padding: 40px 44px 50px;
     }
 
-    /* PC版ジャンル内アンカーナビボタン群（3DCG・イラストボタンと完全同サイズ） */
+    /* PC版ジャンル内アンカーナビボタン群 */
     .genre-nav {
       display: flex;
       justify-content: flex-start;
@@ -290,7 +290,7 @@
       opacity: 1;
     }
 
-    /* サブセクション（ログ、過去ログ/ラクガキ等） */
+    /* サブセクション */
     .sub-group {
       margin-top: 22px;
       margin-bottom: 16px;
@@ -364,7 +364,7 @@
       transform: translateY(-4px);
     }
 
-    /* フッターナビボタン群（白枠半透明スタイル） */
+    /* フッターナビボタン群 */
     .footer-nav {
       display: flex;
       flex-direction: row;
@@ -521,7 +521,6 @@
         padding: 20px 12px 34px 12px;
       }
 
-      /* スマホ版ジャンルボタン：gapを8pxに調整 */
       .genre-nav {
         justify-content: flex-start;
         gap: 8px;
@@ -537,7 +536,6 @@
         white-space: nowrap;
       }
 
-      /* スマホ版サブボタン群：gapを8pxに同期 */
       .sub-buttons {
         gap: 8px;
       }
@@ -618,108 +616,109 @@
         <div class="genre-title">ドラゴンボール</div>
         <div class="gallery-grid">
           
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db01.jpg" alt="ドラゴンボール 01" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+01'">
+          <!-- ★ 各画像と拡大画像を .webp へ更新 ★ -->
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db01.webp">
+            <img src="images/fanart/db01_thumb.webp" alt="ドラゴンボール 01" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+01'">
             <div class="gallery-caption">ドラゴンボール 01</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db02.jpg" alt="ドラゴンボール 02" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+02'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db02.webp">
+            <img src="images/fanart/db02_thumb.webp" alt="ドラゴンボール 02" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+02'">
             <div class="gallery-caption">ドラゴンボール 02</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db03.jpg" alt="ドラゴンボール 03" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+03'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db03.webp">
+            <img src="images/fanart/db03_thumb.webp" alt="ドラゴンボール 03" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+03'">
             <div class="gallery-caption">ドラゴンボール 03</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db04.jpg" alt="ドラゴンボール 04" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+04'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db04.webp">
+            <img src="images/fanart/db04_thumb.webp" alt="ドラゴンボール 04" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+04'">
             <div class="gallery-caption">ドラゴンボール 04</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db05.jpg" alt="ドラゴンボール 05" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+05'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db05.webp">
+            <img src="images/fanart/db05_thumb.webp" alt="ドラゴンボール 05" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+05'">
             <div class="gallery-caption">ドラゴンボール 05</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db06.jpg" alt="ドラゴンボール 06" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+06'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db06.webp">
+            <img src="images/fanart/db06_thumb.webp" alt="ドラゴンボール 06" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+06'">
             <div class="gallery-caption">ドラゴンボール 06</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db07.jpg" alt="ドラゴンボール 07" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+07'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db07.webp">
+            <img src="images/fanart/db07_thumb.webp" alt="ドラゴンボール 07" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+07'">
             <div class="gallery-caption">ドラゴンボール 07</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db08.jpg" alt="ドラゴンボール 08" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+08'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db08.webp">
+            <img src="images/fanart/db08_thumb.webp" alt="ドラゴンボール 08" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+08'">
             <div class="gallery-caption">ドラゴンボール 08</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db09.jpg" alt="ドラゴンボール 09" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+09'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db09.webp">
+            <img src="images/fanart/db09_thumb.webp" alt="ドラゴンボール 09" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+09'">
             <div class="gallery-caption">ドラゴンボール 09</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db10.jpg" alt="ドラゴンボール 10" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+10'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db10.webp">
+            <img src="images/fanart/db10_thumb.webp" alt="ドラゴンボール 10" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+10'">
             <div class="gallery-caption">ドラゴンボール 10</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db11.jpg" alt="ドラゴンボール 11" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+11'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db11.webp">
+            <img src="images/fanart/db11_thumb.webp" alt="ドラゴンボール 11" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+11'">
             <div class="gallery-caption">ドラゴンボール 11</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db12.jpg" alt="ドラゴンボール 12" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+12'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db12.webp">
+            <img src="images/fanart/db12_thumb.webp" alt="ドラゴンボール 12" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+12'">
             <div class="gallery-caption">ドラゴンボール 12</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db13.jpg" alt="ドラゴンボール 13" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+13'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db13.webp">
+            <img src="images/fanart/db13_thumb.webp" alt="ドラゴンボール 13" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+13'">
             <div class="gallery-caption">ドラゴンボール 13</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db14.jpg" alt="ドラゴンボール 14" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+14'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db14.webp">
+            <img src="images/fanart/db14_thumb.webp" alt="ドラゴンボール 14" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+14'">
             <div class="gallery-caption">ドラゴンボール 14</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db15.jpg" alt="ドラゴンボール 15" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+15'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db15.webp">
+            <img src="images/fanart/db15_thumb.webp" alt="ドラゴンボール 15" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+15'">
             <div class="gallery-caption">ドラゴンボール 15</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db16.jpg" alt="ドラゴンボール 16" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+16'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db16.webp">
+            <img src="images/fanart/db16_thumb.webp" alt="ドラゴンボール 16" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+16'">
             <div class="gallery-caption">ドラゴンボール 16</div>
           </div>
 
-          <div class="gallery-item" data-group="dragonball">
-            <img src="images/fanart/db17.jpg" alt="ドラゴンボール 17" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+17'">
+          <div class="gallery-item" data-group="dragonball" data-full="images/fanart/db17.webp">
+            <img src="images/fanart/db17_thumb.webp" alt="ドラゴンボール 17" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=DB+17'">
             <div class="gallery-caption">ドラゴンボール 17</div>
           </div>
 
         </div>
 
-        <!-- ログ -->
+        <!-- ログ（3DCG・イラスト） -->
         <div class="sub-group">
           <div class="sub-title">ログ</div>
           <div class="sub-buttons">
-            <a href="#" class="sub-btn">3DCG</a>
-            <a href="#" class="sub-btn">イラスト</a>
+            <a href="db-3dcg.html" class="sub-btn">3DCG</a>
+            <a href="db-log.html" class="sub-btn">イラスト</a>
           </div>
         </div>
 
-        <!-- DB夢（男主×セル） -->
+        <!-- DB夢（夢小説・イラスト） -->
         <div class="sub-group">
           <div class="sub-title">DB夢（男主×セル）</div>
           <div class="sub-buttons">
-            <a href="#" class="sub-btn">夢小説</a>
-            <a href="#" class="sub-btn">イラスト</a>
+            <a href="db-novel.html" class="sub-btn">夢小説</a>
+            <a href="db-dream-art.html" class="sub-btn">イラスト</a>
           </div>
         </div>
       </section>
@@ -729,53 +728,53 @@
         <div class="genre-title">刀剣乱舞</div>
         <div class="gallery-grid">
           
-          <div class="gallery-item" data-group="touken">
-            <img src="images/fanart/tk01.jpg" alt="刀剣乱舞 01" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+01'">
+          <div class="gallery-item" data-group="touken" data-full="images/fanart/tk01.webp">
+            <img src="images/fanart/tk01_thumb.webp" alt="刀剣乱舞 01" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+01'">
             <div class="gallery-caption">刀剣乱舞 01</div>
           </div>
 
-          <div class="gallery-item" data-group="touken">
-            <img src="images/fanart/tk02.jpg" alt="刀剣乱舞 02" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+02'">
+          <div class="gallery-item" data-group="touken" data-full="images/fanart/tk02.webp">
+            <img src="images/fanart/tk02_thumb.webp" alt="刀剣乱舞 02" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+02'">
             <div class="gallery-caption">刀剣乱舞 02</div>
           </div>
 
-          <div class="gallery-item" data-group="touken">
-            <img src="images/fanart/tk03.jpg" alt="刀剣乱舞 03" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+03'">
+          <div class="gallery-item" data-group="touken" data-full="images/fanart/tk03.webp">
+            <img src="images/fanart/tk03_thumb.webp" alt="刀剣乱舞 03" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+03'">
             <div class="gallery-caption">刀剣乱舞 03</div>
           </div>
 
-          <div class="gallery-item" data-group="touken">
-            <img src="images/fanart/tk04.jpg" alt="刀剣乱舞 04" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+04'">
+          <div class="gallery-item" data-group="touken" data-full="images/fanart/tk04.webp">
+            <img src="images/fanart/tk04_thumb.webp" alt="刀剣乱舞 04" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+04'">
             <div class="gallery-caption">刀剣乱舞 04</div>
           </div>
 
-          <div class="gallery-item" data-group="touken">
-            <img src="images/fanart/tk05.jpg" alt="刀剣乱舞 05" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+05'">
+          <div class="gallery-item" data-group="touken" data-full="images/fanart/tk05.webp">
+            <img src="images/fanart/tk05_thumb.webp" alt="刀剣乱舞 05" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+05'">
             <div class="gallery-caption">刀剣乱舞 05</div>
           </div>
 
-          <div class="gallery-item" data-group="touken">
-            <img src="images/fanart/tk06.jpg" alt="刀剣乱舞 06" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+06'">
+          <div class="gallery-item" data-group="touken" data-full="images/fanart/tk06.webp">
+            <img src="images/fanart/tk06_thumb.webp" alt="刀剣乱舞 06" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+06'">
             <div class="gallery-caption">刀剣乱舞 06</div>
           </div>
 
-          <div class="gallery-item" data-group="touken">
-            <img src="images/fanart/tk07.jpg" alt="刀剣乱舞 07" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+07'">
+          <div class="gallery-item" data-group="touken" data-full="images/fanart/tk07.webp">
+            <img src="images/fanart/tk07_thumb.webp" alt="刀剣乱舞 07" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+07'">
             <div class="gallery-caption">刀剣乱舞 07</div>
           </div>
 
-          <div class="gallery-item" data-group="touken">
-            <img src="images/fanart/tk08.jpg" alt="刀剣乱舞 08" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+08'">
+          <div class="gallery-item" data-group="touken" data-full="images/fanart/tk08.webp">
+            <img src="images/fanart/tk08_thumb.webp" alt="刀剣乱舞 08" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+08'">
             <div class="gallery-caption">刀剣乱舞 08</div>
           </div>
 
-          <div class="gallery-item" data-group="touken">
-            <img src="images/fanart/tk09.jpg" alt="刀剣乱舞 09" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+09'">
+          <div class="gallery-item" data-group="touken" data-full="images/fanart/tk09.webp">
+            <img src="images/fanart/tk09_thumb.webp" alt="刀剣乱舞 09" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+09'">
             <div class="gallery-caption">刀剣乱舞 09</div>
           </div>
 
-          <div class="gallery-item" data-group="touken">
-            <img src="images/fanart/tk10.jpg" alt="刀剣乱舞 10" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+10'">
+          <div class="gallery-item" data-group="touken" data-full="images/fanart/tk10.webp">
+            <img src="images/fanart/tk10_thumb.webp" alt="刀剣乱舞 10" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=TK+10'">
             <div class="gallery-caption">刀剣乱舞 10</div>
           </div>
 
@@ -787,53 +786,53 @@
         <div class="genre-title">UNDERTALE</div>
         <div class="gallery-grid">
           
-          <div class="gallery-item" data-group="undertale">
-            <img src="images/fanart/ut01.jpg" alt="UNDERTALE 01" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+01'">
+          <div class="gallery-item" data-group="undertale" data-full="images/fanart/ut01.webp">
+            <img src="images/fanart/ut01_thumb.webp" alt="UNDERTALE 01" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+01'">
             <div class="gallery-caption">UNDERTALE 01</div>
           </div>
 
-          <div class="gallery-item" data-group="undertale">
-            <img src="images/fanart/ut02.jpg" alt="UNDERTALE 02" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+02'">
+          <div class="gallery-item" data-group="undertale" data-full="images/fanart/ut02.webp">
+            <img src="images/fanart/ut02_thumb.webp" alt="UNDERTALE 02" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+02'">
             <div class="gallery-caption">UNDERTALE 02</div>
           </div>
 
-          <div class="gallery-item" data-group="undertale">
-            <img src="images/fanart/ut03.jpg" alt="UNDERTALE 03" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+03'">
+          <div class="gallery-item" data-group="undertale" data-full="images/fanart/ut03.webp">
+            <img src="images/fanart/ut03_thumb.webp" alt="UNDERTALE 03" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+03'">
             <div class="gallery-caption">UNDERTALE 03</div>
           </div>
 
-          <div class="gallery-item" data-group="undertale">
-            <img src="images/fanart/ut04.jpg" alt="UNDERTALE 04" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+04'">
+          <div class="gallery-item" data-group="undertale" data-full="images/fanart/ut04.webp">
+            <img src="images/fanart/ut04_thumb.webp" alt="UNDERTALE 04" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+04'">
             <div class="gallery-caption">UNDERTALE 04</div>
           </div>
 
-          <div class="gallery-item" data-group="undertale">
-            <img src="images/fanart/ut05.jpg" alt="UNDERTALE 05" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+05'">
+          <div class="gallery-item" data-group="undertale" data-full="images/fanart/ut05.webp">
+            <img src="images/fanart/ut05_thumb.webp" alt="UNDERTALE 05" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+05'">
             <div class="gallery-caption">UNDERTALE 05</div>
           </div>
 
-          <div class="gallery-item" data-group="undertale">
-            <img src="images/fanart/ut06.jpg" alt="UNDERTALE 06" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+06'">
+          <div class="gallery-item" data-group="undertale" data-full="images/fanart/ut06.webp">
+            <img src="images/fanart/ut06_thumb.webp" alt="UNDERTALE 06" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+06'">
             <div class="gallery-caption">UNDERTALE 06</div>
           </div>
 
-          <div class="gallery-item" data-group="undertale">
-            <img src="images/fanart/ut07.jpg" alt="UNDERTALE 07" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+07'">
+          <div class="gallery-item" data-group="undertale" data-full="images/fanart/ut07.webp">
+            <img src="images/fanart/ut07_thumb.webp" alt="UNDERTALE 07" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+07'">
             <div class="gallery-caption">UNDERTALE 07</div>
           </div>
 
-          <div class="gallery-item" data-group="undertale">
-            <img src="images/fanart/ut08.jpg" alt="UNDERTALE 08" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+08'">
+          <div class="gallery-item" data-group="undertale" data-full="images/fanart/ut08.webp">
+            <img src="images/fanart/ut08_thumb.webp" alt="UNDERTALE 08" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+08'">
             <div class="gallery-caption">UNDERTALE 08</div>
           </div>
 
-          <div class="gallery-item" data-group="undertale">
-            <img src="images/fanart/ut09.jpg" alt="UNDERTALE 09" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+09'">
+          <div class="gallery-item" data-group="undertale" data-full="images/fanart/ut09.webp">
+            <img src="images/fanart/ut09_thumb.webp" alt="UNDERTALE 09" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+09'">
             <div class="gallery-caption">UNDERTALE 09</div>
           </div>
 
-          <div class="gallery-item" data-group="undertale">
-            <img src="images/fanart/ut10.jpg" alt="UNDERTALE 10" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+10'">
+          <div class="gallery-item" data-group="undertale" data-full="images/fanart/ut10.webp">
+            <img src="images/fanart/ut10_thumb.webp" alt="UNDERTALE 10" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=UT+10'">
             <div class="gallery-caption">UNDERTALE 10</div>
           </div>
 
@@ -845,8 +844,8 @@
         <div class="genre-title">その他ジャンル</div>
         <div class="gallery-grid">
           
-          <div class="gallery-item" data-group="other">
-            <img src="images/fanart/ot01.jpg" alt="モノノ怪 / 薬売り" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=Other+01'">
+          <div class="gallery-item" data-group="other" data-full="images/fanart/ot01.webp">
+            <img src="images/fanart/ot01_thumb.webp" alt="モノノ怪 / 薬売り" onerror="this.src='https://placehold.co/400x400/1c1c26/ffffff?text=Other+01'">
             <div class="gallery-caption">モノノ怪 / 薬売り</div>
           </div>
 
@@ -868,7 +867,7 @@
   <footer>
     <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">∧</div>
     
-    <!-- ★フッターナビ（Originalボタンのリンク先を original.html へ更新）★ -->
+    <!-- フッターナビ -->
     <div class="footer-nav">
       <a href="index.html" class="footer-btn">Home</a>
       <a href="original.html" class="footer-btn">Original</a>
@@ -904,7 +903,7 @@
       
       items.forEach((item, index) => {
         item.addEventListener('click', () => {
-          currentImages = items.map(el => el.querySelector('img').src);
+          currentImages = items.map(el => el.dataset.full || el.querySelector('img').src);
           currentIndex = index;
           openLightbox();
         });

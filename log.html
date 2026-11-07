@@ -9,7 +9,7 @@
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="googlebot" content="noindex, nofollow, noarchive">
 
-  <!-- ファビコン設定 -->
+  <!-- ファビコン設定：互換性維持のためPNGを保持 -->
   <link rel="icon" href="images/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
@@ -42,7 +42,7 @@
 
     body {
       background-color: #8b8e9b;
-      background-image: url('images/bg.jpg');
+      background-image: url('images/bg.webp'); /* ★WebP背景画像★ */
       background-repeat: repeat;
       background-position: center top;
       background-attachment: fixed;
@@ -91,7 +91,7 @@
       cursor: pointer;
     }
 
-    /* 戻るボタン（直前のページへ戻る） */
+    /* 戻るボタン */
     .header-back-btn {
       width: 44px;
       font-size: 2.15rem;
@@ -220,7 +220,7 @@
       box-shadow: 0 0 10px rgba(210, 248, 61, 0.4);
     }
 
-    /* Tumblr風 縦長ログリスト */
+    /* 縦長ログリスト */
     .log-container {
       display: flex;
       flex-direction: column;
@@ -239,7 +239,6 @@
       cursor: pointer;
     }
 
-    /* ★10枚目以降に適用されるスクロールフェードイン初期状態★ */
     .log-item.scroll-reveal {
       opacity: 0;
       transform: translateY(35px);
@@ -247,7 +246,6 @@
       will-change: opacity, transform;
     }
 
-    /* 画面内に入ったときのふわっと出現状態 */
     .log-item.scroll-reveal.is-visible {
       opacity: 1;
       transform: translateY(0);
@@ -272,7 +270,6 @@
       transform: scale(1.015);
     }
 
-    /* 該当なしメッセージ */
     .no-results {
       display: none;
       text-align: center;
@@ -331,6 +328,52 @@
       background: rgba(230, 230, 250, 0.16);
       border-color: #ffffff;
       color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    /* ==================== 右下固定：上に戻る黄緑四角ボタン ==================== */
+    .floating-top-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 46px;
+      height: 46px;
+      background: var(--accent-green);
+      color: #10021c;
+      border: 2px solid #10021c;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 990;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(16px);
+      transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      user-select: none;
+    }
+
+    .floating-top-btn.is-active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .floating-top-btn:hover {
+      background-color: #e0fb73;
+      transform: translateY(-2px);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    .floating-top-btn svg {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.2s ease;
+    }
+
+    .floating-top-btn:hover svg {
       transform: translateY(-2px);
     }
 
@@ -401,6 +444,7 @@
       .gallery-header-inner { padding: 10px 14px; }
       .header-back-btn { width: 40px; height: 36px; font-size: 1.85rem; }
       .header-wavebox-btn { width: 64px; height: 36px; }
+      .header-wavebox-btn svg { width: 19px; height: 19px; }
       .gallery-page-title { font-size: 1.55rem; }
       .main-wrapper { margin: 16px auto 40px; padding: 0 10px; }
       .site-board { padding: 24px 14px 36px 14px; }
@@ -409,6 +453,18 @@
       .log-container { gap: 20px; }
       .footer-nav { flex-direction: column; align-items: center; gap: 10px; }
       .footer-btn { width: 154px; }
+
+      .floating-top-btn {
+        bottom: 20px;
+        right: 18px;
+        width: 40px;
+        height: 40px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+      }
+      .floating-top-btn svg {
+        width: 19px;
+        height: 19px;
+      }
     }
   </style>
 </head>
@@ -433,7 +489,7 @@
       <!-- 案内文 -->
       <div class="log-intro">
         <h1 class="log-intro-title">過去ログ / ラクガキ</h1>
-        <p class="log-intro-desc">タグをタップするとジャンルごとに瞬時に絞り込めます。</p>
+        <p class="log-intro-desc">タグでジャンルごとに絞り込めます。</p>
       </div>
 
       <!-- タグ絞り込みボタン群 -->
@@ -447,162 +503,162 @@
         <button class="tag-btn" data-filter="other">他</button>
       </div>
 
-      <!-- ★全47枚イラストリスト★ -->
+      <!-- ★全47枚イラストリスト（.webp へ更新）★ -->
       <div class="log-container" id="logContainer">
 
         <!-- 01～05: ドラゴンボール -->
         <div class="log-item" data-tags="dragonball">
-          <img src="images/log/log01.jpg" alt="ドラゴンボール ログ 01" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+01'">
+          <img src="images/log/log01.webp" alt="ドラゴンボール ログ 01" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+01'">
         </div>
         <div class="log-item" data-tags="dragonball">
-          <img src="images/log/log02.jpg" alt="ドラゴンボール ログ 02" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+02'">
+          <img src="images/log/log02.webp" alt="ドラゴンボール ログ 02" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+02'">
         </div>
         <div class="log-item" data-tags="dragonball">
-          <img src="images/log/log03.jpg" alt="ドラゴンボール ログ 03" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+03'">
+          <img src="images/log/log03.webp" alt="ドラゴンボール ログ 03" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+03'">
         </div>
         <div class="log-item" data-tags="dragonball">
-          <img src="images/log/log04.jpg" alt="ドラゴンボール ログ 04" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+04'">
+          <img src="images/log/log04.webp" alt="ドラゴンボール ログ 04" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+04'">
         </div>
         <div class="log-item" data-tags="dragonball">
-          <img src="images/log/log05.jpg" alt="ドラゴンボール ログ 05" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+05'">
+          <img src="images/log/log05.webp" alt="ドラゴンボール ログ 05" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+05'">
         </div>
 
         <!-- 06: UNDERTALE -->
         <div class="log-item" data-tags="undertale">
-          <img src="images/log/log06.jpg" alt="UNDERTALE ログ 06" onerror="this.src='https://placehold.co/600x600/181820/ff2bd6?text=Undertale+Log+06'">
+          <img src="images/log/log06.webp" alt="UNDERTALE ログ 06" onerror="this.src='https://placehold.co/600x600/181820/ff2bd6?text=Undertale+Log+06'">
         </div>
 
         <!-- 07～18: 210堂 -->
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log07.jpg" alt="210堂 ログ 07" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+07'">
+          <img src="images/log/log07.webp" alt="210堂 ログ 07" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+07'">
         </div>
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log08.jpg" alt="210堂 ログ 08" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+08'">
+          <img src="images/log/log08.webp" alt="210堂 ログ 08" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+08'">
         </div>
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log09.jpg" alt="210堂 ログ 09" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+09'">
+          <img src="images/log/log09.webp" alt="210堂 ログ 09" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+09'">
         </div>
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log10.jpg" alt="210堂 ログ 10" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+10'">
+          <img src="images/log/log10.webp" alt="210堂 ログ 10" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+10'">
         </div>
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log11.jpg" alt="210堂 ログ 11" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+11'">
+          <img src="images/log/log11.webp" alt="210堂 ログ 11" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+11'">
         </div>
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log12.jpg" alt="210堂 ログ 12" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+12'">
+          <img src="images/log/log12.webp" alt="210堂 ログ 12" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+12'">
         </div>
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log13.jpg" alt="210堂 ログ 13" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+13'">
+          <img src="images/log/log13.webp" alt="210堂 ログ 13" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+13'">
         </div>
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log14.jpg" alt="210堂 ログ 14" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+14'">
+          <img src="images/log/log14.webp" alt="210堂 ログ 14" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+14'">
         </div>
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log15.jpg" alt="210堂 ログ 15" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+15'">
+          <img src="images/log/log15.webp" alt="210堂 ログ 15" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+15'">
         </div>
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log16.jpg" alt="210堂 ログ 16" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+16'">
+          <img src="images/log/log16.webp" alt="210堂 ログ 16" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+16'">
         </div>
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log17.jpg" alt="210堂 ログ 17" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+17'">
+          <img src="images/log/log17.webp" alt="210堂 ログ 17" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+17'">
         </div>
         <div class="log-item" data-tags="nintendo">
-          <img src="images/log/log18.jpg" alt="210堂 ログ 18" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+18'">
+          <img src="images/log/log18.webp" alt="210堂 ログ 18" onerror="this.src='https://placehold.co/600x600/181820/e11d48?text=210+Log+18'">
         </div>
 
         <!-- 19～22: 他 -->
         <div class="log-item" data-tags="other">
-          <img src="images/log/log19.jpg" alt="その他 ログ 19" onerror="this.src='https://placehold.co/600x600/181820/a855f7?text=Other+Log+19'">
+          <img src="images/log/log19.webp" alt="その他 ログ 19" onerror="this.src='https://placehold.co/600x600/181820/a855f7?text=Other+Log+19'">
         </div>
         <div class="log-item" data-tags="other">
-          <img src="images/log/log20.jpg" alt="その他 ログ 20" onerror="this.src='https://placehold.co/600x600/181820/a855f7?text=Other+Log+20'">
+          <img src="images/log/log20.webp" alt="その他 ログ 20" onerror="this.src='https://placehold.co/600x600/181820/a855f7?text=Other+Log+20'">
         </div>
         <div class="log-item" data-tags="other">
-          <img src="images/log/log21.jpg" alt="その他 ログ 21" onerror="this.src='https://placehold.co/600x600/181820/a855f7?text=Other+Log+21'">
+          <img src="images/log/log21.webp" alt="その他 ログ 21" onerror="this.src='https://placehold.co/600x600/181820/a855f7?text=Other+Log+21'">
         </div>
         <div class="log-item" data-tags="other">
-          <img src="images/log/log22.jpg" alt="その他 ログ 22" onerror="this.src='https://placehold.co/600x600/181820/a855f7?text=Other+Log+22'">
+          <img src="images/log/log22.webp" alt="その他 ログ 22" onerror="this.src='https://placehold.co/600x600/181820/a855f7?text=Other+Log+22'">
         </div>
 
         <!-- 23～27: ドラゴンボール -->
         <div class="log-item" data-tags="dragonball">
-          <img src="images/log/log23.jpg" alt="ドラゴンボール ログ 23" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+23'">
+          <img src="images/log/log23.webp" alt="ドラゴンボール ログ 23" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+23'">
         </div>
         <div class="log-item" data-tags="dragonball">
-          <img src="images/log/log24.jpg" alt="ドラゴンボール ログ 24" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+24'">
+          <img src="images/log/log24.webp" alt="ドラゴンボール ログ 24" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+24'">
         </div>
         <div class="log-item" data-tags="dragonball">
-          <img src="images/log/log25.jpg" alt="ドラゴンボール ログ 25" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+25'">
+          <img src="images/log/log25.webp" alt="ドラゴンボール ログ 25" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+25'">
         </div>
         <div class="log-item" data-tags="dragonball">
-          <img src="images/log/log26.jpg" alt="ドラゴンボール ログ 26" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+26'">
+          <img src="images/log/log26.webp" alt="ドラゴンボール ログ 26" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+26'">
         </div>
         <div class="log-item" data-tags="dragonball">
-          <img src="images/log/log27.jpg" alt="ドラゴンボール ログ 27" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+27'">
+          <img src="images/log/log27.webp" alt="ドラゴンボール ログ 27" onerror="this.src='https://placehold.co/600x600/181820/d2f83d?text=DB+Log+27'">
         </div>
 
         <!-- 28～38: 刀剣乱舞 -->
         <div class="log-item" data-tags="touken">
-          <img src="images/log/log28.jpg" alt="刀剣乱舞 ログ 28" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+28'">
+          <img src="images/log/log28.webp" alt="刀剣乱舞 ログ 28" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+28'">
         </div>
         <div class="log-item" data-tags="touken">
-          <img src="images/log/log29.jpg" alt="刀剣乱舞 ログ 29" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+29'">
+          <img src="images/log/log29.webp" alt="刀剣乱舞 ログ 29" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+29'">
         </div>
         <div class="log-item" data-tags="touken">
-          <img src="images/log/log30.jpg" alt="刀剣乱舞 ログ 30" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+30'">
+          <img src="images/log/log30.webp" alt="刀剣乱舞 ログ 30" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+30'">
         </div>
         <div class="log-item" data-tags="touken">
-          <img src="images/log/log31.jpg" alt="刀剣乱舞 ログ 31" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+31'">
+          <img src="images/log/log31.webp" alt="刀剣乱舞 ログ 31" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+31'">
         </div>
         <div class="log-item" data-tags="touken">
-          <img src="images/log/log32.jpg" alt="刀剣乱舞 ログ 32" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+32'">
+          <img src="images/log/log32.webp" alt="刀剣乱舞 ログ 32" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+32'">
         </div>
         <div class="log-item" data-tags="touken">
-          <img src="images/log/log33.jpg" alt="刀剣乱舞 ログ 33" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+33'">
+          <img src="images/log/log33.webp" alt="刀剣乱舞 ログ 33" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+33'">
         </div>
         <div class="log-item" data-tags="touken">
-          <img src="images/log/log34.jpg" alt="刀剣乱舞 ログ 34" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+34'">
+          <img src="images/log/log34.webp" alt="刀剣乱舞 ログ 34" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+34'">
         </div>
         <div class="log-item" data-tags="touken">
-          <img src="images/log/log35.jpg" alt="刀剣乱舞 ログ 35" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+35'">
+          <img src="images/log/log35.webp" alt="刀剣乱舞 ログ 35" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+35'">
         </div>
         <div class="log-item" data-tags="touken">
-          <img src="images/log/log36.jpg" alt="刀剣乱舞 ログ 36" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+36'">
+          <img src="images/log/log36.webp" alt="刀剣乱舞 ログ 36" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+36'">
         </div>
         <div class="log-item" data-tags="touken">
-          <img src="images/log/log37.jpg" alt="刀剣乱舞 ログ 37" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+37'">
+          <img src="images/log/log37.webp" alt="刀剣乱舞 ログ 37" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+37'">
         </div>
         <div class="log-item" data-tags="touken">
-          <img src="images/log/log38.jpg" alt="刀剣乱舞 ログ 38" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+38'">
+          <img src="images/log/log38.webp" alt="刀剣乱舞 ログ 38" onerror="this.src='https://placehold.co/600x600/181820/38bdf8?text=Touken+Log+38'">
         </div>
 
         <!-- 39～47: オリジナル -->
         <div class="log-item" data-tags="original">
-          <img src="images/log/log39.jpg" alt="オリジナル ログ 39" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+39'">
+          <img src="images/log/log39.webp" alt="オリジナル ログ 39" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+39'">
         </div>
         <div class="log-item" data-tags="original">
-          <img src="images/log/log40.jpg" alt="オリジナル ログ 40" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+40'">
+          <img src="images/log/log40.webp" alt="オリジナル ログ 40" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+40'">
         </div>
         <div class="log-item" data-tags="original">
-          <img src="images/log/log41.jpg" alt="オリジナル ログ 41" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+41'">
+          <img src="images/log/log41.webp" alt="オリジナル ログ 41" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+41'">
         </div>
         <div class="log-item" data-tags="original">
-          <img src="images/log/log42.jpg" alt="オリジナル ログ 42" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+42'">
+          <img src="images/log/log42.webp" alt="オリジナル ログ 42" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+42'">
         </div>
         <div class="log-item" data-tags="original">
-          <img src="images/log/log43.jpg" alt="オリジナル ログ 43" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+43'">
+          <img src="images/log/log43.webp" alt="オリジナル ログ 43" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+43'">
         </div>
         <div class="log-item" data-tags="original">
-          <img src="images/log/log44.jpg" alt="オリジナル ログ 44" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+44'">
+          <img src="images/log/log44.webp" alt="オリジナル ログ 44" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+44'">
         </div>
         <div class="log-item" data-tags="original">
-          <img src="images/log/log45.jpg" alt="オリジナル ログ 45" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+45'">
+          <img src="images/log/log45.webp" alt="オリジナル ログ 45" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+45'">
         </div>
         <div class="log-item" data-tags="original">
-          <img src="images/log/log46.jpg" alt="オリジナル ログ 46" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+46'">
+          <img src="images/log/log46.webp" alt="オリジナル ログ 46" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+46'">
         </div>
         <div class="log-item" data-tags="original">
-          <img src="images/log/log47.jpg" alt="オリジナル ログ 47" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+47'">
+          <img src="images/log/log47.webp" alt="オリジナル ログ 47" onerror="this.src='https://placehold.co/600x600/181820/a3e635?text=Original+Log+47'">
         </div>
 
       </div>
@@ -618,11 +674,18 @@
     <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">∧</div>
     <div class="footer-nav">
       <a href="index.html" class="footer-btn">Home</a>
-      <a href="index.html#original" class="footer-btn">Original</a>
+      <a href="original.html" class="footer-btn">Original</a>
       <a href="fanart.html" class="footer-btn">Fanart</a>
     </div>
     <div>2020 - Recolte &copy; True</div>
   </footer>
+
+  <!-- 右下固定：上に戻る黄緑四角ボタン -->
+  <button class="floating-top-btn" id="floatingTopBtn" aria-label="ページ最上部へ戻る">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
 
   <!-- ライトボックス（拡大表示） -->
   <div class="lightbox-modal" id="lightboxModal">
@@ -632,13 +695,12 @@
     </div>
   </div>
 
-  <!-- スクリプト：タグ絞り込み ＆ スクロールフェードイン ＆ ライトボックス制御 -->
+  <!-- スクリプト -->
   <script>
     const tagButtons = document.querySelectorAll('.tag-btn');
     const logItems = document.querySelectorAll('.log-item');
     const noResults = document.getElementById('noResults');
 
-    // ★10枚目（インデックス9）以降の画像にのみスクロール出現アニメーションを登録★
     const revealItems = Array.from(logItems).slice(9);
     revealItems.forEach(item => item.classList.add('scroll-reveal'));
 
@@ -646,18 +708,17 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target); // 一度表示されたら監視解除して軽量化
+          observer.unobserve(entry.target);
         }
       });
     }, {
       root: null,
-      rootMargin: '0px 0px -50px 0px', // 画面下に少し入ったタイミングで発火
+      rootMargin: '0px 0px -50px 0px',
       threshold: 0.05
     });
 
     revealItems.forEach(item => revealObserver.observe(item));
 
-    // タグ絞り込みロジック
     tagButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         tagButtons.forEach(b => b.classList.remove('active'));
@@ -685,7 +746,6 @@
       });
     });
 
-    // ライトボックス拡大表示
     const lightboxModal = document.getElementById('lightboxModal');
     const lightboxImg = document.getElementById('lightboxImg');
     const lightboxClose = document.getElementById('lightboxClose');
@@ -720,6 +780,19 @@
     document.addEventListener('keydown', (e) => {
       if (!lightboxModal.classList.contains('active')) return;
       if (e.key === 'Escape') closeLightbox();
+    });
+
+    const floatingTopBtn = document.getElementById('floatingTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        floatingTopBtn.classList.add('is-active');
+      } else {
+        floatingTopBtn.classList.remove('is-active');
+      }
+    }, { passive: true });
+
+    floatingTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 </body>
