@@ -215,8 +215,6 @@
       width: 100%;
       height: auto;
       display: block;
-      image-rendering: smooth;
-      transform: translateZ(0);
     }
 
     .hero-board-content {
@@ -369,20 +367,14 @@
       background: #1c1c26;
       display: block;
       cursor: pointer;
-      transform: translateZ(0);
     }
 
-    /* 画像のジャギー防止・滑らか補正 */
+    /* ピュア描画（不要なシャープ化・GPU強制を削除） */
     .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.3s ease;
-      image-rendering: smooth;
-      image-rendering: -webkit-optimize-contrast;
-      transform: translateZ(0);
-      backface-visibility: hidden;
     }
 
     .gallery-caption {
@@ -477,7 +469,6 @@
       display: block;
       border: 1px solid #333344;
       background: #1e1e28;
-      image-rendering: smooth;
     }
 
     .thanks-title {
@@ -619,7 +610,6 @@
       border-radius: 4px;
       box-shadow: 0 16px 50px rgba(0, 0, 0, 0.85);
       user-select: none;
-      image-rendering: smooth;
       pointer-events: auto;
     }
 
@@ -818,7 +808,6 @@
     <!-- 【第1ボード】：メインビジュアル ＋ News ＋ About -->
     <article class="site-board hero-board">
       <div class="hero-banner">
-        <!-- ファーストビュー画像は最優先ロード -->
         <img src="images/hero.webp" alt="Recolte Main Visual" onerror="this.src='https://placehold.co/1200x500/181820/a3e635?text=Put+hero.webp+in+images+folder'">
       </div>
 

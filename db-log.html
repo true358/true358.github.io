@@ -189,16 +189,23 @@
       flex-shrink: 0;
     }
 
-    /* ★メイソンリー（縦横比維持・ピンタレスト風段組み）グリッド★ */
+    /* ★Z字順メイソンリーグリッド（Flexbox列コンテナ）★ */
     .masonry-container {
-      column-count: 3;           /* PCブラウザ版：3列 */
-      column-gap: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
       width: 100%;
     }
 
+    .masonry-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+    }
+
     .masonry-item {
-      break-inside: avoid;       /* 画像の途中分割を防止 */
-      margin-bottom: 12px;
       position: relative;
       border-radius: 4px;
       overflow: hidden;
@@ -206,18 +213,13 @@
       background: #1c1c26;
       display: block;
       cursor: pointer;
-      transform: translateZ(0);
     }
 
+    /* 不要なジャギー補正・GPU強制を削除したピュア描画 */
     .masonry-item img {
       width: 100%;
       height: auto;
       display: block;
-      image-rendering: smooth;
-      image-rendering: -webkit-optimize-contrast;
-      transform: translateZ(0);
-      backface-visibility: hidden;
-      transition: transform 0.3s ease;
     }
 
     .masonry-caption {
@@ -404,13 +406,12 @@
       .site-board { padding: 20px 12px 34px 12px; }
       .genre-title { font-size: 1.08rem; margin-bottom: 16px; }
 
-      /* スマホ版2列表示 */
+      /* スマホ版すき間調整 */
       .masonry-container {
-        column-count: 2;
-        column-gap: 8px;
+        gap: 8px;
       }
-      .masonry-item {
-        margin-bottom: 8px;
+      .masonry-col {
+        gap: 8px;
       }
       .masonry-caption {
         font-size: 0.72rem;
@@ -447,7 +448,7 @@
       <!-- 見出し -->
       <div class="genre-title">ドラゴンボールログ</div>
 
-      <!-- ★全21枚 メイソンリーグリッド（遅延読み込み追加）★ -->
+      <!-- ★全21枚 メイソンリーグリッド（Z字順で自動流し込み）★ -->
       <div class="masonry-container">
 
         <!-- 01 -->
@@ -616,10 +617,43 @@
     let currentImages = [];
     let currentIndex = 0;
 
-    const items = Array.from(document.querySelectorAll('.masonry-item'));
-    items.forEach((item, index) => {
+    const masonryContainer = document.querySelector('.masonry-container');
+    const originalItems = Array.from(masonryContainer.querySelectorAll('.masonry-item'));
+
+    // ★ Z字順（左→右）に列へ振り分け配置する処理 ★
+    function renderMasonry() {
+      const cols = window.innerWidth <= 600 ? 2 : 3;
+      masonryContainer.innerHTML = '';
+
+      const colElements = [];
+      for (let i = 0; i < cols; i++) {
+        const col = document.createElement('div');
+        col.className = 'masonry-col';
+        masonryContainer.appendChild(col);
+        colElements.push(col);
+      }
+
+      // インデックス順に各列へ交互に配置（スマホなら 01左, 02右, 03左, 04右...）
+      originalItems.forEach((item, index) => {
+        colElements[index % cols].appendChild(item);
+      });
+    }
+
+    renderMasonry();
+
+    // 画面サイズ変更時に列数を再調整
+    window.addEventListener('resize', () => {
+      const currentCols = masonryContainer.children.length;
+      const newCols = window.innerWidth <= 600 ? 2 : 3;
+      if (currentCols !== newCols) {
+        renderMasonry();
+      }
+    });
+
+    // ★ ライトボックス設定（元の連番順 01〜21 を維持してスライド） ★
+    originalItems.forEach((item, index) => {
       item.addEventListener('click', () => {
-        currentImages = items.map(el => el.querySelector('img').src);
+        currentImages = originalItems.map(el => el.querySelector('img').src);
         currentIndex = index;
         openLightbox();
       });
