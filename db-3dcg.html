@@ -448,9 +448,9 @@
       <!-- ギャラリーグリッド -->
       <div class="gallery-grid">
 
-        <!-- ★ 01: 孫悟空 3DCG（.webp へ更新） ★ -->
+        <!-- 01: 孫悟空 3DCG -->
         <div class="gallery-item" data-full="images/db_cg/cg01.webp">
-          <img src="images/db_cg/cg01_thumb.webp" alt="超サイヤ人 孫悟空" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Goku+3DCG'">
+          <img src="images/db_cg/cg01_thumb.webp" alt="超サイヤ人 孫悟空" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Goku+3DCG'">
           <div class="gallery-caption">超サイヤ人<br>孫悟空</div>
         </div>
 
@@ -497,7 +497,6 @@
     const items = Array.from(document.querySelectorAll('.gallery-item'));
     items.forEach((item, index) => {
       item.addEventListener('click', () => {
-        // ★ data-full属性があればその画像、なければimgのsrcをフォールバックとして使用 ★
         currentImages = items.map(el => el.dataset.full || el.querySelector('img').src);
         currentIndex = index;
         openLightbox();

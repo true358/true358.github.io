@@ -751,7 +751,6 @@
         line-height: 1.45;
       }
 
-      /* スマホ時のバッジサイズ統一 */
       .news-badge {
         min-width: 88px;
         font-size: 0.85rem;
@@ -819,6 +818,7 @@
     <!-- 【第1ボード】：メインビジュアル ＋ News ＋ About -->
     <article class="site-board hero-board">
       <div class="hero-banner">
+        <!-- ファーストビュー画像は最優先ロード -->
         <img src="images/hero.webp" alt="Recolte Main Visual" onerror="this.src='https://placehold.co/1200x500/181820/a3e635?text=Put+hero.webp+in+images+folder'">
       </div>
 
@@ -827,7 +827,7 @@
         <section class="inner-box">
           <div class="news-title">News</div>
           <div class="news-list">
-            <!-- ★ 1. 最新告知：お引越し&リニューアル ★ -->
+            <!-- 1. 最新告知：お引越し&リニューアル -->
             <div class="news-item">
               <span>2026/11/08 : お引越し&amp;リニューアル</span>
               <span class="news-badge">サイト</span>
@@ -871,22 +871,22 @@
         <div class="gallery-grid">
           
           <div class="gallery-item" data-group="original" data-full="images/ori01.webp">
-            <img src="images/ori01_thumb.webp" alt="ご依頼/魔王ロード・ゼノン" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+01'">
+            <img src="images/ori01_thumb.webp" alt="ご依頼/魔王ロード・ゼノン" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+01'">
             <div class="gallery-caption">ご依頼/<br>魔王ロード・ゼノン</div>
           </div>
 
           <div class="gallery-item" data-group="original" data-full="images/ori02.webp">
-            <img src="images/ori02_thumb.webp" alt="ご依頼/音階ぽよよ" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+02'">
+            <img src="images/ori02_thumb.webp" alt="ご依頼/音階ぽよよ" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+02'">
             <div class="gallery-caption">ご依頼/<br>音階ぽよよ</div>
           </div>
 
           <div class="gallery-item" data-group="original" data-full="images/ori03.webp">
-            <img src="images/ori03_thumb.webp" alt="ご依頼/もくずドラゴン(覚醒)" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+03'">
+            <img src="images/ori03_thumb.webp" alt="ご依頼/もくずドラゴン(覚醒)" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+03'">
             <div class="gallery-caption">ご依頼/<br>もくずドラゴン(覚醒)</div>
           </div>
 
           <div class="gallery-item" data-group="original" data-full="images/ori04.webp">
-            <img src="images/ori04_thumb.webp" alt="キャラデザ/ティーチ" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+04'">
+            <img src="images/ori04_thumb.webp" alt="キャラデザ/ティーチ" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Original+04'">
             <div class="gallery-caption">キャラデザ/<br>ティーチ</div>
           </div>
 
@@ -905,22 +905,22 @@
         <div class="gallery-grid">
 
           <div class="gallery-item" data-group="fanart" data-full="images/fan01.webp">
-            <img src="images/fan01_thumb.webp" alt="DB夢/お酒を言い訳にできない" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+01'">
+            <img src="images/fan01_thumb.webp" alt="DB夢/お酒を言い訳にできない" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+01'">
             <div class="gallery-caption">DB夢/お酒を言い訳に<br>できない</div>
           </div>
 
           <div class="gallery-item" data-group="fanart" data-full="images/fan02.webp">
-            <img src="images/fan02_thumb.webp" alt="DB夢/果てなき刻(とき)のその先で" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+02'">
+            <img src="images/fan02_thumb.webp" alt="DB夢/果てなき刻(とき)のその先で" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+02'">
             <div class="gallery-caption">DB夢/果てなき刻(とき)の<br>その先で</div>
           </div>
 
           <div class="gallery-item" data-group="fanart" data-full="images/fan03.webp">
-            <img src="images/fan03_thumb.webp" alt="ドラゴンボール/DBTBlog" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+03'">
+            <img src="images/fan03_thumb.webp" alt="ドラゴンボール/DBTBlog" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+03'">
             <div class="gallery-caption">ドラゴンボール/<br>DBTBlog</div>
           </div>
 
           <div class="gallery-item" data-group="fanart" data-full="images/fan04.webp">
-            <img src="images/fan04_thumb.webp" alt="ドラゴンボール/フレンドアバター" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+04'">
+            <img src="images/fan04_thumb.webp" alt="ドラゴンボール/フレンドアバター" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/600x600/1c1c26/ffffff?text=Fanart+04'">
             <div class="gallery-caption">ドラゴンボール/<br>フレンドアバター</div>
           </div>
 
@@ -940,8 +940,8 @@
           URL : <span class="link-url">https://true358.github.io/</span>
           
           <div class="link-banners">
-            <img src="images/banner1.webp" alt="Recolte Banner 1" class="link-banner-img" onerror="this.src='https://placehold.co/200x40/1a1a24/d2f83d?text=Banner+Lie'">
-            <img src="images/banner2.webp" alt="Recolte Banner 2" class="link-banner-img" onerror="this.src='https://placehold.co/200x40/1a1a24/d2f83d?text=Banner+Cell'">
+            <img src="images/banner1.webp" alt="Recolte Banner 1" class="link-banner-img" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/200x40/1a1a24/d2f83d?text=Banner+Lie'">
+            <img src="images/banner2.webp" alt="Recolte Banner 2" class="link-banner-img" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/200x40/1a1a24/d2f83d?text=Banner+Cell'">
           </div>
 
           <div class="thanks-title">★Thanks!</div>
