@@ -208,6 +208,7 @@
       gap: 14px;
     }
 
+    /* ★サムネイル枠：黄緑ネオン発光 ＋ 浮遊アニメーション */
     .gallery-item {
       position: relative;
       width: 100%;
@@ -218,9 +219,18 @@
       background: #1c1c26;
       display: block;
       cursor: pointer;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
     }
 
-    /* ピュア描画（不要なシャープ化・GPU強制を削除） */
+    /* ★ホバー時：黄緑ネオン発光 ＋ 2px浮遊 */
+    .gallery-item:hover {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 4px rgba(210, 248, 61, 0.55),
+                  0 0 10px rgba(210, 248, 61, 0.18);
+      transform: translateY(-2px);
+    }
+
+    /* ピュア描画 */
     .gallery-item img {
       width: 100%;
       height: 100%;
@@ -228,6 +238,7 @@
       display: block;
     }
 
+    /* ★黒幕＆タイトルキャプション */
     .gallery-caption {
       position: absolute;
       top: 0;
@@ -247,8 +258,10 @@
       opacity: 0;
       transition: opacity 0.25s ease;
       word-break: break-word;
+      pointer-events: none; /* クリック操作を阻害しない */
     }
 
+    /* ★ホバー時に黒幕とタイトルをフェードイン */
     .gallery-item:hover .gallery-caption {
       opacity: 1;
     }
@@ -472,10 +485,10 @@
         <div class="genre-title">DB夢絵</div>
         <div class="gallery-grid">
           
-          <!-- DB夢絵 01 -->
+          <!-- DB夢絵 01（ライ(夢主)） -->
           <div class="gallery-item" data-group="dream" data-full="images/db_dream/dream01.webp">
-            <img src="images/db_dream/dream01_thumb.webp" alt="DB夢絵 01" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Dream+01'">
-            <div class="gallery-caption">DB夢絵 01</div>
+            <img src="images/db_dream/dream01_thumb.webp" alt="ライ(夢主)" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Dream+01'">
+            <div class="gallery-caption">ライ(夢主)</div>
           </div>
 
         </div>
@@ -583,25 +596,40 @@
     lightboxModal.addEventListener('touchend', (e) => {
       touchEndX = e.changedTouches[0].clientX;
       touchEndY = e.changedTouches[0].clientY;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
       const diffX = touchEndX - touchStartX;
       const diffY = touchEndY - touchStartY;
+      
       if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
         isSwiped = true;
-        if (diffX < 0) showNext();
-        else showPrev();
+        if (diffX < 0) {
+          showNext();
+        } else {
+          showPrev();
+        }
       }
-    }, { passive: true });
+    }
 
     lightboxModal.addEventListener('click', (e) => {
       if (e.target.closest('#lightboxClose')) return;
+
       if (window.innerWidth <= 600) {
         if (isSwiped) {
           isSwiped = false;
           return;
         }
+
         const clickX = e.clientX;
-        if (clickX < window.innerWidth / 2) showPrev();
-        else showNext();
+        const screenMiddle = window.innerWidth / 2;
+
+        if (clickX < screenMiddle) {
+          showPrev();
+        } else {
+          showNext();
+        }
       } else {
         if (e.target === lightboxModal || e.target.id === 'lightboxContent') {
           closeLightbox();

@@ -242,6 +242,7 @@
       margin-bottom: 26px;
     }
 
+    /* サムネイル */
     .gallery-item {
       position: relative;
       width: 100%;
@@ -252,9 +253,18 @@
       background: #1c1c26;
       display: block;
       cursor: pointer;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
     }
 
-    /* ピュア描画（不要なシャープ化・GPU強制を削除） */
+    /* ホバー時：上品な黄緑ネオン発光 ＋ ほんのり浮遊演出 */
+    .gallery-item:hover {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 4px rgba(210, 248, 61, 0.55),
+                  0 0 10px rgba(210, 248, 61, 0.18);
+      transform: translateY(-2px);
+    }
+
+    /* ピュア描画 */
     .gallery-item img {
       width: 100%;
       height: 100%;
@@ -262,6 +272,7 @@
       display: block;
     }
 
+    /* キャプションベース（初期状態は透明） */
     .gallery-caption {
       position: absolute;
       top: 0;
@@ -281,9 +292,11 @@
       opacity: 0;
       transition: opacity 0.25s ease;
       word-break: break-word;
+      pointer-events: none; /* クリックを阻害しない */
     }
 
-    .gallery-item:hover .gallery-caption {
+    /* ★「その他ジャンル（#other）」のみホバー時にタイトル黒幕を表示 */
+    #other .gallery-item:hover .gallery-caption {
       opacity: 1;
     }
 
@@ -708,7 +721,7 @@
           </div>
         </div>
 
-        <!-- DB夢（夢小説・イラスト） -->
+        <!-- DB夢（男主×セル） -->
         <div class="sub-group">
           <div class="sub-title">DB夢（男主×セル）</div>
           <div class="sub-buttons">
@@ -957,25 +970,40 @@
     lightboxModal.addEventListener('touchend', (e) => {
       touchEndX = e.changedTouches[0].clientX;
       touchEndY = e.changedTouches[0].clientY;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
       const diffX = touchEndX - touchStartX;
       const diffY = touchEndY - touchStartY;
+      
       if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
         isSwiped = true;
-        if (diffX < 0) showNext();
-        else showPrev();
+        if (diffX < 0) {
+          showNext();
+        } else {
+          showPrev();
+        }
       }
-    }, { passive: true });
+    }
 
     lightboxModal.addEventListener('click', (e) => {
       if (e.target.closest('#lightboxClose')) return;
+
       if (window.innerWidth <= 600) {
         if (isSwiped) {
           isSwiped = false;
           return;
         }
+
         const clickX = e.clientX;
-        if (clickX < window.innerWidth / 2) showPrev();
-        else showNext();
+        const screenMiddle = window.innerWidth / 2;
+
+        if (clickX < screenMiddle) {
+          showPrev();
+        } else {
+          showNext();
+        }
       } else {
         if (e.target === lightboxModal || e.target.id === 'lightboxContent') {
           closeLightbox();

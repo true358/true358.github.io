@@ -2,9 +2,9 @@
    Recolte: タップエフェクト (js/effect.js)
 ========================================== */
 document.addEventListener('pointerdown', (e) => {
-  // リンク、ボタン、画像全般、各ページ特有のサムネクラスを完全網羅！
+  // リンク、ボタン、画像、サムネイル、そして【タグバッジ・ピルボタン】を完全網羅！
   const isInteractive = e.target.closest(
-    'a, button, input, label, img, .gallery-item, .log-item, .masonry-item, [data-full], .back-to-top, .header-btn, .tag-btn, .date-pill, .tag-pill'
+    'a, button, input, label, img, .gallery-item, .log-item, .masonry-item, [data-full], .back-to-top, .header-btn, .tag-btn, .date-pill, .tag-pill, .memo-tag, .pill-btn, .reset-btn'
   );
 
   if (isInteractive) {

@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memo - Recolte</title>
+
+  <!-- 検索避け・クローラー完全遮断タグ -->
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="googlebot" content="noindex, nofollow, noarchive">
+
+  <!-- ファビコン設定 -->
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+  <!-- タップエフェクト用外部CSS -->
+  <link rel="stylesheet" href="css/effect.css">
+
+  <style>
+    /* --- 基本設定（index.html / fanart.htmlと完全統一） --- */
+    :root {
+      --board-width: 1040px;
+      --bg-board: #111115;
+      --border-color: #24242e;
+      --accent-green: #d2f83d;
+      --accent-cyan: #38bdf8;
+      --text-main: #eeeeee;
+      --text-sub: #d4d9dc;
+      --badge-bg: #4a4a58;
+      
+      --btn-gray: #565568;      /* ボタン通常時の背景色 */
+      --btn-purple: #7e22ce;    /* ヘッダー紫 */
+      --memo-card-bg: #16161d;  /* メモカードの背景 */
+      --line-gray: #565568;     /* 明るく見やすい灰色の境界線 */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #8b8e9b;
+      background-image: url('images/bg.webp');
+      background-repeat: repeat;
+      background-position: center top;
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", sans-serif;
+      font-size: 18px;
+      line-height: 1.85;
+      letter-spacing: 0.04em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    /* --- ヘッダー --- */
+    header {
+      background: linear-gradient(135deg, #7e22ce 0%, #10021c 100%);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .gallery-header-inner {
+      max-width: var(--board-width);
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .header-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      background: var(--btn-gray);
+      border: 2px solid transparent;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .header-back-btn {
+      width: 44px;
+      font-size: 2.15rem;
+      font-weight: 700;
+      color: #14141c;
+      border-color: #14141c;
+      line-height: 1;
+      padding-bottom: 2px;
+    }
+
+    .header-back-btn:hover {
+      background: var(--accent-green);
+      border-color: #14141c;
+      color: #14141c;
+      transform: scale(1.05);
+    }
+
+    .header-filter-btn {
+      width: 76px;
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      gap: 5px;
+      border: 2px solid transparent;
+      background: var(--btn-gray);
+    }
+
+    .header-filter-btn svg {
+      width: 17px;
+      height: 17px;
+      transition: transform 0.2s ease;
+    }
+
+    .header-filter-btn:hover {
+      background: var(--accent-green);
+      border-color: #14141c;
+      color: #14141c;
+      transform: scale(1.05);
+    }
+
+    .header-filter-btn.active {
+      background: var(--accent-green);
+      border-color: #14141c;
+      color: #14141c;
+    }
+
+    .header-filter-btn:hover svg,
+    .header-filter-btn.active svg {
+      transform: scale(1.1);
+    }
+
+    .gallery-page-title {
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #ffffff;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .gallery-page-title .accent {
+      color: var(--accent-green);
+    }
+
+    /* --- メインコンテナ --- */
+    .main-wrapper {
+      max-width: var(--board-width);
+      margin: 40px auto 80px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 52px;
+    }
+
+    .site-board {
+      background: var(--bg-board);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      padding: 38px 44px 50px;
+      position: relative;
+    }
+
+    /* アコーディオン式 隠しフィルターパネル */
+    .filter-panel {
+      display: none;
+      background: #0a0a0e;
+      border: 1px solid var(--line-gray);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 32px;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .filter-panel.open {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .filter-group {
+      margin-bottom: 18px;
+    }
+
+    .filter-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .filter-group-label {
+      font-size: 0.88rem;
+      color: var(--accent-green);
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .pill-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill-btn {
+      background: #1a1a24;
+      color: var(--text-main);
+      border: 1px solid #333344;
+      border-radius: 9999px;
+      padding: 4px 16px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn:hover,
+    .pill-btn.active {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+      color: #000;
+      font-weight: 700;
+    }
+
+    .filter-status-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(210, 248, 61, 0.08);
+      border-left: 3px solid var(--accent-green);
+      padding: 10px 16px;
+      margin-bottom: 28px;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.95rem;
+    }
+
+    .reset-btn {
+      background: none;
+      border: none;
+      color: var(--accent-green);
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    /* --- メモ記事リスト --- */
+    .memo-list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .memo-card {
+      background: var(--memo-card-bg);
+      border: 1px solid var(--line-gray);
+      border-radius: 8px;
+      padding: 28px 32px;
+      position: relative;
+      transition: border-color 0.2s ease;
+    }
+
+    .memo-card:hover {
+      border-color: #727188;
+    }
+
+    .memo-card.scroll-reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .memo-card.scroll-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .memo-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--line-gray);
+      padding-bottom: 12px;
+    }
+
+    .memo-date {
+      font-family: Consolas, Menlo, Monaco, monospace;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      letter-spacing: 0.05em;
+    }
+
+    .memo-tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .memo-tag {
+      display: inline-block;
+      background: var(--btn-gray);
+      color: #fff;
+      font-size: 0.82rem;
+      padding: 2px 12px;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .memo-tag:hover {
+      opacity: 0.85;
+    }
+
+    /* 本文＆通常画像 */
+    .memo-content {
+      font-size: 1.02rem;
+      line-height: 1.85;
+      color: var(--text-main);
+      word-break: break-word;
+    }
+
+    .memo-content p {
+      margin-bottom: 1em;
+    }
+
+    .memo-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .memo-content a {
+      color: var(--accent-cyan);
+      text-decoration: underline;
+    }
+
+    .memo-content a:hover {
+      opacity: 0.8;
+    }
+
+    .memo-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin: 14px 0;
+      border: 1px solid #2a2a38;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .memo-content img:hover {
+      transform: scale(1.01);
+    }
+
+    /* 小さめ表示（幅50%＆中央揃え） */
+    .memo-content img.img-small {
+      max-width: 50% !important;
+      margin: 14px auto !important;
+      display: block;
+    }
+
+    /* 2列横並びグリッド（正方形タイル） */
+    .memo-img-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .memo-img-grid img {
+      width: 100% !important;
+      max-width: 100% !important;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      margin: 0 !important;
+    }
+
+    /* 「続きを読む」ボタン */
+    .memo-more-toggle-wrap {
+      margin-top: 16px;
+      padding-top: 10px;
+    }
+
+    .memo-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #000;
+      color: var(--accent-green);
+      border: 1.5px solid var(--accent-green);
+      border-radius: 9999px;
+      padding: 4px 18px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .memo-more-btn:hover {
+      background: var(--accent-green);
+      color: #000;
+      transform: translateY(-1px);
+    }
+
+    .memo-more-area {
+      display: none;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line-gray);
+      animation: fadeIn 0.28s ease;
+    }
+
+    .memo-more-area.open {
+      display: block;
+    }
+
+    .load-more-wrap {
+      text-align: center;
+      margin-top: 36px;
+    }
+
+    .load-more-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #000;
+      color: var(--accent-green);
+      border: 2px solid var(--accent-green);
+      border-radius: 9999px;
+      padding: 10px 42px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      user-select: none;
+    }
+
+    .load-more-btn:hover {
+      background: var(--accent-green);
+      color: #10021c;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(210, 248, 61, 0.35);
+    }
+
+    .memo-status {
+      text-align: center;
+      padding: 60px 0;
+      color: var(--text-sub);
+      font-size: 1.1rem;
+    }
+
+    /* 右下固定：上に戻る黄緑四角ボタン */
+    .floating-top-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 46px;
+      height: 46px;
+      background: var(--accent-green);
+      color: #10021c;
+      border: 2px solid #10021c;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 990;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(16px);
+      transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      user-select: none;
+    }
+
+    .floating-top-btn.is-active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .floating-top-btn:hover {
+      background-color: #e0fb73;
+      transform: translateY(-2px);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    .floating-top-btn svg {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.2s ease;
+    }
+
+    .floating-top-btn:hover svg {
+      transform: translateY(-2px);
+    }
+
+    /* ==================== ライトボックス（純粋単体拡大表示） ==================== */
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(12, 12, 16, 0.94);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      user-select: none;
+      cursor: zoom-out;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .lightbox-content img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.85);
+      user-select: none;
+      pointer-events: auto;
+      cursor: default;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 2.6rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 1010;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .lightbox-close:hover {
+      opacity: 0.75;
+      transform: scale(1.1);
+    }
+
+    /* フッター */
+    footer {
+      text-align: center;
+      padding: 10px 0 60px;
+      font-size: 0.88rem;
+      color: #e6e6fa;
+    }
+
+    footer a {
+      color: #e6e6fa;
+    }
+
+    .back-to-top {
+      display: inline-block;
+      font-size: 3rem;
+      line-height: 1;
+      color: #e6e6fa;
+      margin-bottom: 24px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-4px);
+    }
+
+    /* スマホ表示 */
+    @media (max-width: 600px) {
+      .gallery-header-inner {
+        padding: 10px 14px;
+      }
+      .header-back-btn {
+        width: 40px;
+        height: 36px;
+        font-size: 1.85rem;
+      }
+      .header-filter-btn {
+        width: 64px;
+        height: 36px;
+        font-size: 0.78rem;
+        gap: 3px;
+      }
+      .header-filter-btn svg {
+        width: 14px;
+        height: 14px;
+      }
+      .gallery-page-title {
+        font-size: 1.55rem;
+      }
+      .main-wrapper {
+        margin: 16px auto 40px;
+        padding: 0 10px;
+      }
+      .site-board {
+        padding: 24px 14px 36px;
+      }
+      .filter-panel {
+        padding: 18px 14px;
+      }
+      .memo-card {
+        padding: 18px 14px;
+      }
+      .memo-date {
+        font-size: 1.08rem;
+      }
+      .memo-content {
+        font-size: 0.95rem;
+      }
+
+      .memo-content img.img-small {
+        max-width: 65% !important;
+        margin: 12px auto !important;
+      }
+
+      .memo-img-grid {
+        gap: 6px;
+      }
+
+      .back-to-top {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+      .memo-more-btn {
+        font-size: 0.82rem;
+        padding: 4px 14px;
+      }
+      .load-more-btn {
+        font-size: 0.95rem;
+        padding: 8px 32px;
+      }
+      .lightbox-close {
+        top: 16px;
+        right: 18px;
+        font-size: 2.2rem;
+      }
+
+      .floating-top-btn {
+        bottom: 20px;
+        right: 18px;
+        width: 40px;
+        height: 40px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+      }
+      .floating-top-btn svg {
+        width: 19px;
+        height: 19px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header>
+    <div class="gallery-header-inner">
+      <a href="index.html" class="header-icon-btn header-back-btn" aria-label="トップページへ戻る">‹</a>
+      <div class="gallery-page-title"><span class="accent">M</span>emo</div>
+      <button class="header-icon-btn header-filter-btn" id="filterToggleBtn" aria-label="フィルターを開閉">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+        </svg>
+        <span>Filter</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <div class="main-wrapper">
+    <article class="site-board">
+
+      <!-- アコーディオン式 隠しフィルターパネル -->
+      <div class="filter-panel" id="filterPanel">
+        <div class="filter-group">
+          <div class="filter-group-label">YEAR</div>
+          <div class="pill-container" id="yearPillContainer"></div>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-label">TAG</div>
+          <div class="pill-container" id="tagPillContainer"></div>
+        </div>
+      </div>
+
+      <!-- 絞り込み中の状態バー -->
+      <div class="filter-status-bar" id="filterStatusBar">
+        <div><span id="currentFilterText">すべての記事</span> (<span id="matchCount">0</span>件)</div>
+        <button class="reset-btn" id="resetFilterBtn">解除する</button>
+      </div>
+
+      <!-- メモ一覧を描画するコンテナ -->
+      <div class="memo-list" id="memoList">
+        <div class="memo-status" id="loadingStatus">データを読み込み中...</div>
+      </div>
+
+      <!-- 「さらに読み込む」ボタンエリア -->
+      <div class="load-more-wrap" id="loadMoreWrap" style="display: none;">
+        <button class="load-more-btn" id="loadMoreBtn">
+          <span>MORE</span> ▾
+        </button>
+      </div>
+
+    </article>
+  </div>
+
+  <!-- フッター -->
+  <footer>
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">∧</div>
+    <div>2020 - Recolte  &copy; True</div>
+    <div style="margin-top: 6px;"><a href="privacy.html" style="text-decoration: underline;">プライバシーポリシー</a></div>
+  </footer>
+
+  <!-- 右下固定：上に戻る黄緑四角ボタン -->
+  <button class="floating-top-btn" id="floatingTopBtn" aria-label="ページ最上部へ戻る">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <!-- ライトボックス（純粋単体拡大表示） -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <button class="lightbox-close" id="lightboxClose" aria-label="閉じる">✕</button>
+    <div class="lightbox-content" id="lightboxContent">
+      <img src="" alt="" id="lightboxImg">
+    </div>
+  </div>
+
+  <!-- スクリプト -->
+  <script>
+    /* ========================================================
+       1. microCMS 連携設定 ＆ 表示件数設定
+    ======================================================== */
+    const SERVICE_DOMAIN = 'recolte';
+    const ENDPOINT = 'memo';
+    const API_KEY = 'WSK7wZ6cGxOeygXycoWRAdi6HqtMQe3Eiwdy'; 
+
+    const PAGE_SIZE = 10;
+
+    /* ========================================================
+       2. DOM要素の取得
+    ======================================================== */
+    const filterToggleBtn = document.getElementById('filterToggleBtn');
+    const filterPanel = document.getElementById('filterPanel');
+    const yearContainer = document.getElementById('yearPillContainer');
+    const tagContainer = document.getElementById('tagPillContainer');
+    const memoList = document.getElementById('memoList');
+    const loadingStatus = document.getElementById('loadingStatus');
+    const filterStatusBar = document.getElementById('filterStatusBar');
+    const currentFilterText = document.getElementById('currentFilterText');
+    const matchCount = document.getElementById('matchCount');
+    const resetFilterBtn = document.getElementById('resetFilterBtn');
+
+    const loadMoreWrap = document.getElementById('loadMoreWrap');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+    // ライトボックス関連DOM
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    filterToggleBtn.addEventListener('click', () => {
+      const isOpen = filterPanel.classList.toggle('open');
+      filterToggleBtn.classList.toggle('active', isOpen);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    let allMemos = [];
+    let filteredMemos = [];
+    let displayedCount = 0;
+    let currentFilter = { type: null, value: null };
+
+    function parseTags(tagStr) {
+      if (!tagStr || typeof tagStr !== 'string') return [];
+      return tagStr.split(/[,、\s]+/).map(t => t.trim()).filter(t => t !== '');
+    }
+
+    /* ========================================================
+       3. スクロール浮遊監視（IntersectionObserver）
+    ======================================================== */
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '0px 0px -50px 0px',
+      threshold: 0.05
+    });
+
+    /* ========================================================
+       4. microCMS からデータ取得
+    ======================================================== */
+    async function fetchMemos() {
+      try {
+        const res = await fetch(`https://${SERVICE_DOMAIN}.microcms.io/api/v1/${ENDPOINT}?limit=100`, {
+          headers: {
+            'X-MICROCMS-API-KEY': API_KEY
+          }
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        allMemos = data.contents;
+
+        allMemos.sort((a, b) => {
+          const dateA = new Date(a.date || a.publishedAt);
+          const dateB = new Date(b.date || b.publishedAt);
+          return dateB - dateA;
+        });
+
+        if (allMemos.length === 0) {
+          memoList.innerHTML = '<div class="memo-status">まだ投稿がありません。</div>';
+          loadMoreWrap.style.display = 'none';
+          return;
+        }
+
+        buildFilterPills();
+
+        /* ★URLパラメータ（?tag=お返事 や ?year=2026 など）を検知して自動絞り込み★ */
+        const urlParams = new URLSearchParams(window.location.search);
+        const tagParam = urlParams.get('tag');
+        const yearParam = urlParams.get('year');
+
+        if (tagParam) {
+          applyFilter('tag', tagParam);
+        } else if (yearParam) {
+          applyFilter('year', isNaN(yearParam) ? yearParam : Number(yearParam));
+        } else {
+          initRender(allMemos);
+        }
+
+      } catch (err) {
+        console.error('microCMS 取得エラー:', err);
+        memoList.innerHTML = '<div class="memo-status" style="color: #ff6b6b;">データの取得に失敗しました。<br>APIキーの設定を確認してください。</div>';
+        loadMoreWrap.style.display = 'none';
+      }
+    }
+
+    /* ========================================================
+       5. 年別＆タグ別のピルボタン自動生成
+    ======================================================== */
+    function buildFilterPills() {
+      const singleYears = new Set();
+      let hasArchivedYears = false;
+      const tags = new Set();
+
+      allMemos.forEach(item => {
+        const d = new Date(item.date || item.publishedAt);
+        const y = d.getFullYear();
+        if (!isNaN(y)) {
+          if (y >= 2020 && y <= 2024) {
+            hasArchivedYears = true;
+          } else {
+            singleYears.add(y);
+          }
+        }
+        
+        const itemTags = parseTags(item.tag);
+        itemTags.forEach(t => tags.add(t));
+      });
+
+      yearContainer.innerHTML = '';
+
+      Array.from(singleYears).sort((a, b) => b - a).forEach(year => {
+        const btn = document.createElement('button');
+        btn.className = 'pill-btn';
+        btn.textContent = year;
+        btn.addEventListener('click', () => applyFilter('year', year));
+        yearContainer.appendChild(btn);
+      });
+
+      if (hasArchivedYears) {
+        const rangeBtn = document.createElement('button');
+        rangeBtn.className = 'pill-btn';
+        rangeBtn.textContent = '2024〜2020';
+        rangeBtn.addEventListener('click', () => applyFilter('year', '2024〜2020'));
+        yearContainer.appendChild(rangeBtn);
+      }
+
+      tagContainer.innerHTML = '';
+      if (tags.size === 0) {
+        tagContainer.innerHTML = '<span style="font-size:0.85rem; color:#888;">タグなし</span>';
+      } else {
+        Array.from(tags).forEach(tag => {
+          const btn = document.createElement('button');
+          btn.className = 'pill-btn';
+          btn.textContent = `#${tag}`;
+          btn.addEventListener('click', () => applyFilter('tag', tag));
+          tagContainer.appendChild(btn);
+        });
+      }
+    }
+
+    /* ========================================================
+       6. 画像レイアウト自動整形関数（小さめ＆横並び）
+    ======================================================== */
+    function applyCustomImageLayouts(container) {
+      container.querySelectorAll('.memo-content').forEach(content => {
+        // 小さめ画像の判定
+        content.querySelectorAll('img').forEach(img => {
+          const alt = (img.getAttribute('alt') || '').toLowerCase();
+          if (alt.includes('小') || alt.includes('small')) {
+            img.classList.add('img-small');
+          }
+        });
+
+        // 横並び画像の判定
+        const gridImgs = Array.from(content.querySelectorAll('img')).filter(img => {
+          const alt = (img.getAttribute('alt') || '').toLowerCase();
+          return alt.includes('横') || alt.includes('grid');
+        });
+
+        if (gridImgs.length >= 2) {
+          let currentGrid = null;
+          gridImgs.forEach(img => {
+            const parentP = img.closest('p') || img.parentElement;
+            if (!currentGrid) {
+              currentGrid = document.createElement('div');
+              currentGrid.className = 'memo-img-grid';
+              parentP.parentNode.insertBefore(currentGrid, parentP);
+            }
+            currentGrid.appendChild(img);
+            if (parentP && parentP.children.length === 0 && parentP.textContent.trim() === '') {
+              parentP.remove();
+            }
+          });
+        }
+      });
+    }
+
+    /* ========================================================
+       7. 記事一覧の段階的レンダリング
+    ======================================================== */
+    function initRender(items) {
+      filteredMemos = items;
+      displayedCount = 0;
+      memoList.innerHTML = '';
+
+      if (filteredMemos.length === 0) {
+        memoList.innerHTML = '<div class="memo-status">該当する記事がありません。</div>';
+        loadMoreWrap.style.display = 'none';
+        return;
+      }
+
+      renderNextChunk(true);
+    }
+
+    function renderNextChunk(isInitial = false) {
+      const nextItems = filteredMemos.slice(displayedCount, displayedCount + PAGE_SIZE);
+
+      nextItems.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'memo-card';
+
+        if (!isInitial || idx >= 5) {
+          card.classList.add('scroll-reveal');
+          revealObserver.observe(card);
+        }
+
+        const d = new Date(item.date || item.publishedAt);
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        const dateStr = `${yyyy}/${mm}/${dd}`;
+
+        const itemTags = parseTags(item.tag);
+        let tagHtml = '';
+        if (itemTags.length > 0) {
+          tagHtml = `<div class="memo-tags-wrap">` + 
+            itemTags.map(t => `<span class="memo-tag" onclick="applyFilter('tag', '${t}')">#${t}</span>`).join('') +
+            `</div>`;
+        }
+
+        let moreHtml = '';
+        if (item.more && item.more.trim() !== '') {
+          moreHtml = `
+            <div class="memo-more-toggle-wrap">
+              <button class="memo-more-btn" onclick="toggleMore(this)">
+                <span>続きを読む</span> ▾
+              </button>
+              <div class="memo-more-area memo-content">
+                ${item.more}
+              </div>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="memo-meta">
+            <div class="memo-date">${dateStr}</div>
+            ${tagHtml}
+          </div>
+          <div class="memo-content">${item.content || ''}</div>
+          ${moreHtml}
+        `;
+
+        memoList.appendChild(card);
+      });
+
+      applyCustomImageLayouts(memoList);
+
+      displayedCount += nextItems.length;
+
+      if (displayedCount < filteredMemos.length) {
+        loadMoreWrap.style.display = 'block';
+      } else {
+        loadMoreWrap.style.display = 'none';
+      }
+    }
+
+    loadMoreBtn.addEventListener('click', () => {
+      renderNextChunk(false);
+    });
+
+    /* ========================================================
+       8. 「続きを読む」の開閉関数
+    ======================================================== */
+    function toggleMore(btn) {
+      const area = btn.nextElementSibling;
+      const isOpen = area.classList.toggle('open');
+      btn.innerHTML = isOpen ? '<span>閉じる</span> ▴' : '<span>続きを読む</span> ▾';
+    }
+
+    /* ========================================================
+       9. 単体画像拡大ライトボックス（前後送り・スワイプなし）
+    ======================================================== */
+    memoList.addEventListener('click', (e) => {
+      const img = e.target.closest('.memo-content img, .memo-img-grid img');
+      if (!img) return;
+
+      lightboxImg.src = img.src;
+      lightboxModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeLightbox() {
+      lightboxModal.classList.remove('active');
+      document.body.style.overflow = '';
+      lightboxImg.src = '';
+    }
+
+    // ✕ボタンで閉じる
+    lightboxClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeLightbox();
+    });
+
+    // モーダル背景部分のクリックで閉じる（画像本体クリックでは閉じない）
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal || e.target.id === 'lightboxContent') {
+        closeLightbox();
+      }
+    });
+
+    // Escキーで閉じる
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+
+    /* ========================================================
+       10. フィルター絞り込み機能
+    ======================================================== */
+    function applyFilter(type, value) {
+      currentFilter = { type, value };
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      let filtered = [];
+      if (type === 'year') {
+        if (value === '2024〜2020') {
+          filtered = allMemos.filter(item => {
+            const y = new Date(item.date || item.publishedAt).getFullYear();
+            return y >= 2020 && y <= 2024;
+          });
+          currentFilterText.textContent = '2024年〜2020年の記事';
+        } else {
+          filtered = allMemos.filter(item => {
+            const y = new Date(item.date || item.publishedAt).getFullYear();
+            return y === value;
+          });
+          currentFilterText.textContent = `${value}年の記事`;
+        }
+      } else if (type === 'tag') {
+        filtered = allMemos.filter(item => {
+          const itemTags = parseTags(item.tag);
+          return itemTags.includes(value);
+        });
+        currentFilterText.textContent = `#${value}`;
+      }
+
+      document.querySelectorAll('.pill-btn').forEach(btn => {
+        if ((type === 'year' && btn.textContent == value) || (type === 'tag' && btn.textContent === `#${value}`)) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      filterStatusBar.style.display = 'flex';
+      matchCount.textContent = filtered.length;
+      initRender(filtered);
+    }
+
+    resetFilterBtn.addEventListener('click', () => {
+      currentFilter = { type: null, value: null };
+      document.querySelectorAll('.pill-btn').forEach(btn => btn.classList.remove('active'));
+      filterStatusBar.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      initRender(allMemos);
+    });
+
+    /* ========================================================
+       11. 右下固定：上に戻る黄緑四角ボタン制御
+    ======================================================== */
+    const floatingTopBtn = document.getElementById('floatingTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        floatingTopBtn.classList.add('is-active');
+      } else {
+        floatingTopBtn.classList.remove('is-active');
+      }
+    }, { passive: true });
+
+    floatingTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    fetchMemos();
+  </script>
+
+  <!-- タップエフェクト用外部JS -->
+  <script src="js/effect.js"></script>
+</body>
+</html>

@@ -200,6 +200,7 @@
       margin-bottom: 26px;
     }
 
+    /* ★サムネイル枠：黄緑ネオン発光 ＋ ほんのり浮遊演出用トランジション */
     .gallery-item {
       position: relative;
       width: 100%;
@@ -210,9 +211,18 @@
       background: #1c1c26;
       display: block;
       cursor: pointer;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
     }
 
-    /* ピュア描画（不要なシャープ化・GPU強制を削除） */
+    /* ★ホバー時：黄緑ネオン発光 ＋ 2px浮遊 */
+    .gallery-item:hover {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 4px rgba(210, 248, 61, 0.55),
+                  0 0 10px rgba(210, 248, 61, 0.18);
+      transform: translateY(-2px);
+    }
+
+    /* ピュア描画 */
     .gallery-item img {
       width: 100%;
       height: 100%;
@@ -220,6 +230,7 @@
       display: block;
     }
 
+    /* ★黒幕＆タイトルキャプション */
     .gallery-caption {
       position: absolute;
       top: 0;
@@ -239,8 +250,10 @@
       opacity: 0;
       transition: opacity 0.25s ease;
       word-break: break-word;
+      pointer-events: none; /* クリック操作を阻害しない */
     }
 
+    /* ★ホバー時に黒幕とタイトルをフェードイン */
     .gallery-item:hover .gallery-caption {
       opacity: 1;
     }

@@ -312,7 +312,7 @@
       border-bottom: none;
     }
 
-    /* バッジの大きさを統一（min-widthで揃え、中央配置） */
+    /* バッジの大きさを統一 */
     .news-badge {
       display: inline-block;
       min-width: 96px;
@@ -339,8 +339,9 @@
     }
 
     .about-link {
-      display: inline-block;
-      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       margin-top: 18px;
       font-size: 1.05rem;
       color: var(--accent-green);
@@ -352,7 +353,20 @@
       opacity: 0.8;
     }
 
-    /* --- ギャラリーグリッド ＆ ホバー時暗転＋タイトル表示 --- */
+    /* About me 横のペンアイコン */
+    .about-pen-icon {
+      width: 0.95em;
+      height: 0.95em;
+      margin-left: 6px;
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    .about-link:hover .about-pen-icon {
+      transform: rotate(-15deg);
+    }
+
+    /* --- ギャラリーグリッド ＆ ホバー演出 --- */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -370,9 +384,18 @@
       background: #1c1c26;
       display: block;
       cursor: pointer;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
     }
 
-    /* ピュア描画（不要なシャープ化・GPU強制を削除） */
+    /* ホバー時：拡散光を抑えたスッキリ上品な黄緑ネオン発光 */
+    .gallery-item:hover {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 4px rgba(210, 248, 61, 0.55),
+                  0 0 10px rgba(210, 248, 61, 0.18);
+      transform: translateY(-2px);
+    }
+
+    /* ピュア描画 */
     .gallery-item img {
       width: 100%;
       height: 100%;
@@ -784,7 +807,7 @@
       <nav class="pc-nav">
         <a href="#original" class="nav-btn">ORIGINAL</a>
         <a href="#fanart" class="nav-btn">FANART</a>
-        <a href="https://true358.tumblr.com" target="_blank" rel="noopener noreferrer" class="nav-btn">MEMO</a>
+        <a href="memo.html" class="nav-btn">MEMO</a>
       </nav>
 
       <!-- スマホ用メニューボタン -->
@@ -800,7 +823,7 @@
       <a href="#about">ABOUT</a>
       <a href="#original">ORIGINAL</a>
       <a href="#fanart">FANART</a>
-      <a href="https://true358.tumblr.com" target="_blank" rel="noopener noreferrer">MEMO ↗</a>
+      <a href="memo.html">MEMO</a>
       <a href="#link">LINK</a>
     </nav>
   </header>
@@ -819,17 +842,22 @@
         <section class="inner-box">
           <div class="news-title">News</div>
           <div class="news-list">
-            <!-- 1. 最新告知：お引越し&リニューアル -->
+            <!-- 1. 最新告知：MEMO改装 -->
             <div class="news-item">
-              <span>2026/11/08 : お引越し&amp;リニューアル</span>
+              <span>2026/11/11 : MEMO改装</span>
               <span class="news-badge">サイト</span>
             </div>
             <!-- 2. 過去履歴1 -->
             <div class="news-item">
+              <span>2026/11/08 : お引越し&amp;リニューアル</span>
+              <span class="news-badge">サイト</span>
+            </div>
+            <!-- 3. 過去履歴2 -->
+            <div class="news-item">
               <span>2026/09/10 : FANART/DB夢小説・絵</span>
               <span class="news-badge">小説・絵</span>
             </div>
-            <!-- 3. 過去履歴2 -->
+            <!-- 4. 過去履歴3 -->
             <div class="news-item">
               <span>2026/08/26 : FANART/ドラゴンボール</span>
               <span class="news-badge">イラスト</span>
@@ -848,7 +876,7 @@
             イラストの無断使用はご遠慮願います。
           </p>
           <div style="text-align: center;">
-            <a href="about.html" class="about-link">About me ⬡</a>
+            <a href="about.html" class="about-link">About me <svg class="about-pen-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></a>
           </div>
         </section>
       </div>
@@ -950,7 +978,7 @@
             </a>
             <p class="wavebox-desc">
               何かございましたらお気軽にどうぞ。<br>
-              返信は<a href="https://true358.tumblr.com/" target="_blank" class="memo-link">MEMO</a>から通知します。
+              返信は<a href="memo.html?tag=お返事" class="memo-link">MEMO</a>から通知します。
             </p>
           </div>
         </div>

@@ -242,6 +242,7 @@
       margin-bottom: 26px;
     }
 
+    /* ★サムネイル枠：黄緑ネオン発光 ＋ ほんのり浮遊のみ */
     .gallery-item {
       position: relative;
       width: 100%;
@@ -252,9 +253,18 @@
       background: #1c1c26;
       display: block;
       cursor: pointer;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
     }
 
-    /* ピュア描画（不要なシャープ化・GPU強制を削除） */
+    /* ホバー時：上品な黄緑ネオン発光 ＋ ほんのり浮遊演出 */
+    .gallery-item:hover {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 4px rgba(210, 248, 61, 0.55),
+                  0 0 10px rgba(210, 248, 61, 0.18);
+      transform: translateY(-2px);
+    }
+
+    /* ★画像本体：拡大も明度変化も一切なし（完全ピュア描画）★ */
     .gallery-item img {
       width: 100%;
       height: 100%;
@@ -262,29 +272,9 @@
       display: block;
     }
 
+    /* 文字無し・黒幕無し */
     .gallery-caption {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.72);
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 8px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      line-height: 1.4;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      word-break: break-word;
-    }
-
-    .gallery-item:hover .gallery-caption {
-      opacity: 1;
+      display: none;
     }
 
     /* サブセクション（過去ログ/ラクガキ等） */
@@ -837,25 +827,40 @@
     lightboxModal.addEventListener('touchend', (e) => {
       touchEndX = e.changedTouches[0].clientX;
       touchEndY = e.changedTouches[0].clientY;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
       const diffX = touchEndX - touchStartX;
       const diffY = touchEndY - touchStartY;
+      
       if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
         isSwiped = true;
-        if (diffX < 0) showNext();
-        else showPrev();
+        if (diffX < 0) {
+          showNext();
+        } else {
+          showPrev();
+        }
       }
-    }, { passive: true });
+    }
 
     lightboxModal.addEventListener('click', (e) => {
       if (e.target.closest('#lightboxClose')) return;
+
       if (window.innerWidth <= 600) {
         if (isSwiped) {
           isSwiped = false;
           return;
         }
+
         const clickX = e.clientX;
-        if (clickX < window.innerWidth / 2) showPrev();
-        else showNext();
+        const screenMiddle = window.innerWidth / 2;
+
+        if (clickX < screenMiddle) {
+          showPrev();
+        } else {
+          showNext();
+        }
       } else {
         if (e.target === lightboxModal || e.target.id === 'lightboxContent') {
           closeLightbox();

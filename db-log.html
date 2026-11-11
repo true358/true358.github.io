@@ -208,6 +208,7 @@
       min-width: 0;
     }
 
+    /* ★メイソンリーアイテム：黄緑ネオン発光 ＋ ほんのり浮遊演出用トランジション★ */
     .masonry-item {
       position: relative;
       border-radius: 4px;
@@ -216,38 +217,27 @@
       background: #1c1c26;
       display: block;
       cursor: pointer;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
     }
 
-    /* 不要なジャギー補正・GPU強制を削除したピュア描画 */
+    /* ★ホバー時：上品な黄緑ネオン発光 ＋ 2px浮遊★ */
+    .masonry-item:hover {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 4px rgba(210, 248, 61, 0.55),
+                  0 0 10px rgba(210, 248, 61, 0.18);
+      transform: translateY(-2px);
+    }
+
+    /* ピュア描画（拡大も明度変化もなし） */
     .masonry-item img {
       width: 100%;
       height: auto;
       display: block;
     }
 
+    /* ★タイトル文字・黒幕は非表示★ */
     .masonry-caption {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.72);
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 8px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      line-height: 1.4;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      word-break: break-word;
-    }
-
-    .masonry-item:hover .masonry-caption {
-      opacity: 1;
+      display: none;
     }
 
     /* フッター */
@@ -415,10 +405,6 @@
       }
       .masonry-col {
         gap: 8px;
-      }
-      .masonry-caption {
-        font-size: 0.72rem;
-        padding: 4px;
       }
 
       .back-to-top { font-size: 2.5rem; margin-bottom: 20px; }

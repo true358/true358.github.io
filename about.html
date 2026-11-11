@@ -312,7 +312,7 @@
       margin: 16px auto 0;
     }
 
-    /* ★ 紫ボタン：ドロップシャドウ（box-shadow）を完全削除 ★ */
+    /* 紫ボタン：ドロップシャドウなし */
     .btn-purple-link {
       display: inline-block;
       width: 170px;
@@ -327,7 +327,6 @@
       letter-spacing: 0.04em;
     }
 
-    /* ★ ホバー時：シャドウなしで色変化と浮遊のみ ★ */
     .btn-purple-link:hover {
       background: var(--btn-purple-hover);
       transform: translateY(-2px);
@@ -442,7 +441,7 @@
 </head>
 <body>
 
-  <!-- ヘッダー（index.htmlと同一デザイン＆アンカーリンク接続） -->
+  <!-- ヘッダー -->
   <header>
     <div class="header-inner">
       <div class="title-group">
@@ -450,11 +449,11 @@
         <div class="site-subtitle">True's illustration site</div>
       </div>
       
-      <!-- PCナビ：indexページの各アンカーリンクへジャンプ -->
+      <!-- PCナビ：MEMOをmemo.htmlへ接続 -->
       <nav class="pc-nav">
         <a href="index.html#original" class="nav-btn">ORIGINAL</a>
         <a href="index.html#fanart" class="nav-btn">FANART</a>
-        <a href="https://true358.tumblr.com" target="_blank" rel="noopener noreferrer" class="nav-btn">MEMO</a>
+        <a href="memo.html" class="nav-btn">MEMO</a>
       </nav>
 
       <!-- スマホ用メニューボタン -->
@@ -465,12 +464,12 @@
       </button>
     </div>
 
-    <!-- スマホ用展開メニュー：indexページの各アンカーリンクへジャンプ -->
+    <!-- スマホ用展開メニュー：MEMOをmemo.htmlへ接続 -->
     <nav class="mobile-menu" id="mobileMenu">
       <a href="index.html#about">ABOUT</a>
       <a href="index.html#original">ORIGINAL</a>
       <a href="index.html#fanart">FANART</a>
-      <a href="https://true358.tumblr.com" target="_blank" rel="noopener noreferrer">MEMO ↗</a>
+      <a href="memo.html">MEMO</a>
       <a href="index.html#link">LINK</a>
     </nav>
   </header>
