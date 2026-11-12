@@ -271,6 +271,43 @@
       gap: 28px;
     }
 
+    /* ★ サイバーローディングアニメーション ★ */
+    .loader-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 0;
+      gap: 16px;
+    }
+
+    .cyber-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(210, 248, 61, 0.15);
+      border-top-color: var(--accent-green);
+      border-radius: 50%;
+      animation: cyber-spin 0.8s linear infinite;
+      box-shadow: 0 0 12px rgba(210, 248, 61, 0.25);
+    }
+
+    .loader-text {
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      font-family: Consolas, Menlo, Monaco, monospace;
+      color: var(--accent-green);
+      animation: cyber-pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes cyber-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes cyber-pulse {
+      0%, 100% { opacity: 0.45; }
+      50% { opacity: 1; }
+    }
+
     .memo-card {
       background: var(--memo-card-bg);
       border: 1px solid var(--line-gray);
@@ -337,12 +374,14 @@
       opacity: 0.85;
     }
 
-    /* 本文＆通常画像 */
+    /* 本文＆通常画像（文字詰め＆字間調整済み） */
     .memo-content {
       font-size: 1.02rem;
       line-height: 1.85;
       color: var(--text-main);
       word-break: break-word;
+      font-feature-settings: "palt" 1;
+      letter-spacing: 0.02em;
     }
 
     .memo-content p {
@@ -737,7 +776,11 @@
 
       <!-- メモ一覧を描画するコンテナ -->
       <div class="memo-list" id="memoList">
-        <div class="memo-status" id="loadingStatus">データを読み込み中...</div>
+        <!-- ★ サイバーローダー（取得完了時に記事一覧と差し替え） ★ -->
+        <div class="loader-wrap" id="loadingStatus">
+          <div class="cyber-spinner"></div>
+          <div class="loader-text">LOADING...</div>
+        </div>
       </div>
 
       <!-- 「さらに読み込む」ボタンエリア -->
@@ -869,7 +912,7 @@
 
         buildFilterPills();
 
-        /* ★URLパラメータ（?tag=お返事 や ?year=2026 など）を検知して自動絞り込み★ */
+        /* URLパラメータ（?tag=お返事 や ?year=2026 など）を検知して自動絞り込み */
         const urlParams = new URLSearchParams(window.location.search);
         const tagParam = urlParams.get('tag');
         const yearParam = urlParams.get('year');
@@ -949,7 +992,6 @@
     ======================================================== */
     function applyCustomImageLayouts(container) {
       container.querySelectorAll('.memo-content').forEach(content => {
-        // 小さめ画像の判定
         content.querySelectorAll('img').forEach(img => {
           const alt = (img.getAttribute('alt') || '').toLowerCase();
           if (alt.includes('小') || alt.includes('small')) {
@@ -957,7 +999,6 @@
           }
         });
 
-        // 横並び画像の判定
         const gridImgs = Array.from(content.querySelectorAll('img')).filter(img => {
           const alt = (img.getAttribute('alt') || '').toLowerCase();
           return alt.includes('横') || alt.includes('grid');
@@ -1092,20 +1133,17 @@
       lightboxImg.src = '';
     }
 
-    // ✕ボタンで閉じる
     lightboxClose.addEventListener('click', (e) => {
       e.stopPropagation();
       closeLightbox();
     });
 
-    // モーダル背景部分のクリックで閉じる（画像本体クリックでは閉じない）
     lightboxModal.addEventListener('click', (e) => {
       if (e.target === lightboxModal || e.target.id === 'lightboxContent') {
         closeLightbox();
       }
     });
 
-    // Escキーで閉じる
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
         closeLightbox();

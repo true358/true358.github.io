@@ -242,13 +242,15 @@
       letter-spacing: 0.05em;
     }
 
-    /* 規約本文（PC・スマホともに美しい中央揃え） */
+    /* ★ 規約本文のみ：カーニング（palt）＆字間引き締めを適用 ★ */
     .policy-desc {
       font-size: 1.02rem;
       color: var(--text-main);
       line-height: 1.85;
       word-break: break-word;
       text-align: center;
+      font-feature-settings: "palt" 1;
+      letter-spacing: 0.02em;
     }
 
     /* フッター */
@@ -329,7 +331,7 @@
         margin-bottom: 8px;
       }
 
-      /* スマホ版でも中央揃えを維持 */
+      /* スマホ版でも中央揃え＆カーニング維持 */
       .policy-desc {
         font-size: 0.92rem;
         line-height: 1.75;
