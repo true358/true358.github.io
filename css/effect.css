@@ -1,0 +1,63 @@
+/* ==========================================
+   Recolte: タップエフェクトスタイル (effect.css)
+========================================== */
+.cyber-ring {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2.5px solid #d2f83d;
+  box-shadow: 0 0 12px #d2f83d, 0 0 25px #00e5ff, inset 0 0 10px #d2f83d;
+  transform: translate(-50%, -50%) scale(0.3);
+  animation: cyberRingExpand 0.48s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+.cyber-ring::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #ffffff 30%, #d2f83d 70%, transparent 100%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1.4);
+  animation: flashFade 0.22s ease-out forwards;
+}
+
+@keyframes cyberRingExpand {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(5.8);
+    opacity: 0;
+  }
+}
+
+@keyframes flashFade {
+  0% { transform: translate(-50%, -50%) scale(1.6); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+}
+
+.subtle-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  animation: particleFade 0.42s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes particleFade {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0.2);
+    opacity: 0;
+  }
+}
