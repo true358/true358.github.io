@@ -61,3 +61,168 @@
     opacity: 0;
   }
 }
+
+/* ==========================================
+   カスタムマウスカーソル（蛍光黄緑）
+========================================== */
+html,
+body,
+.hero-banner img,
+.link-banner-img,
+.profile-avatar-wrap img {
+  cursor: url('../images/cursor_default.png') 0 0, auto !important;
+}
+
+/* 点線の横幅をボード内側にピタッと揃えるための基準設定 */
+.site-board {
+  container-type: inline-size;
+}
+
+/* 中央揃えテキストの当たり判定を「文字の幅ピッタリ」に縮める */
+.news-title,
+.section-title,
+.section-sub,
+.about-main-title,
+.about-text,
+.about-label,
+.about-desc,
+.policy-main-title,
+.policy-label,
+.policy-desc,
+.thanks-title,
+.wavebox-label,
+.wavebox-desc,
+.novel-intro-text,
+.extra-section-title,
+.memo-status,
+footer div {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 左揃えテキストの当たり判定を「文字の幅ピッタリ」に縮める */
+.sub-title,
+.memo-date,
+.filter-group-label {
+  width: fit-content !important;
+}
+
+/* ジャンル見出しは文字上だけ反応させ、点線と余白は通常矢印を維持 */
+.genre-title {
+  position: relative !important;
+  width: fit-content !important;
+  padding-bottom: 0 !important;
+  border-bottom: none !important;
+  margin-bottom: 26px !important;
+}
+
+.genre-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100cqw;
+  height: 9.5px;
+  border-bottom: 1.5px dashed var(--accent-green);
+  box-sizing: border-box;
+  cursor: url('../images/cursor_default.png') 0 0, auto !important;
+}
+
+/* 通常の文章・見出し（余白を巻き込まない要素に限定） */
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+blockquote,
+td,
+th,
+dt,
+dd,
+label,
+.site-subtitle,
+.gallery-page-title,
+.genre-title,
+.sub-title,
+.news-title,
+.section-title,
+.section-sub,
+.about-text,
+.about-label,
+.about-desc,
+.ai-warning-box,
+.policy-label,
+.link-url,
+.thanks-title,
+.wavebox-label,
+.wavebox-desc,
+.novel-intro-text,
+.novel-category-tag,
+.novel-title,
+.novel-pw-note,
+.extra-section-title,
+.extra-title,
+.memo-date,
+.filter-group-label,
+.memo-status,
+footer div {
+  cursor: url('../images/cursor_text.png') 8 8, text !important;
+}
+
+/* あらゆるテキスト入力フォーム欄 */
+input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+textarea,
+[contenteditable="true"] {
+  cursor: url('../images/cursor_text.png') 8 8, text !important;
+}
+
+/* リンク・ボタン・ギャラリー画像・MEMOの画像やタグなどクリックできる要素（最優先） */
+a,
+a *,
+button,
+button *,
+input[type="button"],
+input[type="submit"],
+.nav-btn,
+.btn-more,
+.about-link,
+.about-link *,
+.memo-link,
+.gallery-item,
+.gallery-item *,
+.wavebox-btn,
+.wavebox-btn *,
+.back-to-top,
+.menu-trigger,
+.lightbox-close,
+.lightbox-nav-btn,
+[role="button"],
+[data-tag],
+[class*="tag"]:not(.novel-category-tag),
+[class*="tag"]:not(.novel-category-tag) *,
+.memo-card img,
+.memo-body img,
+.memo-content img,
+article img:not(.hero-banner img):not(.link-banner-img):not(.profile-avatar-wrap img) {
+  cursor: url('../images/cursor_pointer.png') 6 0, pointer !important;
+}
+
+/* ==========================================
+   文字ドラッグ（選択範囲）のカラー変更（水色×白文字）
+========================================== */
+::selection {
+  background: #5c00b8;
+  color: #ffffff;
+  text-shadow: none;
+}
+
+::-moz-selection {
+  background: #5c00b8;
+  color: #ffffff;
+  text-shadow: none;
+}
