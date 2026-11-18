@@ -65,12 +65,16 @@
 
     /* --- ヘッダー --- */
     header {
-      background: linear-gradient(135deg, #7e22ce 0%, #10021c 100%);
       padding: 0;
       position: sticky;
       top: 0;
       z-index: 100;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .header-bar {
+      background: linear-gradient(135deg, #7e22ce 0%, #10021c 100%);
+      width: 100%;
     }
 
     .header-inner {
@@ -349,25 +353,27 @@
 
   <!-- ヘッダー（index.html / about.htmlと同一仕様） -->
   <header>
-    <div class="header-inner">
-      <div class="title-group">
-        <div class="site-title"><a href="index.html">Recolte</a></div>
-        <div class="site-subtitle">True's illustration site</div>
-      </div>
-      
-      <!-- PCナビ：MEMOをmemo.htmlへ接続 -->
-      <nav class="pc-nav">
-        <a href="index.html#original" class="nav-btn">ORIGINAL</a>
-        <a href="index.html#fanart" class="nav-btn">FANART</a>
-        <a href="memo.html" class="nav-btn">MEMO</a>
-      </nav>
+    <div class="header-bar">
+      <div class="header-inner">
+        <div class="title-group">
+          <div class="site-title"><a href="index.html">Recolte</a></div>
+          <div class="site-subtitle">True's illustration site</div>
+        </div>
+        
+        <!-- PCナビ：MEMOをmemo.htmlへ接続 -->
+        <nav class="pc-nav">
+          <a href="index.html#original" class="nav-btn">ORIGINAL</a>
+          <a href="index.html#fanart" class="nav-btn">FANART</a>
+          <a href="memo.html" class="nav-btn">MEMO</a>
+        </nav>
 
-      <!-- スマホ用メニューボタン -->
-      <button class="menu-trigger" id="menuToggle" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+        <!-- スマホ用メニューボタン -->
+        <button class="menu-trigger" id="menuToggle" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </div>
 
     <!-- スマホ用展開メニュー：MEMOをmemo.htmlへ接続 -->
