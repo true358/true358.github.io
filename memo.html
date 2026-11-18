@@ -776,7 +776,7 @@
 
       <!-- メモ一覧を描画するコンテナ -->
       <div class="memo-list" id="memoList">
-        <!-- ★ サイバーローダー（取得完了時に記事一覧と差し替え） ★ -->
+        <!-- ★ サイバーローディング（取得完了時に記事一覧と差し替え） ★ -->
         <div class="loader-wrap" id="loadingStatus">
           <div class="cyber-spinner"></div>
           <div class="loader-text">LOADING...</div>
@@ -1155,7 +1155,6 @@
     ======================================================== */
     function applyFilter(type, value) {
       currentFilter = { type, value };
-      window.scrollTo({ top: 0, behavior: 'smooth' });
 
       let filtered = [];
       if (type === 'year') {
@@ -1191,14 +1190,21 @@
       filterStatusBar.style.display = 'flex';
       matchCount.textContent = filtered.length;
       initRender(filtered);
+
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     }
 
     resetFilterBtn.addEventListener('click', () => {
       currentFilter = { type: null, value: null };
       document.querySelectorAll('.pill-btn').forEach(btn => btn.classList.remove('active'));
       filterStatusBar.style.display = 'none';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
       initRender(allMemos);
+
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     });
 
     /* ========================================================
