@@ -374,14 +374,14 @@
       opacity: 0.85;
     }
 
-    /* 本文＆通常画像（文字詰め＆字間調整済み） */
+    /* 本文＆通常画像（約物詰めを維持しつつ字間を少しゆとりある幅に調整） */
     .memo-content {
       font-size: 1.02rem;
       line-height: 1.85;
       color: var(--text-main);
       word-break: break-word;
       font-feature-settings: "palt" 1;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.045em;
     }
 
     .memo-content p {
@@ -776,7 +776,7 @@
 
       <!-- メモ一覧を描画するコンテナ -->
       <div class="memo-list" id="memoList">
-        <!-- ★ サイバーローディング（取得完了時に記事一覧と差し替え） ★ -->
+        <!-- ★ サイバーローダー（取得完了時に記事一覧と差し替え） ★ -->
         <div class="loader-wrap" id="loadingStatus">
           <div class="cyber-spinner"></div>
           <div class="loader-text">LOADING...</div>
