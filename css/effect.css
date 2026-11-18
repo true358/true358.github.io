@@ -216,13 +216,13 @@ article img:not(.hero-banner img):not(.link-banner-img):not(.profile-avatar-wrap
    文字ドラッグ（選択範囲）のカラー変更（水色×白文字）
 ========================================== */
 ::selection {
-  background: #5c00b8;
+  background: #1c00b8;
   color: #ffffff;
   text-shadow: none;
 }
 
 ::-moz-selection {
-  background: #5c00b8;
+  background: #1c00b8;
   color: #ffffff;
   text-shadow: none;
 }
