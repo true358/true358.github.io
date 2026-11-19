@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DB夢絵 - Recolte</title>
+  <title>DB設定画・夢絵 - Recolte</title>
 
   <!-- 検索避け・クローラー完全遮断タグ -->
   <meta name="robots" content="noindex, nofollow, noarchive">
@@ -27,7 +27,7 @@
       --text-main: #eeeeee;
       --text-sub: #d4d9dc;
       --badge-bg: #4a4a58;
-      
+
       --btn-gray: #565568;
       --btn-purple: #7e22ce;
       --neon-pink: #ff2bd6;
@@ -238,6 +238,34 @@
       display: block;
     }
 
+    /* 複数枚バッジ（右上に自動表示） */
+    .multi-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(17, 17, 21, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+      pointer-events: none;
+      backdrop-filter: blur(2px);
+    }
+
+    .multi-badge svg {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+    }
+
     /* 黒幕＆タイトルキャプション */
     .gallery-caption {
       position: absolute;
@@ -245,6 +273,7 @@
       left: 0;
       width: 100%;
       height: 100%;
+      z-index: 2;
       background: rgba(0, 0, 0, 0.72);
       color: #ffffff;
       display: flex;
@@ -352,7 +381,7 @@
     .lightbox-content {
       position: relative;
       max-width: 90vw;
-      max-height: 85vh;
+      max-height: 82vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -361,7 +390,7 @@
 
     .lightbox-content img {
       max-width: 90vw;
-      max-height: 85vh;
+      max-height: 82vh;
       object-fit: contain;
       border-radius: 4px;
       box-shadow: 0 16px 50px rgba(0, 0, 0, 0.85);
@@ -413,6 +442,29 @@
     .lightbox-prev { left: 16px; }
     .lightbox-next { right: 16px; }
 
+    /* ライトボックスのページカウンター（複数枚作品のときのみ表示） */
+    .lightbox-counter {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 4px 14px;
+      border-radius: 999px;
+      background: rgba(17, 17, 21, 0.84);
+      border: 1px solid rgba(210, 248, 61, 0.45);
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      z-index: 1010;
+      display: none;
+      pointer-events: none;
+    }
+
+    .lightbox-counter.visible {
+      display: inline-block;
+    }
+
     /* スマホ表示 */
     @media (max-width: 600px) {
       .gallery-header-inner { padding: 10px 14px; }
@@ -428,6 +480,17 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
       }
+      .multi-badge {
+        top: 6px;
+        right: 6px;
+        padding: 2px 6px;
+        font-size: 0.72rem;
+        gap: 3px;
+      }
+      .multi-badge svg {
+        width: 11px;
+        height: 11px;
+      }
       .gallery-caption {
         font-size: 0.74rem;
         padding: 4px;
@@ -438,6 +501,7 @@
       .footer-btn { width: 154px; }
       .lightbox-close { top: 16px; right: 18px; font-size: 2.2rem; }
       .lightbox-nav-btn { display: none !important; }
+      .lightbox-counter { bottom: 18px; font-size: 0.82rem; padding: 3px 12px; }
     }
   </style>
 </head>
@@ -460,27 +524,27 @@
   <div class="main-wrapper">
     <article class="site-board">
 
-      <!-- ==================== 1. 表紙絵 ==================== -->
-      <section class="genre-section" id="cover">
-        <div class="genre-title">表紙絵</div>
+      <!-- ==================== 1. 設定画 ==================== -->
+      <!--
+        ★複数枚の追加方法★
+        data-full の中に画像パスをカンマ（,）区切りで並べるだけで、
+        右上の枚数バッジと横めくりが自動で有効になります！
+        例：data-full="images/db_dream/cover01.webp, images/db_dream/cover01_2.webp, images/db_dream/cover01_3.webp"
+      -->
+      <section class="genre-section" id="setting">
+        <div class="genre-title">設定画</div>
         <div class="gallery-grid">
-          
-          <!-- 表紙絵 01 -->
-          <div class="gallery-item" data-group="cover" data-full="images/db_dream/cover01.webp">
-            <img src="images/db_dream/cover01_thumb.webp" alt="だから噂は収まらない" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Cover+01'">
-            <div class="gallery-caption">だから噂は<br>収まらない</div>
+
+          <!-- 設定画 01（設定画まとめ） -->
+          <div class="gallery-item" data-group="setting" data-full="images/db_dream/cover01.webp, images/db_dream/cover01_2.webp">
+            <img src="images/db_dream/cover01_thumb.webp" alt="設定画まとめ" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Cover+01'">
+            <div class="gallery-caption">設定画まとめ</div>
           </div>
 
-          <!-- 表紙絵 02 -->
-          <div class="gallery-item" data-group="cover" data-full="images/db_dream/cover02.webp">
-            <img src="images/db_dream/cover02_thumb.webp" alt="お酒を言い訳にできない" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Cover+02'">
-            <div class="gallery-caption">お酒を言い訳に<br>できない</div>
-          </div>
-
-          <!-- 表紙絵 03 -->
-          <div class="gallery-item" data-group="cover" data-full="images/db_dream/cover03.webp">
-            <img src="images/db_dream/cover03_thumb.webp" alt="果てなき刻(とき)のその先で" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Cover+03'">
-            <div class="gallery-caption">果てなき刻(とき)の<br>その先で</div>
+          <!-- 設定画 02（ライ(夢主)） -->
+          <div class="gallery-item" data-group="setting" data-full="images/db_dream/cover02.webp">
+            <img src="images/db_dream/cover02_thumb.webp" alt="ライ(夢主)" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Cover+02'">
+            <div class="gallery-caption">ライ(夢主)</div>
           </div>
 
         </div>
@@ -490,11 +554,23 @@
       <section class="genre-section" id="dream-art">
         <div class="genre-title">DB夢絵</div>
         <div class="gallery-grid">
-          
-          <!-- DB夢絵 01（ライ(夢主)） -->
+
+          <!-- DB夢絵 01（だから噂は収まらない） -->
           <div class="gallery-item" data-group="dream" data-full="images/db_dream/dream01.webp">
-            <img src="images/db_dream/dream01_thumb.webp" alt="ライ(夢主)" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Dream+01'">
-            <div class="gallery-caption">ライ(夢主)</div>
+            <img src="images/db_dream/dream01_thumb.webp" alt="だから噂は収まらない" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Dream+01'">
+            <div class="gallery-caption">だから噂は<br>収まらない</div>
+          </div>
+
+          <!-- DB夢絵 02（お酒を言い訳にできない） -->
+          <div class="gallery-item" data-group="dream" data-full="images/db_dream/dream02.webp">
+            <img src="images/db_dream/dream02_thumb.webp" alt="お酒を言い訳にできない" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Dream+02'">
+            <div class="gallery-caption">お酒を言い訳に<br>できない</div>
+          </div>
+
+          <!-- DB夢絵 03（果てなき刻(とき)のその先で） -->
+          <div class="gallery-item" data-group="dream" data-full="images/db_dream/dream03.webp">
+            <img src="images/db_dream/dream03_thumb.webp" alt="果てなき刻(とき)のその先で" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x400/1c1c26/d2f83d?text=Dream+03'">
+            <div class="gallery-caption">果てなき刻(とき)の<br>その先で</div>
           </div>
 
         </div>
@@ -506,7 +582,7 @@
   <!-- フッター -->
   <footer>
     <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">∧</div>
-    
+
     <!-- フッターナビ -->
     <div class="footer-nav">
       <a href="index.html" class="footer-btn">Home</a>
@@ -525,6 +601,7 @@
     <div class="lightbox-content" id="lightboxContent">
       <img src="" alt="" id="lightboxImg">
     </div>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
   </div>
 
   <!-- スクリプト -->
@@ -534,24 +611,89 @@
     const lightboxClose = document.getElementById('lightboxClose');
     const lightboxPrev = document.getElementById('lightboxPrev');
     const lightboxNext = document.getElementById('lightboxNext');
+    const lightboxCounter = document.getElementById('lightboxCounter');
 
     let currentImages = [];
     let currentIndex = 0;
+    let isMultiMode = false;
 
-    // グリッド（セクション）ごとに独立してアイテムリストを生成・バインド
+    // data-full からカンマ区切りで画像リストを取得
+    function getItemImages(el) {
+      const raw = el.dataset.full;
+      if (!raw) {
+        const img = el.querySelector('img');
+        return img ? [img.src] : [];
+      }
+      return raw.split(',').map(s => s.trim()).filter(Boolean);
+    }
+
+    // 複数枚バッジ用の重なりアイコンSVG
+    const multiIconSvg = `
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+      </svg>
+    `;
+
+    // グリッド（セクション）ごとに独立してバインド＆複数枚バッジを自動生成
     document.querySelectorAll('.gallery-grid').forEach(grid => {
       const items = Array.from(grid.querySelectorAll('.gallery-item'));
-      items.forEach((item, index) => {
+      const singleItems = [];
+
+      items.forEach(item => {
+        const images = getItemImages(item);
+
+        if (images.length > 1) {
+          const badge = document.createElement('span');
+          badge.className = 'multi-badge';
+          badge.setAttribute('aria-label', `${images.length}枚の画像`);
+          badge.innerHTML = `${multiIconSvg}<span>${images.length}</span>`;
+          item.appendChild(badge);
+        } else {
+          singleItems.push({ el: item, src: images[0] });
+        }
+
         item.addEventListener('click', () => {
-          currentImages = items.map(el => el.dataset.full || el.querySelector('img').src);
-          currentIndex = index;
+          if (images.length > 1) {
+            // 複数枚作品：その作品の画像だけを横めくり
+            currentImages = images;
+            currentIndex = 0;
+            isMultiMode = true;
+          } else {
+            // 1枚絵：同じセクション内の1枚絵同士を横めくり
+            currentImages = singleItems.map(entry => entry.src);
+            currentIndex = singleItems.findIndex(entry => entry.el === item);
+            if (currentIndex < 0) currentIndex = 0;
+            isMultiMode = false;
+          }
           openLightbox();
         });
       });
     });
 
-    function openLightbox() {
+    function updateLightboxView() {
       lightboxImg.src = currentImages[currentIndex];
+
+      const hasMultiple = currentImages.length > 1;
+      lightboxPrev.style.display = hasMultiple ? '' : 'none';
+      lightboxNext.style.display = hasMultiple ? '' : 'none';
+
+      if (isMultiMode && hasMultiple) {
+        lightboxCounter.textContent = `${currentIndex + 1} / ${currentImages.length}`;
+        lightboxCounter.classList.add('visible');
+      } else {
+        lightboxCounter.classList.remove('visible');
+      }
+
+      // 次の画像を先読みしてめくりをスムーズに
+      if (hasMultiple) {
+        const nextIdx = (currentIndex + 1) % currentImages.length;
+        const preload = new Image();
+        preload.src = currentImages[nextIdx];
+      }
+    }
+
+    function openLightbox() {
+      updateLightboxView();
       lightboxModal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -562,13 +704,15 @@
     }
 
     function showPrev() {
+      if (currentImages.length <= 1) return;
       currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
-      lightboxImg.src = currentImages[currentIndex];
+      updateLightboxView();
     }
 
     function showNext() {
+      if (currentImages.length <= 1) return;
       currentIndex = (currentIndex + 1) % currentImages.length;
-      lightboxImg.src = currentImages[currentIndex];
+      updateLightboxView();
     }
 
     lightboxClose.addEventListener('click', (e) => {
@@ -608,7 +752,7 @@
     function handleSwipe() {
       const diffX = touchEndX - touchStartX;
       const diffY = touchEndY - touchStartY;
-      
+
       if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
         isSwiped = true;
         if (diffX < 0) {
@@ -625,6 +769,14 @@
       if (window.innerWidth <= 600) {
         if (isSwiped) {
           isSwiped = false;
+          return;
+        }
+
+        // 1枚だけのときは背景タップで閉じる
+        if (currentImages.length <= 1) {
+          if (e.target === lightboxModal || e.target.id === 'lightboxContent') {
+            closeLightbox();
+          }
           return;
         }
 
