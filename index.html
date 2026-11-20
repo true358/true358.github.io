@@ -211,7 +211,7 @@
       font-size: 1.05rem;
       font-weight: 700;
       padding: 12px 0;
-      border-bottom: 1px dashed #2a2a38;
+      border-bottom: 1px solid #2a2a38;
       color: #ffffff;
       transition: color 0.2s;
     }
@@ -563,12 +563,11 @@
       background: transparent;
       color: var(--accent-green);
       cursor: pointer;
-      transition: transform 0.2s ease, filter 0.2s ease;
+      transition: filter 0.2s ease;
     }
 
     .thanks-toggle-btn:hover,
     .thanks-toggle-btn[aria-expanded="true"] {
-      transform: translateY(-2px) scale(1.08);
       filter: drop-shadow(0 0 6px rgba(210, 248, 61, 0.55));
     }
 
@@ -578,7 +577,7 @@
       display: block;
     }
 
-    /* 常時べた塗り（開いているときはネオン発光＆少し浮遊） */
+    /* 常時べた塗り（オンマウス・展開時はサイズそのまま＆ネオン発光） */
     .thanks-bookmark-icon path {
       fill: currentColor;
       stroke: currentColor;
