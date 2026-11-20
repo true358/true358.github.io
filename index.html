@@ -71,6 +71,8 @@
     .header-bar {
       background: linear-gradient(135deg, #7e22ce 0%, #10021c 100%);
       width: 100%;
+      position: relative;
+      z-index: 2;
     }
 
     .header-inner {
@@ -136,7 +138,7 @@
       opacity: 1;
     }
 
-    /* スマホ用メニューボタン */
+    /* スマホ用メニューボタン（三本線のまま） */
     .menu-trigger {
       display: none;
       flex-direction: column;
@@ -154,21 +156,55 @@
       background-color: #ff4a5a;
     }
 
-    /* スマホ用展開メニュー */
+    /* スマホ用展開メニュー（上からぬるっとスライド展開） */
     .mobile-menu {
-      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+      display: grid;
+      grid-template-rows: 0fr;
       background: #15151e;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      border-bottom: 1px solid var(--border-color);
-      padding: 14px 24px;
-      flex-direction: column;
-      gap: 4px;
-      max-height: calc(100vh - 80px);
-      overflow-y: auto;
+      border-top: 1px solid transparent;
+      border-bottom: 1px solid transparent;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: grid-template-rows 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity 0.26s ease,
+                  visibility 0.36s ease,
+                  border-color 0.26s ease;
     }
 
     .mobile-menu.active {
+      grid-template-rows: 1fr;
+      border-top-color: rgba(255, 255, 255, 0.08);
+      border-bottom-color: var(--border-color);
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .mobile-menu-inner {
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .mobile-menu-links {
       display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 14px 24px;
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
+      transform: translateY(-12px);
+      transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .mobile-menu.active .mobile-menu-links {
+      transform: translateY(0);
     }
 
     .mobile-menu a {
@@ -186,6 +222,12 @@
 
     .mobile-menu a:hover {
       color: var(--accent-green);
+    }
+
+    @media (min-width: 601px) {
+      .mobile-menu {
+        display: none;
+      }
     }
 
     /* --- メインコンテナ --- */
@@ -501,25 +543,124 @@
       background: #1e1e28;
     }
 
-    .thanks-title {
-      margin-top: 22px;
-      font-size: 1.05rem;
-      color: #ffffff;
+    /* ブックマークプルダウン全体 */
+    .thanks-dropdown {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .thanks-links {
-      margin-top: 6px;
-      font-size: 1.05rem;
-    }
-
-    .thanks-links a {
+    /* しおりアイコン単体ボタン（大きめサイズ＆タップ領域54x54） */
+    .thanks-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      padding: 0;
+      border: none;
+      background: transparent;
       color: var(--accent-green);
-      text-decoration: underline;
-      transition: opacity 0.2s ease;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
     }
 
-    .thanks-links a:hover {
-      opacity: 0.8;
+    .thanks-toggle-btn:hover,
+    .thanks-toggle-btn[aria-expanded="true"] {
+      transform: translateY(-2px) scale(1.08);
+      filter: drop-shadow(0 0 6px rgba(210, 248, 61, 0.55));
+    }
+
+    .thanks-bookmark-icon {
+      width: 38px;
+      height: 38px;
+      display: block;
+    }
+
+    /* 常時べた塗り（開いているときはネオン発光＆少し浮遊） */
+    .thanks-bookmark-icon path {
+      fill: currentColor;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linejoin: round;
+      transition: fill 0.25s ease, opacity 0.25s ease;
+    }
+
+    /* バナー展開エリア（枠はサイト統一の灰色） */
+    .thanks-menu {
+      width: 100%;
+      max-width: 460px;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      margin-top: 0;
+      background: #181822;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      transition: max-height 0.3s ease, opacity 0.25s ease, margin-top 0.25s ease, border-color 0.25s ease;
+    }
+
+    .thanks-menu.open {
+      max-height: 800px; /* バナーがもっと増えたら数値を広げればOK */
+      opacity: 1;
+      margin-top: 10px;
+      border-color: var(--badge-bg);
+    }
+
+    /* プルダウン内の見出し（★Thanks! / 同盟） */
+    .thanks-title {
+      padding: 12px 12px 4px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+    }
+
+    /* プルダウン内のセクション区切り線 */
+    .thanks-inner-divider {
+      border-top: 1px dashed rgba(86, 85, 104, 0.75);
+      margin: 4px 20px 0;
+    }
+
+    /* バナーを並べるエリア（サイズ違いのバナーが混ざっても綺麗に折り返し） */
+    .thanks-banner-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px 16px;
+    }
+
+    .thanks-banner-list a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .thanks-banner-list a:hover {
+      transform: translateY(-2px);
+      opacity: 0.85;
+    }
+
+    .thanks-banner-list img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      border-radius: 2px;
+    }
+
+    /* バナーなしのテキストリンクを混ぜたいとき用 */
+    .thanks-text-link {
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      color: var(--accent-green);
+      border: 1px solid var(--badge-bg);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.03);
     }
 
     /* 拍手/絵文字BOXエリア */
@@ -800,7 +941,7 @@
 <body>
 
   <!-- ヘッダー -->
-  <header>
+  <header id="siteHeader">
     <div class="header-bar">
       <div class="header-inner">
         <div class="title-group">
@@ -816,7 +957,7 @@
         </nav>
 
         <!-- スマホ用メニューボタン -->
-        <button class="menu-trigger" id="menuToggle" aria-label="Menu">
+        <button class="menu-trigger" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">
           <span></span>
           <span></span>
           <span></span>
@@ -825,12 +966,16 @@
     </div>
 
     <!-- スマホ用展開メニュー -->
-    <nav class="mobile-menu" id="mobileMenu">
-      <a href="#about">ABOUT</a>
-      <a href="#original">ORIGINAL</a>
-      <a href="#fanart">FANART</a>
-      <a href="memo.html">MEMO</a>
-      <a href="#link">LINK</a>
+    <nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <div class="mobile-menu-inner">
+        <div class="mobile-menu-links">
+          <a href="#about">ABOUT</a>
+          <a href="#original">ORIGINAL</a>
+          <a href="#fanart">FANART</a>
+          <a href="memo.html">MEMO</a>
+          <a href="#link">LINK</a>
+        </div>
+      </div>
     </nav>
   </header>
 
@@ -975,9 +1120,55 @@
             <img src="images/banner2.webp" alt="Recolte Banner 2" class="link-banner-img" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/200x40/1a1a24/d2f83d?text=Banner+Cell'">
           </div>
 
-          <div class="thanks-title">★Thanks!</div>
-          <div class="thanks-links">
-            <a href="https://compslink.jp/" target="_blank" rel="noopener noreferrer">コンパスリンク</a> / <a href="https://yoakemae.blue/" target="_blank" rel="noopener noreferrer">夜明けまえ</a> / <a href="https://s.10prs.com/" target="_blank" rel="noopener noreferrer">ハコサチ</a>
+          <div class="thanks-dropdown">
+            <button type="button" class="thanks-toggle-btn" id="thanksToggle" aria-expanded="false" aria-controls="thanksMenu" aria-label="お世話になっているサイト様を開く">
+              <svg class="thanks-bookmark-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 3h12v18l-6-4.5L6 21V3z"/>
+              </svg>
+            </button>
+
+            <div class="thanks-menu" id="thanksMenu">
+              <!-- サーチサイト -->
+              <div class="thanks-title">★Thanks!</div>
+              <div class="thanks-banner-list">
+                <!-- バナーリンク（200x40 / 88x31 / 正方形などサイズ混在OK） -->
+                <!-- ※各サーチ様の規約に合わせて画像パス or 提供URLへ差し替えてください -->
+                <a href="https://compslink.jp/" target="_blank" rel="noopener noreferrer">
+                  <img src="images/link/compass.webp" alt="コンパスリンク" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/200x40/242432/d2f83d?text=COMPASS+LINK'">
+                </a>
+                <a href="https://yoakemae.blue/c2/" target="_blank" rel="noopener noreferrer">
+                  <img src="images/link/yoakemae.webp" alt="夜明けまえ" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/200x40/242432/d2f83d?text=YOAKEMAE'">
+                </a>
+                <a href="https://tters.jp/v1/s" target="_blank" rel="noopener noreferrer">
+                  <img src="images/link/sousaku.webp" alt="創作サーチ" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/200x40/242432/d2f83d?text=SOUSAKU+SEARCH'">
+                </a>
+                <a href="https://s.10prs.com/" target="_blank" rel="noopener noreferrer">
+                  <img src="images/link/hakosachi.webp" alt="ハコサチ" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/200x40/242432/d2f83d?text=HAKOSACHI'">
+                </a>
+              </div>
+
+              <!-- 同盟 -->
+              <div class="thanks-inner-divider"></div>
+              <div class="thanks-title">同盟</div>
+              <div class="thanks-banner-list">
+                <!-- ★同盟バナー：リンク先URLと画像パス（images/link/〜）を差し替えてお使いください -->
+                <a href="https://flanetcomics.net/union/site_enjoy/" target="_blank" rel="noopener noreferrer">
+                  <img src="images/link/domei01.gif" alt="同盟01" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/88x31/242432/d2f83d?text=Domei+01'">
+                </a>
+                <a href="https://gedounohakarai.lsv.jp/doumei/sitecustom-omoroi" target="_blank" rel="noopener noreferrer">
+                  <img src="images/link/domei02.webp" alt="同盟02" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/88x31/242432/d2f83d?text=Domei+02'">
+                </a>
+                <a href="https://flanetcomics.net/union/jingai/" target="_blank" rel="noopener noreferrer">
+                  <img src="images/link/domei03.gif" alt="同盟03" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/88x31/242432/d2f83d?text=Domei+03'">
+                </a>
+                <a href="https://3-u.net/union/gradation/" target="_blank" rel="noopener noreferrer">
+                  <img src="images/link/domei04.webp" alt="同盟04" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/88x31/242432/d2f83d?text=Domei+04'">
+                </a>
+                <a href="https://litlveligr.lsv.jp/doumei/ikuge-doumei/index.html" target="_blank" rel="noopener noreferrer">
+                  <img src="images/link/domei05.gif" alt="同盟05" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/88x31/242432/d2f83d?text=Domei+05'">
+                </a>
+              </div>
+            </div>
           </div>
 
           <div class="sub-divider"></div>
@@ -1017,18 +1208,46 @@
 
   <!-- スクリプト -->
   <script>
+    const siteHeader = document.getElementById('siteHeader');
     const toggleBtn = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
-    
-    toggleBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('active');
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('active');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+    }
+
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = mobileMenu.classList.toggle('active');
+      toggleBtn.setAttribute('aria-expanded', String(isOpen));
+      mobileMenu.setAttribute('aria-hidden', String(!isOpen));
     });
 
     mobileMenu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
+        closeMobileMenu();
       });
     });
+
+    // ヘッダーの外側をタップしたらメニューを閉じる
+    document.addEventListener('click', (e) => {
+      if (mobileMenu.classList.contains('active') && !siteHeader.contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
+
+    // Thanks! ブックマークプルダウン開閉
+    const thanksToggle = document.getElementById('thanksToggle');
+    const thanksMenu = document.getElementById('thanksMenu');
+
+    if (thanksToggle && thanksMenu) {
+      thanksToggle.addEventListener('click', () => {
+        const isOpen = thanksMenu.classList.toggle('open');
+        thanksToggle.setAttribute('aria-expanded', isOpen);
+      });
+    }
 
     const lightboxModal = document.getElementById('lightboxModal');
     const lightboxImg = document.getElementById('lightboxImg');
