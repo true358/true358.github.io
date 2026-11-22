@@ -13,10 +13,10 @@
   <link rel="icon" href="images/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
-  <!-- Waveboxボタン文字専用フォント（7文字分のみ超軽量読み込み） -->
+  <!-- Waveboxボタン文字専用フォント -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&text=Wavebox&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
 
   <!-- タップエフェクト用外部CSS -->
   <link rel="stylesheet" href="css/effect.css">
@@ -25,7 +25,7 @@
     /* Waveboxボタンの縁の光がなめらかに巡るためのカスタムプロパティ */
     @property --wavebox-angle {
       syntax: "<angle>";
-      initial-value: 135deg;
+      initial-value: 270deg;
       inherits: false;
     }
 
@@ -674,13 +674,15 @@
       background: rgba(255, 255, 255, 0.03);
     }
 
-    /* --- Waveboxネオンボタンエリア --- */
+    /* --- Waveboxネオンボタンエリア（iOSでも四角クリップが出ないbox-shadow発光方式） --- */
     .wavebox-area {
       text-align: center;
       padding-top: 6px;
     }
 
     .wavebox-btn {
+      --glow-main: 0.56;
+      --glow-soft: 0.26;
       position: relative;
       display: inline-flex;
       align-items: center;
@@ -692,41 +694,26 @@
       background: conic-gradient(
         from var(--wavebox-angle),
         #d946ef 0deg,
-        #9333ea 65deg,
-        #2b1a4d 135deg,
-        #00e5ff 205deg,
-        #38bdf8 265deg,
-        #1e293b 315deg,
+        #9333ea 45deg,
+        #1f1635 90deg,
+        #0284c7 135deg,
+        #00e5ff 180deg,
+        #38bdf8 225deg,
+        #1a2234 270deg,
+        #a855f7 315deg,
         #d946ef 360deg
       );
       cursor: pointer;
       text-decoration: none;
-      isolation: isolate;
       transition: transform 0.25s ease;
       animation: waveboxBorderSpin 5.5s linear infinite;
     }
 
-    /* 縁の外側へふわっと広がるネオン発光 */
-    .wavebox-btn::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      border-radius: inherit;
-      background: inherit;
-      filter: blur(11px);
-      opacity: 0.72;
-      z-index: -1;
-      transition: opacity 0.25s ease, filter 0.25s ease;
-    }
-
     .wavebox-btn:hover {
+      --glow-main: 0.82;
+      --glow-soft: 0.42;
       transform: translateY(-2px);
       opacity: 1;
-    }
-
-    .wavebox-btn:hover::before {
-      opacity: 0.98;
-      filter: blur(14px);
     }
 
     /* ボタン内側の黒い面 */
@@ -767,12 +754,72 @@
       animation: waveboxHandWave 0.65s ease-in-out;
     }
 
+    /* 縁グラデーションと外周ネオン発光を完全同期して1周 */
     @keyframes waveboxBorderSpin {
       0% {
-        --wavebox-angle: 135deg;
+        --wavebox-angle: 270deg;
+        box-shadow:
+          -7px 0 16px rgba(217, 70, 239, var(--glow-main)),
+          -10px 0 26px rgba(147, 51, 234, var(--glow-soft)),
+          7px 0 16px rgba(0, 229, 255, var(--glow-main)),
+          10px 0 26px rgba(56, 189, 248, var(--glow-soft));
+      }
+      12.5% {
+        box-shadow:
+          -5px -3.5px 16px rgba(217, 70, 239, var(--glow-main)),
+          -7px -5px 26px rgba(147, 51, 234, var(--glow-soft)),
+          5px 3.5px 16px rgba(0, 229, 255, var(--glow-main)),
+          7px 5px 26px rgba(56, 189, 248, var(--glow-soft));
+      }
+      25% {
+        box-shadow:
+          0 -5px 16px rgba(217, 70, 239, var(--glow-main)),
+          0 -7px 26px rgba(147, 51, 234, var(--glow-soft)),
+          0 5px 16px rgba(0, 229, 255, var(--glow-main)),
+          0 7px 26px rgba(56, 189, 248, var(--glow-soft));
+      }
+      37.5% {
+        box-shadow:
+          5px -3.5px 16px rgba(217, 70, 239, var(--glow-main)),
+          7px -5px 26px rgba(147, 51, 234, var(--glow-soft)),
+          -5px 3.5px 16px rgba(0, 229, 255, var(--glow-main)),
+          -7px 5px 26px rgba(56, 189, 248, var(--glow-soft));
+      }
+      50% {
+        box-shadow:
+          7px 0 16px rgba(217, 70, 239, var(--glow-main)),
+          10px 0 26px rgba(147, 51, 234, var(--glow-soft)),
+          -7px 0 16px rgba(0, 229, 255, var(--glow-main)),
+          -10px 0 26px rgba(56, 189, 248, var(--glow-soft));
+      }
+      62.5% {
+        box-shadow:
+          5px 3.5px 16px rgba(217, 70, 239, var(--glow-main)),
+          7px 5px 26px rgba(147, 51, 234, var(--glow-soft)),
+          -5px -3.5px 16px rgba(0, 229, 255, var(--glow-main)),
+          -7px -5px 26px rgba(56, 189, 248, var(--glow-soft));
+      }
+      75% {
+        box-shadow:
+          0 5px 16px rgba(217, 70, 239, var(--glow-main)),
+          0 7px 26px rgba(147, 51, 234, var(--glow-soft)),
+          0 -5px 16px rgba(0, 229, 255, var(--glow-main)),
+          0 -7px 26px rgba(56, 189, 248, var(--glow-soft));
+      }
+      87.5% {
+        box-shadow:
+          -5px 3.5px 16px rgba(217, 70, 239, var(--glow-main)),
+          -7px 5px 26px rgba(147, 51, 234, var(--glow-soft)),
+          5px -3.5px 16px rgba(0, 229, 255, var(--glow-main)),
+          7px -5px 26px rgba(56, 189, 248, var(--glow-soft));
       }
       100% {
-        --wavebox-angle: 495deg;
+        --wavebox-angle: 630deg;
+        box-shadow:
+          -7px 0 16px rgba(217, 70, 239, var(--glow-main)),
+          -10px 0 26px rgba(147, 51, 234, var(--glow-soft)),
+          7px 0 16px rgba(0, 229, 255, var(--glow-main)),
+          10px 0 26px rgba(56, 189, 248, var(--glow-soft));
       }
     }
 
