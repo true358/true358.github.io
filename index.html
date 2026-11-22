@@ -13,17 +13,29 @@
   <link rel="icon" href="images/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
+  <!-- Waveboxボタン文字専用フォント（7文字分のみ超軽量読み込み） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&text=Wavebox&display=swap" rel="stylesheet">
+
   <!-- タップエフェクト用外部CSS -->
   <link rel="stylesheet" href="css/effect.css">
 
   <style>
+    /* Waveboxボタンの縁の光がなめらかに巡るためのカスタムプロパティ */
+    @property --wavebox-angle {
+      syntax: "<angle>";
+      initial-value: 135deg;
+      inherits: false;
+    }
+
     /* --- 基本設定 --- */
     :root {
       --board-width: 1040px;     /* 黒いボードの横幅 */
       --bg-board: #111115;       /* メインの黒いボード背景 */
       --border-color: #24242e;   /* 境界線の色 */
       --accent-green: #d2f83d;   /* 見出し・ボタンのアクセント黄緑 */
-      --accent-cyan: #38bdf8;    /* 拍手ボタンの水色 */
+      --accent-cyan: #38bdf8;    /* アクセント水色 */
       --text-main: #eeeeee;
       --text-sub: #d4d9dc;       /* 灰色の文字色 */
       --badge-bg: #565568;       /* ギャラリーページの灰色ボタン（--btn-gray）と同色に統一 */
@@ -662,41 +674,117 @@
       background: rgba(255, 255, 255, 0.03);
     }
 
-    /* 拍手/絵文字BOXエリア */
+    /* --- Waveboxネオンボタンエリア --- */
     .wavebox-area {
       text-align: center;
-    }
-
-    .wavebox-label {
-      font-size: 1.05rem;
-      color: #ffffff;
-      margin-bottom: 14px;
+      padding-top: 6px;
     }
 
     .wavebox-btn {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 110px;
-      height: 44px;
+      min-width: 286px;
+      height: 66px;
+      padding: 2.5px;
       border-radius: 9999px;
-      border: 2px dashed var(--accent-cyan);
-      background: transparent;
-      color: var(--accent-cyan);
-      font-size: 1.3rem;
+      background: conic-gradient(
+        from var(--wavebox-angle),
+        #d946ef 0deg,
+        #9333ea 65deg,
+        #2b1a4d 135deg,
+        #00e5ff 205deg,
+        #38bdf8 265deg,
+        #1e293b 315deg,
+        #d946ef 360deg
+      );
       cursor: pointer;
-      transition: all 0.25s ease;
       text-decoration: none;
+      isolation: isolate;
+      transition: transform 0.25s ease;
+      animation: waveboxBorderSpin 5.5s linear infinite;
+    }
+
+    /* 縁の外側へふわっと広がるネオン発光 */
+    .wavebox-btn::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: inherit;
+      filter: blur(11px);
+      opacity: 0.72;
+      z-index: -1;
+      transition: opacity 0.25s ease, filter 0.25s ease;
     }
 
     .wavebox-btn:hover {
-      background: rgba(56, 189, 248, 0.15);
-      transform: scale(1.05);
+      transform: translateY(-2px);
       opacity: 1;
     }
 
+    .wavebox-btn:hover::before {
+      opacity: 0.98;
+      filter: blur(14px);
+    }
+
+    /* ボタン内側の黒い面 */
+    .wavebox-btn-inner {
+      width: 100%;
+      height: 100%;
+      padding: 0 36px;
+      border-radius: 9999px;
+      background: #0d0d13;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background-color 0.25s ease;
+    }
+
+    .wavebox-btn:hover .wavebox-btn-inner {
+      background: #13131d;
+    }
+
+    .wavebox-btn-text {
+      font-family: "Chakra Petch", "Helvetica Neue", Arial, sans-serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .wavebox-btn-hand {
+      font-size: 1.55rem;
+      line-height: 1;
+      display: inline-block;
+      transform-origin: 70% 75%;
+    }
+
+    .wavebox-btn:hover .wavebox-btn-hand {
+      animation: waveboxHandWave 0.65s ease-in-out;
+    }
+
+    @keyframes waveboxBorderSpin {
+      0% {
+        --wavebox-angle: 135deg;
+      }
+      100% {
+        --wavebox-angle: 495deg;
+      }
+    }
+
+    @keyframes waveboxHandWave {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(16deg); }
+      55% { transform: rotate(-10deg); }
+      80% { transform: rotate(10deg); }
+    }
+
     .wavebox-desc {
-      margin-top: 18px;
+      margin-top: 24px;
       font-size: 1.02rem;
       color: var(--text-sub);
       line-height: 1.65;
@@ -917,6 +1005,27 @@
         padding: 2px 8px;
       }
 
+      .wavebox-btn {
+        min-width: 236px;
+        height: 56px;
+      }
+
+      .wavebox-btn-inner {
+        padding: 0 28px;
+      }
+
+      .wavebox-btn-text {
+        font-size: 1.52rem;
+      }
+
+      .wavebox-btn-hand {
+        font-size: 1.32rem;
+      }
+
+      .wavebox-desc {
+        margin-top: 20px;
+      }
+
       .back-to-top {
         font-size: 2.5rem;
         margin-bottom: 20px;
@@ -1106,7 +1215,7 @@
       </section>
     </article>
 
-    <!-- 【第3ボード】：Link ＋ 拍手/Wavebox -->
+    <!-- 【第3ボード】：Link ＋ Wavebox -->
     <article class="site-board">
       <section id="link">
         <h2 class="section-title"><span class="accent">L</span>ink</h2>
@@ -1173,9 +1282,11 @@
           <div class="sub-divider"></div>
 
           <div class="wavebox-area">
-            <div class="wavebox-label">拍手/絵文字BOX</div>
-            <a href="https://wavebox.me/wave/74tt03km0qr47hlc/" target="_blank" class="wavebox-btn" aria-label="Wavebox拍手">
-              <span>💙</span>
+            <a href="https://wavebox.me/wave/74tt03km0qr47hlc/" target="_blank" rel="noopener noreferrer" class="wavebox-btn" aria-label="Wavebox 拍手/絵文字BOX">
+              <span class="wavebox-btn-inner">
+                <span class="wavebox-btn-text">Wavebox</span>
+                <span class="wavebox-btn-hand" aria-hidden="true">👋</span>
+              </span>
             </a>
             <p class="wavebox-desc">
               何かございましたらお気軽にどうぞ。<br>

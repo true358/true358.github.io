@@ -31,7 +31,7 @@
       /* ボタンカラー設定 */
       --btn-gray: #565568;      /* ボタンの通常時背景色 */
       --btn-purple: #7e22ce;    /* ヘッダーの明るい紫と同色 */
-      --neon-pink: #ff2bd6;     /* Waveboxホバー時のネオンピンク */
+      --neon-pink: #ff2bd6;     /* いいねホバー＆押下時のネオンピンク */
     }
 
     * {
@@ -93,6 +93,8 @@
       border-radius: 4px;
       transition: all 0.2s ease;
       text-decoration: none;
+      cursor: pointer;
+      font-family: inherit;
     }
 
     /* 戻るボタン */
@@ -113,7 +115,7 @@
       transform: scale(1.05);
     }
 
-    /* Waveboxボタン */
+    /* いいね♥ボタン */
     .header-wavebox-btn {
       width: 76px;
       color: #ffffff;
@@ -600,11 +602,11 @@
     <div class="gallery-header-inner">
       <a href="index.html" class="header-icon-btn header-back-btn" aria-label="トップページへ戻る">‹</a>
       <div class="gallery-page-title"><span class="accent">F</span>anart</div>
-      <a href="https://wavebox.me/wave/74tt03km0qr47hlc/" target="_blank" rel="noopener noreferrer" class="header-icon-btn header-wavebox-btn" aria-label="Wavebox拍手を送る">
-        <svg viewBox="0 0 24 24" fill="currentColor">
+      <button type="button" class="header-icon-btn header-wavebox-btn like-btn" data-page="fanart" aria-label="いいねを送る">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
         </svg>
-      </a>
+      </button>
     </div>
   </header>
 
@@ -1011,6 +1013,8 @@
     });
   </script>
 
+  <!-- 押すだけ♥いいね用外部JS -->
+  <script src="js/like.js"></script>
   <!-- タップエフェクト用外部JS -->
   <script src="js/effect.js"></script>
 </body>
