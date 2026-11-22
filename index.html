@@ -45,6 +45,13 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent; /* スマホタップ時の灰色四角を非表示 */
+    }
+
+    a:focus:not(:focus-visible),
+    button:focus:not(:focus-visible),
+    .back-to-top:focus:not(:focus-visible) {
+      outline: none;
     }
 
     /* なめらかなスクロール挙動 */
@@ -112,6 +119,8 @@
 
     .site-title a {
       color: #fff;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     .site-subtitle {
@@ -866,6 +875,8 @@
       color: #e6e6fa;
       margin-bottom: 24px;
       cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
       transition: opacity 0.2s, transform 0.2s;
     }
 

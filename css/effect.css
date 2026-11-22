@@ -226,3 +226,15 @@ article img:not(.hero-banner img):not(.link-banner-img):not(.profile-avatar-wrap
   color: #ffffff;
   text-shadow: none;
 }
+
+/* スマホでタップしたときの灰色の四角（タップハイライト）を全要素で非表示 */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* タップ時の不要なフォーカス枠だけ非表示（キーボード操作時は残す） */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+.back-to-top:focus:not(:focus-visible) {
+  outline: none;
+}
