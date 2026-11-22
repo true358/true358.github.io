@@ -11,9 +11,14 @@
   // アニメーション・吹き出し用のCSSを自動注入（HTML側へのCSS追記不要）
   const style = document.createElement('style');
   style.textContent = `
+    html, body {
+      overflow-x: clip;
+    }
+
     .like-btn {
       position: relative;
       overflow: visible;
+      touch-action: manipulation;
     }
 
     /* 押した瞬間だけネオンピンクに光り、アニメーション終了後に元の色へ戻る */
@@ -21,7 +26,8 @@
       background: #e4e4ec;
       border-color: #ff2bd6;
       color: #ff2bd6;
-      box-shadow: 0 0 14px rgba(255, 43, 214, 0.55);
+      box-shadow: 0 0 12px rgba(255, 43, 214, 0.65),
+                  0 0 22px rgba(255, 43, 214, 0.3);
     }
 
     .like-btn.is-pop svg {
@@ -35,65 +41,11 @@
       100% { transform: scale(1); }
     }
 
-    /* 押した瞬間に広がるネオンピンクの光の波紋 */
-    .like-ripple {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 2.5px solid #ff2bd6;
-      box-shadow: 0 0 12px rgba(255, 43, 214, 0.75);
-      pointer-events: none;
-      z-index: 185;
-      animation: recolteLikeRipple 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes recolteLikeRipple {
-      0% {
-        opacity: 0.95;
-        transform: translate(-50%, -50%) scale(0.5);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(2.4);
-      }
-    }
-
-    /* 大きく弾け飛ぶハートパーティクル */
-    .like-particle {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      color: #ff2bd6;
-      text-shadow: 0 0 8px rgba(255, 43, 214, 0.85),
-                   0 0 16px rgba(255, 43, 214, 0.45);
-      pointer-events: none;
-      user-select: none;
-      line-height: 1;
-      z-index: 190;
-      animation: recolteHeartFloat 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes recolteHeartFloat {
-      0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(0.55) rotate(0deg);
-      }
-      25% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.35) rotate(var(--rot));
-      }
-    }
-
     .like-toast {
       position: absolute;
-      top: calc(100% + 12px);
+      top: calc(100% + 10px);
       right: 0;
+      max-width: calc(100vw - 28px);
       padding: 6px 14px;
       border-radius: 9999px;
       background: rgba(17, 17, 21, 0.94);
@@ -143,37 +95,6 @@
     }
   }
 
-  // 大きめのハート＆光の波紋エフェクトを発生
-  function spawnEffects(btn) {
-    // 広がるネオンピンクの波紋
-    const ripple = document.createElement('span');
-    ripple.className = 'like-ripple';
-    btn.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 660);
-
-    // 大小ミックスのハート6個を左右〜斜め下へ大きく飛ばす（ヘッダー上端で見切れない軌道）
-    const particles = [
-      { tx: '-46px', ty: '14px', size: '22px', rot: '-24deg' },
-      { tx: '-30px', ty: '48px', size: '18px', rot: '-14deg' },
-      { tx: '-10px', ty: '58px', size: '24px', rot: '-6deg'  },
-      { tx: '14px',  ty: '54px', size: '17px', rot: '10deg'  },
-      { tx: '34px',  ty: '40px', size: '21px', rot: '18deg'  },
-      { tx: '44px',  ty: '8px',  size: '16px', rot: '26deg'  }
-    ];
-
-    particles.forEach((p) => {
-      const span = document.createElement('span');
-      span.className = 'like-particle';
-      span.textContent = '♥';
-      span.style.fontSize = p.size;
-      span.style.setProperty('--tx', p.tx);
-      span.style.setProperty('--ty', p.ty);
-      span.style.setProperty('--rot', p.rot);
-      btn.appendChild(span);
-      setTimeout(() => span.remove(), 920);
-    });
-  }
-
   // ボタンへ機能をバインド
   document.querySelectorAll('.like-btn').forEach((btn) => {
     const pageName = btn.dataset.page || location.pathname.split('/').pop() || 'unknown';
@@ -201,8 +122,6 @@
       popTimer = setTimeout(() => {
         btn.classList.remove('is-pop');
       }, 500);
-
-      spawnEffects(btn);
 
       const currentCount = getCount(storageKey);
 

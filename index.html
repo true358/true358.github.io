@@ -674,15 +674,15 @@
       background: rgba(255, 255, 255, 0.03);
     }
 
-    /* --- Waveboxネオンボタンエリア（iOSでも四角クリップが出ないbox-shadow発光方式） --- */
+    /* --- Waveboxネオンボタンエリア（狭めのぼかし＋iOS四角クリップ回避） --- */
     .wavebox-area {
       text-align: center;
       padding-top: 6px;
     }
 
     .wavebox-btn {
-      --glow-main: 0.56;
-      --glow-soft: 0.26;
+      --glow-main: 0.58;
+      --glow-soft: 0.28;
       position: relative;
       display: inline-flex;
       align-items: center;
@@ -710,8 +710,8 @@
     }
 
     .wavebox-btn:hover {
-      --glow-main: 0.82;
-      --glow-soft: 0.42;
+      --glow-main: 0.84;
+      --glow-soft: 0.44;
       transform: translateY(-2px);
       opacity: 1;
     }
@@ -754,72 +754,72 @@
       animation: waveboxHandWave 0.65s ease-in-out;
     }
 
-    /* 縁グラデーションと外周ネオン発光を完全同期して1周 */
+    /* 縁グラデーションとタイトな外周ネオン発光を完全同期して1周 */
     @keyframes waveboxBorderSpin {
       0% {
         --wavebox-angle: 270deg;
         box-shadow:
-          -7px 0 16px rgba(217, 70, 239, var(--glow-main)),
-          -10px 0 26px rgba(147, 51, 234, var(--glow-soft)),
-          7px 0 16px rgba(0, 229, 255, var(--glow-main)),
-          10px 0 26px rgba(56, 189, 248, var(--glow-soft));
+          -4px 0 9px rgba(217, 70, 239, var(--glow-main)),
+          -6px 0 15px rgba(147, 51, 234, var(--glow-soft)),
+          4px 0 9px rgba(0, 229, 255, var(--glow-main)),
+          6px 0 15px rgba(56, 189, 248, var(--glow-soft));
       }
       12.5% {
         box-shadow:
-          -5px -3.5px 16px rgba(217, 70, 239, var(--glow-main)),
-          -7px -5px 26px rgba(147, 51, 234, var(--glow-soft)),
-          5px 3.5px 16px rgba(0, 229, 255, var(--glow-main)),
-          7px 5px 26px rgba(56, 189, 248, var(--glow-soft));
+          -3px -2px 9px rgba(217, 70, 239, var(--glow-main)),
+          -4.5px -3px 15px rgba(147, 51, 234, var(--glow-soft)),
+          3px 2px 9px rgba(0, 229, 255, var(--glow-main)),
+          4.5px 3px 15px rgba(56, 189, 248, var(--glow-soft));
       }
       25% {
         box-shadow:
-          0 -5px 16px rgba(217, 70, 239, var(--glow-main)),
-          0 -7px 26px rgba(147, 51, 234, var(--glow-soft)),
-          0 5px 16px rgba(0, 229, 255, var(--glow-main)),
-          0 7px 26px rgba(56, 189, 248, var(--glow-soft));
+          0 -3px 9px rgba(217, 70, 239, var(--glow-main)),
+          0 -4.5px 15px rgba(147, 51, 234, var(--glow-soft)),
+          0 3px 9px rgba(0, 229, 255, var(--glow-main)),
+          0 4.5px 15px rgba(56, 189, 248, var(--glow-soft));
       }
       37.5% {
         box-shadow:
-          5px -3.5px 16px rgba(217, 70, 239, var(--glow-main)),
-          7px -5px 26px rgba(147, 51, 234, var(--glow-soft)),
-          -5px 3.5px 16px rgba(0, 229, 255, var(--glow-main)),
-          -7px 5px 26px rgba(56, 189, 248, var(--glow-soft));
+          3px -2px 9px rgba(217, 70, 239, var(--glow-main)),
+          4.5px -3px 15px rgba(147, 51, 234, var(--glow-soft)),
+          -3px 2px 9px rgba(0, 229, 255, var(--glow-main)),
+          -4.5px 3px 15px rgba(56, 189, 248, var(--glow-soft));
       }
       50% {
         box-shadow:
-          7px 0 16px rgba(217, 70, 239, var(--glow-main)),
-          10px 0 26px rgba(147, 51, 234, var(--glow-soft)),
-          -7px 0 16px rgba(0, 229, 255, var(--glow-main)),
-          -10px 0 26px rgba(56, 189, 248, var(--glow-soft));
+          4px 0 9px rgba(217, 70, 239, var(--glow-main)),
+          6px 0 15px rgba(147, 51, 234, var(--glow-soft)),
+          -4px 0 9px rgba(0, 229, 255, var(--glow-main)),
+          -6px 0 15px rgba(56, 189, 248, var(--glow-soft));
       }
       62.5% {
         box-shadow:
-          5px 3.5px 16px rgba(217, 70, 239, var(--glow-main)),
-          7px 5px 26px rgba(147, 51, 234, var(--glow-soft)),
-          -5px -3.5px 16px rgba(0, 229, 255, var(--glow-main)),
-          -7px -5px 26px rgba(56, 189, 248, var(--glow-soft));
+          3px 2px 9px rgba(217, 70, 239, var(--glow-main)),
+          4.5px 3px 15px rgba(147, 51, 234, var(--glow-soft)),
+          -3px -2px 9px rgba(0, 229, 255, var(--glow-main)),
+          -4.5px -3px 15px rgba(56, 189, 248, var(--glow-soft));
       }
       75% {
         box-shadow:
-          0 5px 16px rgba(217, 70, 239, var(--glow-main)),
-          0 7px 26px rgba(147, 51, 234, var(--glow-soft)),
-          0 -5px 16px rgba(0, 229, 255, var(--glow-main)),
-          0 -7px 26px rgba(56, 189, 248, var(--glow-soft));
+          0 3px 9px rgba(217, 70, 239, var(--glow-main)),
+          0 4.5px 15px rgba(147, 51, 234, var(--glow-soft)),
+          0 -3px 9px rgba(0, 229, 255, var(--glow-main)),
+          0 -4.5px 15px rgba(56, 189, 248, var(--glow-soft));
       }
       87.5% {
         box-shadow:
-          -5px 3.5px 16px rgba(217, 70, 239, var(--glow-main)),
-          -7px 5px 26px rgba(147, 51, 234, var(--glow-soft)),
-          5px -3.5px 16px rgba(0, 229, 255, var(--glow-main)),
-          7px -5px 26px rgba(56, 189, 248, var(--glow-soft));
+          -3px 2px 9px rgba(217, 70, 239, var(--glow-main)),
+          -4.5px 3px 15px rgba(147, 51, 234, var(--glow-soft)),
+          3px -2px 9px rgba(0, 229, 255, var(--glow-main)),
+          4.5px -3px 15px rgba(56, 189, 248, var(--glow-soft));
       }
       100% {
         --wavebox-angle: 630deg;
         box-shadow:
-          -7px 0 16px rgba(217, 70, 239, var(--glow-main)),
-          -10px 0 26px rgba(147, 51, 234, var(--glow-soft)),
-          7px 0 16px rgba(0, 229, 255, var(--glow-main)),
-          10px 0 26px rgba(56, 189, 248, var(--glow-soft));
+          -4px 0 9px rgba(217, 70, 239, var(--glow-main)),
+          -6px 0 15px rgba(147, 51, 234, var(--glow-soft)),
+          4px 0 9px rgba(0, 229, 255, var(--glow-main)),
+          6px 0 15px rgba(56, 189, 248, var(--glow-soft));
       }
     }
 
