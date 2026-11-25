@@ -452,13 +452,15 @@
       padding: 50px 44px;
     }
 
-    /* hero画像の上にスペースを設ける */
+    /* hero画像の上にスペースを設ける（ボード間隔は全ボード均一） */
     .site-board.hero-board {
       padding: 24px 0 0 0;
     }
 
+    /* ★PC・スマホ共通：hero画像を縦にごく僅かだけ広げて次ボードのチラ見えを防止★ */
     .hero-banner {
       width: 100%;
+      aspect-ratio: 23.9 / 10; /* 23/10で少し縦長、23.5/10でさらに控えめ */
       background: #1a1a24;
       border-bottom: 1px solid var(--border-color);
       overflow: hidden;
@@ -467,7 +469,9 @@
     /* ★hero画像：読み込み後にふわっとフェードイン＋極小ズームアウト★ */
     .hero-banner img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
       display: block;
       opacity: 0;
       transform: scale(1.03);
