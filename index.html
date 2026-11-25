@@ -13,10 +13,10 @@
   <link rel="icon" href="images/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
-  <!-- Waveboxボタン文字専用フォント -->
+  <!-- Waveboxボタン＆サイド装飾用フォント -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
 
   <!-- タップエフェクト用外部CSS -->
   <link rel="stylesheet" href="css/effect.css">
@@ -251,6 +251,188 @@
       }
     }
 
+    /* --- PC大画面専用：左右サイドUI（ページ端配置・大きめサイズ維持） --- */
+    .pc-side-deco,
+    .pc-side-nav {
+      display: none;
+    }
+
+    @media (min-width: 1380px) {
+      /* 左サイド：縦書き英字タイポ＋スクロール進捗バー */
+      .pc-side-deco {
+        position: fixed;
+        top: calc(50% + 40px);
+        left: clamp(20px, 3vw, 64px);
+        transform: translateY(-50%);
+        z-index: 40;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        pointer-events: none;
+        user-select: none;
+        opacity: 0;
+        transition: opacity 0.8s ease 0.2s;
+      }
+
+      .pc-side-deco.is-visible {
+        opacity: 1;
+      }
+
+      .side-deco-square {
+        width: 12px;
+        height: 12px;
+        background: var(--accent-green);
+        box-shadow: 0 0 10px rgba(210, 248, 61, 0.7);
+      }
+
+      .side-deco-top-line {
+        width: 2px;
+        height: 44px;
+        background: linear-gradient(180deg, rgba(210, 248, 61, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%);
+      }
+
+      .side-deco-text {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        font-family: "Chakra Petch", "Helvetica Neue", Arial, sans-serif;
+        font-size: 1.12rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        color: rgba(255, 255, 255, 0.92);
+        text-shadow: 0 1px 8px rgba(16, 2, 28, 0.62);
+        line-height: 1;
+      }
+
+      .side-deco-text .side-slash {
+        color: var(--accent-green);
+        margin: 10px 0;
+      }
+
+      .side-deco-track {
+        position: relative;
+        width: 4px;
+        height: 96px;
+        background: rgba(255, 255, 255, 0.28);
+        border-radius: 999px;
+        overflow: hidden;
+        box-shadow: 0 1px 6px rgba(16, 2, 28, 0.38);
+      }
+
+      .side-deco-progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, var(--accent-green) 0%, #c084fc 100%);
+        transform-origin: top center;
+        transform: scaleY(0);
+        transition: transform 0.12s linear;
+      }
+
+      /* 右サイド：現在地連動の縦型セクションナビ（文字左・ドット右） */
+      .pc-side-nav {
+        position: fixed;
+        top: calc(50% + 40px);
+        right: clamp(20px, 3vw, 64px);
+        transform: translateY(-50%);
+        z-index: 40;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 26px;
+        user-select: none;
+        opacity: 0;
+        transition: opacity 0.8s ease 0.2s;
+      }
+
+      .pc-side-nav.is-visible {
+        opacity: 1;
+      }
+
+      /* ドット同士を繋ぐガイドライン（14pxドットの中心に揃うよう配置） */
+      .pc-side-nav::before {
+        content: "";
+        position: absolute;
+        top: 12px;
+        bottom: 12px;
+        right: 6px;
+        width: 2px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.16) 0%,
+          rgba(255, 255, 255, 0.48) 50%,
+          rgba(255, 255, 255, 0.16) 100%
+        );
+        pointer-events: none;
+      }
+
+      .side-nav-link {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        padding: 4px 0;
+        color: rgba(244, 244, 255, 0.82);
+        transition: color 0.25s ease, transform 0.25s ease;
+      }
+
+      .side-nav-label {
+        font-family: "Chakra Petch", "Helvetica Neue", Arial, sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        line-height: 1;
+        text-shadow: 0 1px 8px rgba(16, 2, 28, 0.62);
+        transition: color 0.25s ease, transform 0.25s ease;
+      }
+
+      .side-nav-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #181824;
+        border: 2px solid rgba(255, 255, 255, 0.84);
+        box-shadow: 0 1px 6px rgba(16, 2, 28, 0.48);
+        transition: all 0.25s ease;
+        flex-shrink: 0;
+      }
+
+      .side-nav-link:hover {
+        color: #ffffff;
+        opacity: 1;
+      }
+
+      .side-nav-link:hover .side-nav-label {
+        transform: translateX(-4px);
+      }
+
+      .side-nav-link:hover .side-nav-dot {
+        border-color: var(--accent-green);
+        background: rgba(210, 248, 61, 0.35);
+      }
+
+      /* 現在表示中のセクション状態 */
+      .side-nav-link.is-active {
+        color: var(--accent-green);
+      }
+
+      .side-nav-link.is-active .side-nav-label {
+        color: var(--accent-green);
+        text-shadow: 0 0 10px rgba(210, 248, 61, 0.52), 0 1px 8px rgba(16, 2, 28, 0.78);
+        transform: translateX(-4px);
+      }
+
+      .side-nav-link.is-active .side-nav-dot {
+        border-radius: 2px;
+        transform: rotate(45deg) scale(1.1);
+        background: var(--accent-green);
+        border-color: #10021c;
+        box-shadow: 0 0 10px rgba(210, 248, 61, 0.8);
+      }
+    }
+
     /* --- メインコンテナ --- */
     .main-wrapper {
       max-width: var(--board-width);
@@ -328,10 +510,17 @@
     @media (prefers-reduced-motion: reduce) {
       .hero-banner img,
       .hero-fade-item,
-      .scroll-fade {
+      .scroll-fade,
+      .pc-side-deco,
+      .pc-side-nav {
         opacity: 1;
         transform: none;
         transition: none;
+      }
+
+      .pc-side-deco,
+      .pc-side-nav {
+        transform: translateY(-50%);
       }
     }
 
@@ -1154,6 +1343,42 @@
 </head>
 <body>
 
+  <!-- PC大画面専用：左サイド装飾（縦書き英字タイポ＋スクロールゲージ） -->
+  <aside class="pc-side-deco" id="pcSideDeco" aria-hidden="true">
+    <span class="side-deco-square"></span>
+    <span class="side-deco-top-line"></span>
+    <div class="side-deco-text">
+      RECOLTE<span class="side-slash">//</span>TRUE'S ILLUSTRATION SITE
+    </div>
+    <div class="side-deco-track">
+      <div class="side-deco-progress" id="sideScrollProgress"></div>
+    </div>
+  </aside>
+
+  <!-- PC大画面専用：右サイド縦型ナビ（現在地連動・文字左＆ドット右） -->
+  <nav class="pc-side-nav" id="pcSideNav" aria-label="ページ内ナビゲーション">
+    <a href="#" class="side-nav-link is-active" data-section="top">
+      <span class="side-nav-label">TOP</span>
+      <span class="side-nav-dot"></span>
+    </a>
+    <a href="#about" class="side-nav-link" data-section="about">
+      <span class="side-nav-label">ABOUT</span>
+      <span class="side-nav-dot"></span>
+    </a>
+    <a href="#original" class="side-nav-link" data-section="original">
+      <span class="side-nav-label">ORIGINAL</span>
+      <span class="side-nav-dot"></span>
+    </a>
+    <a href="#fanart" class="side-nav-link" data-section="fanart">
+      <span class="side-nav-label">FANART</span>
+      <span class="side-nav-dot"></span>
+    </a>
+    <a href="#link" class="side-nav-link" data-section="link">
+      <span class="side-nav-label">LINK</span>
+      <span class="side-nav-dot"></span>
+    </a>
+  </nav>
+
   <!-- ヘッダー -->
   <header id="siteHeader">
     <div class="header-bar">
@@ -1424,9 +1649,11 @@
 
   <!-- スクリプト -->
   <script>
-    // hero画像 → News・About同時フェードイン演出
+    // hero画像 → News・About同時フェードイン ＋ PCサイド装飾フェードイン
     const heroImg = document.querySelector('.hero-banner img');
     const heroFadeItems = document.querySelectorAll('.hero-fade-item');
+    const pcSideDeco = document.getElementById('pcSideDeco');
+    const pcSideNav = document.getElementById('pcSideNav');
     let heroRevealed = false;
 
     const revealHeroSequence = () => {
@@ -1436,6 +1663,8 @@
         requestAnimationFrame(() => {
           if (heroImg) heroImg.classList.add('is-visible');
           heroFadeItems.forEach(el => el.classList.add('is-visible'));
+          if (pcSideDeco) pcSideDeco.classList.add('is-visible');
+          if (pcSideNav) pcSideNav.classList.add('is-visible');
         });
       });
     };
@@ -1451,6 +1680,62 @@
     } else {
       revealHeroSequence();
     }
+
+    // PCサイド装飾：スクロール進捗バー ＆ 右サイドナビ現在地追従
+    const sideScrollProgress = document.getElementById('sideScrollProgress');
+    const sideNavLinks = document.querySelectorAll('.side-nav-link');
+    const trackedSections = ['about', 'original', 'fanart', 'link']
+      .map(id => ({ id, el: document.getElementById(id) }))
+      .filter(item => item.el);
+
+    const topSideLink = document.querySelector('.side-nav-link[data-section="top"]');
+    if (topSideLink) {
+      topSideLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    let sideTicking = false;
+    function updateSideUI() {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = docHeight > 0 ? Math.min(Math.max(scrollY / docHeight, 0), 1) : 0;
+
+      if (sideScrollProgress) {
+        sideScrollProgress.style.transform = `scaleY(${ratio})`;
+      }
+
+      // 現在表示中のセクションを判定
+      let activeId = 'top';
+      if (docHeight > 0 && scrollY >= docHeight - 40) {
+        activeId = 'link';
+      } else if (scrollY > 140) {
+        const anchorLine = Math.min(window.innerHeight * 0.36, 320);
+        trackedSections.forEach(sec => {
+          const rect = sec.el.getBoundingClientRect();
+          if (rect.top <= anchorLine) {
+            activeId = sec.id;
+          }
+        });
+      }
+
+      sideNavLinks.forEach(link => {
+        link.classList.toggle('is-active', link.dataset.section === activeId);
+      });
+
+      sideTicking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!sideTicking) {
+        sideTicking = true;
+        requestAnimationFrame(updateSideUI);
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', updateSideUI, { passive: true });
+    updateSideUI();
 
     // スクロール連動：Original・Fanart・Linkボードのふわっと表示
     const scrollFadeItems = document.querySelectorAll('.scroll-fade');
